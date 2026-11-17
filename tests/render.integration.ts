@@ -1,7 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { spawnSync } from "node:child_process";
-import { readFile, writeFile, mkdir, mkdtemp, readdir } from "node:fs/promises";
+import { readFile, writeFile, mkdir, mkdtemp, readdir, cp } from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { createHash } from "node:crypto";
@@ -20,6 +20,8 @@ test(
   async (t) => {
     const dir = await mkdtemp(path.join(os.tmpdir(), "hetu-stage-pixels-"));
     t.diagnostic(dir);
+    const packageDirectory=path.join(dir,"package");
+    await cp("dist",packageDirectory,{recursive:true});
     const s = newScene("布景全素材验收");
     s.timeline = { fps: 10, duration_frames: 6 };
     s.environment.grid = false;
@@ -60,6 +62,7 @@ test(
       { id: "wide", camera_id: "camera-1", start: 0, end: 3 },
       { id: "close", camera_id: "close", start: 3, end: 6 },
     ];
+    s.shots[1].blocking=[{object_id:"o0",transform:{...structuredClone(s.objects[0].transform),position:[-3,0,0]},end_transform:{...structuredClone(s.objects[0].transform),position:[-2,0,0]}}];
     const payload = {
       format: "hetu.director-stage.render",
       renderer: renderIntegrity,
@@ -100,7 +103,7 @@ test(
         "scripts/render-stage.mjs",
         plan,
         "--package",
-        "dist",
+        packageDirectory,
         "--output",
         output,
         "--format",
@@ -193,6 +196,14 @@ test(
     assert.equal(json.cameras.length, 2);
     assert.ok(json.animations.length);
     assert.ok(json.meshes.length > 30);
+    const personIndex=json.nodes.findIndex((n:any)=>n.name==="o0");
+    const animation=json.animations[0];
+    const channel=animation.channels.find((c:any)=>c.target.node===personIndex&&c.target.path==="translation");
+    assert.ok(channel,"GLB必须包含仅由局部调度驱动的变换");
+    const accessor=json.accessors[animation.samplers[channel.sampler].output],view=json.bufferViews[accessor.bufferView];
+    const binary=20+b.readUInt32LE(12)+8,offset=binary+(view.byteOffset??0)+(accessor.byteOffset??0);
+    assert.equal(b.readFloatLE(offset+3*3*4),-3);
+    assert.equal(b.readFloatLE(offset+5*3*4),-2);
     const validPlan = await readFile(plan, "utf8");
     const tampered = JSON.parse(validPlan);
     tampered.renderer.render_js_sha256 = "0".repeat(64);
@@ -206,7 +217,7 @@ test(
         "scripts/render-stage.mjs",
         badPlan,
         "--package",
-        "dist",
+        packageDirectory,
         "--output",
         path.join(dir, "tampered"),
       ],
@@ -220,7 +231,7 @@ test(
         "scripts/render-stage.mjs",
         plan,
         "--package",
-        "dist",
+        packageDirectory,
         "--output",
         still.output,
       ],
@@ -235,7 +246,7 @@ test(
         "scripts/render-stage.mjs",
         plan,
         "--package",
-        "dist",
+        packageDirectory,
         "--output",
         missing,
         "--browser",

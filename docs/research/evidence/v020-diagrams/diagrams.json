@@ -1,0 +1,32 @@
+[
+  {
+    "source": "docs/02-总体架构与技术选型.md",
+    "index": 0,
+    "svg": "docs/research/evidence/v020-diagrams/02-0.svg",
+    "sha256": "f2c3b2ac872f438db0d80a0301744d34dd89e81eaf387327254bf8cadb9d89b7"
+  },
+  {
+    "source": "docs/02-总体架构与技术选型.md",
+    "index": 1,
+    "svg": "docs/research/evidence/v020-diagrams/02-1.svg",
+    "sha256": "0fbf8c93eb631fbac387ec8d47f894407596eb997cfeea399dca31c138a85bbe"
+  },
+  {
+    "source": "docs/03-领域模型与数据合同.md",
+    "index": 0,
+    "svg": "docs/research/evidence/v020-diagrams/03-0.svg",
+    "sha256": "331811e2c3eb9560d3c755135e16ea6cf67b97f2cc9e61e81b1c7d6ed2303c30"
+  },
+  {
+    "source": "docs/04-API与Agent协作合同.md",
+    "index": 0,
+    "svg": "docs/research/evidence/v020-diagrams/04-0.svg",
+    "sha256": "4476706cb6de8e9811ebb0c11c8bfb6bd757982482d4d2f4300d2d991bf45967"
+  },
+  {
+    "source": "docs/05-用户故事与业务流程.md",
+    "index": 0,
+    "svg": "docs/research/evidence/v020-diagrams/05-0.svg",
+    "sha256": "6cc788f5400a5ea8547e7c3c1e7ed77c95b2da88c35fa47d8039f0cabf185416"
+  }
+]

@@ -55,6 +55,7 @@ example.objects.push(
   newObject("person-standing", "lin", "林溪"),
   newObject("table", "table", "桌子"),
 );
+example.shots = [{id:"s1",label:"S1",camera_id:example.cameras[0].id,start:0,end:75,dialogue:{speaker_id:"lin",text:"末班车还没来。",source_index:null},blocking:[{object_id:"lin",transform:structuredClone(example.objects[0].transform),end_transform:{...structuredClone(example.objects[0].transform),position:[1,0,0]}}]}];
 validate(example);
 await writeFile(
   "docs/examples/scene.json",
@@ -185,6 +186,8 @@ await writeFile(
 const map = [
   "# 导演布景台功能地图",
   "",
+  '适用作品：视频。专业数据类型由本插件独立声明；安装包遵守正式宿主Host API 1的清单合同。',
+  "",
   "本插件自维护专业功能；宿主只提供公共服务和稳定发现入口。实际参数以运行时capabilities为准。",
   "",
   "| 动作 | 用途 | 效果 |",
@@ -193,7 +196,7 @@ const map = [
     (a) => "| `" + a.id + "` | " + a.title + " | " + a.effect + " |",
   ),
   "",
-  "同包Skill：hetu-director-stage。18种程序白模、三维编辑、机位、关键帧、镜头、PNG／GLB／序列及可选MP4由专业层提供。文件与媒体不代表作者认可。",
+  "同包Skill：hetu-director-stage。18种程序白模、俯视与三维联动、逐镜走位、台词与空间检查、机位、关键帧、镜头、PNG／GLB／序列及可选MP4由专业层提供。文件与媒体不代表作者认可。",
 ];
 await writeFile("CAPABILITIES.md", map.join("\n") + "\n");
 await copyFile("CAPABILITIES.md", "dist/CAPABILITIES.md");

@@ -172,6 +172,14 @@ test(
           frame: 30,
         },
       });
+      r=await c.invoke("set_direction",{...base(r),dialogue_axis:{from_id:"lin",to_id:"chen"},speech_rate:4});
+      const local={object_id:"lin",transform:{...clone(r.object.content.objects[0].transform),position:[-2,0,1]},end_transform:{...clone(r.object.content.objects[0].transform),position:[-1,0,1]}};
+      r=await c.invoke("set_blocking",{...base(r),shot_id:"close",blocking:[local]});
+      r=await c.invoke("put_shot",{...base(r),shot:{...r.object.content.shots.find((s:any)=>s.id==="close"),label:"S2",dialogue:{speaker_id:"lin",text:"最后一班车还没来。",source_index:null}}});
+      const direction=await c.invoke("shot_report",{object_id:r.object.object_id,revision:r.object.revision,shot_id:"close",frame:74,aspect:16/9});
+      assert.equal(direction.project_ref.sha256,r.sha256);
+      assert.ok(direction.reports[0].description.includes("林溪"));
+      assert.equal(direction.reports[0].speech.estimated,true);
       const fromCli = c.cli("hetu.plugins.invoke", {
         ...c.binding,
         capabilities_sha256: c.cap.capabilities_sha256,

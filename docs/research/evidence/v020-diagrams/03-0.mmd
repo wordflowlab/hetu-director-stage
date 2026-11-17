@@ -1,0 +1,8 @@
+erDiagram
+ WORK ||--o{ SCENE_REVISION : owns
+ SCENE_REVISION ||--o{ OBJECT : contains
+ SCENE_REVISION ||--o{ CAMERA : contains
+ SCENE_REVISION ||--o{ TRACK : animates
+ CAMERA ||--o{ SHOT : frames
+ SCENE_REVISION ||--o{ NOTE : reviews
+ SCENE_REVISION ||--o{ SOURCE_REF : fixes

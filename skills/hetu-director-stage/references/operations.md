@@ -27,3 +27,7 @@
 | `render_plan` | 固定三维渲染计划 | `object_id`, `revision`, `mode` | read |
 | `prepare_handoff` | 准备固定场景AI交接 | `object_id`, `revision`, `goal` | read |
 | `get_operation` | 回读原操作结果 | `operation_key` | read |
+| `put_shot` | 创建或修改镜头 | `object_id`, `expected_revision`, `expected_sha256`, `operation_key`, `shot` | managed_write |
+| `set_blocking` | 设置当前镜头局部走位 | `object_id`, `expected_revision`, `expected_sha256`, `operation_key`, `shot_id`, `blocking` | managed_write |
+| `set_direction` | 设置对话轴线与估算语速 | `object_id`, `expected_revision`, `expected_sha256`, `operation_key`, `dialogue_axis`, `speech_rate` | managed_write |
+| `shot_report` | 读取固定分镜站位与检查 | `object_id`, `revision` | read |

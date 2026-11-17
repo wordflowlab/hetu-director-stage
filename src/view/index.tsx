@@ -15,6 +15,7 @@ import {
   removeObjects,
   duplicateObjects,
   cameraAt,
+  sample,
   type Scene,
   type Vec,
   type Preset,
@@ -29,6 +30,7 @@ import {
   setCamera,
 } from "../render/scene.ts";
 import { zip } from "../render/zip.ts";
+import { DirectionWorkspace } from "./direction-workspace.tsx";
 import { Viewport } from "./viewport.ts";
 import { recoverySnapshot, recoveredPending } from "./recovery.ts";
 import "./style.css";
@@ -68,6 +70,7 @@ function App() {
     [scene, setScene] = useState<Scene>(),
     [selected, setSelected] = useState<string | null>(null),
     [view, setView] = useState("free"),
+    [workspaceMode, setWorkspaceMode] = useState<"direction" | "three">("direction"),
     [mode, setMode] = useState<"translate" | "rotate" | "scale">("translate"),
     [snap, setSnap] = useState(false),
     [frame, setFrame] = useState(0),
@@ -112,7 +115,19 @@ function App() {
     pending,
     history,
     future,
+    workspaceMode,
   };
+  const copyDescription = (text: string) => run("复制镜头说明", async () => {
+    // 用户点击期间同步复制；宿主拒绝网页的异步剪贴板权限。
+    const active = document.activeElement as HTMLElement | null;
+    const field = document.createElement("textarea");
+    field.value = text; field.style.position = "fixed"; field.style.opacity = "0";
+    document.body.append(field); field.select();
+    let copied = false;
+    try { copied = document.execCommand("copy"); } finally { field.remove(); active?.focus(); }
+    if (!copied) throw new Error("无法复制镜头说明，请通过场景导出读取同一内容。");
+    setStatus("镜头说明已复制");
+  });
   const run = async (label: string, fn: () => Promise<void>) => {
     setBusy(label);
     setError("");
@@ -182,6 +197,7 @@ function App() {
         pending: s.pending,
         history: s.history,
         future: s.future,
+        workspaceMode: s.workspaceMode,
       }),
     );
   };
@@ -216,6 +232,7 @@ function App() {
         setSelected(b.selected ?? null);
         setFrame(b.frame ?? 0);
         setView(b.view ?? "free");
+        setWorkspaceMode(b.workspaceMode ?? "direction");
         setPending(recoveredPending(b));
         setHistory(b.history ?? []);
         setFuture(b.future ?? []);
@@ -234,7 +251,7 @@ function App() {
       200,
     );
     return () => clearTimeout(timer);
-  }, [scene, record, selected, view, frame, pending, history, future]);
+  }, [scene, record, selected, view, frame, pending, history, future, workspaceMode]);
   useEffect(() => {
     if (!scene || !canvas.current) return;
     try {
@@ -249,6 +266,7 @@ function App() {
         setError,
       );
       vp.current = v;
+      v.setScene(scene);v.setFrame(frame);v.setView(view);v.select(selected);v.setMode(mode,snap);
       return () => {
         v.dispose();
         vp.current = undefined;
@@ -256,7 +274,7 @@ function App() {
     } catch (e) {
       setError("三维渲染初始化失败：" + String(e));
     }
-  }, [!!scene]);
+  }, [!!scene, workspaceMode]);
   useEffect(() => {
     if (scene) vp.current?.setScene(scene);
   }, [scene]);
@@ -329,6 +347,7 @@ function App() {
       dialogEl.current?.showModal();
     } else if (dialogEl.current?.open) dialogEl.current.close();
   }, [dialog]);
+  useEffect(()=>{if(scene && frame>=scene.timeline.duration_frames)setFrame(scene.timeline.duration_frames-1);},[scene?.timeline.duration_frames]);
   const undo = () => {
     const s = latest.current;
     if (!s.history.length) return;
@@ -679,6 +698,7 @@ function App() {
           ←
         </button>
         <strong>导演布景台</strong>
+        <div className="workspace-modes" aria-label="工作模式"><button aria-pressed={workspaceMode === "direction"} onClick={()=>setWorkspaceMode("direction")}>俯视调度</button><button aria-pressed={workspaceMode === "three"} onClick={()=>setWorkspaceMode("three")}>三维布景</button></div>
         <select
           aria-label="当前场景"
           value={record?.object.object_id ?? ""}
@@ -766,7 +786,7 @@ function App() {
         </main>
       ) : (
         <>
-          <nav className="toolbar" aria-label="布景工具">
+          {workspaceMode === "three" && <nav className="toolbar" aria-label="布景工具">
             <button
               aria-label={left ? "收起素材" : "展开素材"}
               onClick={() => setLeft(!left)}
@@ -878,8 +898,8 @@ function App() {
             >
               属性
             </button>
-          </nav>
-          <main
+          </nav>}
+          {workspaceMode === "direction" ? <DirectionWorkspace scene={scene} selected={selected} onSelect={setSelected} frame={frame} onFrame={f=>{setPlaying(false);setFrame(f);}} change={change} onAdd={add} onRemove={remove} onDuplicate={duplicate} error={setError} copy={copyDescription} aspect={Number(ratio.split(":")[0])/Number(ratio.split(":")[1])} playing={playing} onPlay={()=>{if(frame >= scene.timeline.duration_frames-1)setFrame(0);setPlaying(!playing);}} snap={snap} onSnap={()=>setSnap(!snap)} undo={undo} redo={redo} canUndo={!!history.length&&!busy} canRedo={!!future.length&&!busy} onExport={()=>setWorkspaceMode("three")}/> : <main
             className={
               "workspace " +
               (!left ? "no-left " : "") +
@@ -1224,8 +1244,8 @@ function App() {
                 ))}
               </aside>
             )}
-          </main>
-          {timeline && (
+          </main>}
+          {workspaceMode === "three" && timeline && (
             <section className="timeline" aria-label="预演时间线">
               <div className="row">
                 <button
@@ -1662,30 +1682,6 @@ function App() {
   );
 }
 function sampleCamera(scene: Scene, id: string, frame: number) {
-  const c = clone(scene.cameras.find((c) => c.id === id)!);
-  for (const t of scene.tracks.filter(
-    (t) => t.target_kind === "camera" && t.target_id === id,
-  )) {
-    const keys = t.keyframes;
-    let value = keys[0].value;
-    if (frame >= keys.at(-1)!.frame) value = keys.at(-1)!.value;
-    else {
-      const right = keys.findIndex((k) => k.frame > frame);
-      if (right > 0) {
-        const a = keys[right - 1],
-          b = keys[right];
-        value =
-          t.interpolation === "step"
-            ? a.value
-            : (a.value.map(
-                (v, i) =>
-                  v +
-                  ((b.value[i] - v) * (frame - a.frame)) / (b.frame - a.frame),
-              ) as Vec);
-      }
-    }
-    (c as any)[t.property] = value;
-  }
-  return c;
+  return sample(scene, frame).cameras.find(c=>c.id===id)!;
 }
 createRoot(document.getElementById("root")!).render(<App />);

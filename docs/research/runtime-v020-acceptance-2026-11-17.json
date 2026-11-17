@@ -1,0 +1,202 @@
+{
+  "recorded_at": "2026-11-17T08:13:13.165011+00:00",
+  "status": "passed",
+  "version": "0.2.0",
+  "package_sha256": "3a2c3cebd17854981fd40a95f3bd68558a33305444c4f2fcdca2c0bfcdb1fc66",
+  "platform": "macOS arm64",
+  "node": "25.0.0",
+  "host": {
+    "version": "0.11.2",
+    "source_commit": "80f1f8ab721dddd08059c1bdce14a99de67acd8b",
+    "binary_sha256": "fb3d2098b5afbce8df0ee37750ac5f5261858d4f25536369e9ddafc005ba44d9",
+    "runtime_sha256": "e56c59505026ebfbb02479553186867421603f047587e96e94b09da71c2f8df4",
+    "scope": "不可变公开发行制品，隔离安装资料；本机Applications另有并行宿主开发，不作为本发行基线。"
+  },
+  "checks": {
+    "typescript": "passed",
+    "unit_tests": 33,
+    "machine": {
+      "recorded_at": "2026-11-17T08:05:31.075Z",
+      "status": "passed",
+      "package_sha256": "3a2c3cebd17854981fd40a95f3bd68558a33305444c4f2fcdca2c0bfcdb1fc66",
+      "actions": [
+        "skills.read",
+        "save_scene",
+        "list_scenes",
+        "get_scene",
+        "put_object",
+        "transform_objects",
+        "duplicate_objects",
+        "set_visibility",
+        "remove_objects",
+        "put_camera",
+        "remove_camera",
+        "set_environment",
+        "set_timeline",
+        "put_track",
+        "remove_track",
+        "set_shots",
+        "add_note",
+        "set_direction",
+        "set_blocking",
+        "put_shot",
+        "shot_report",
+        "render_plan",
+        "compare_versions",
+        "check_scene",
+        "export_scene",
+        "fork_scene",
+        "prepare_handoff",
+        "get_operation"
+      ],
+      "project_ref": {
+        "object_id": "ext_5af660cd-6e68-4ed2-aef9-a3677f3cf02d",
+        "revision": 19,
+        "sha256": "6b17f2bb72e08843ce67ad77e31daea8f600241ace757b4eb53df80e5a509c40"
+      },
+      "platform": "darwin"
+    },
+    "electron_journeys": 4,
+    "direction": {
+      "status": "passed",
+      "package_sha256": "3a2c3cebd17854981fd40a95f3bd68558a33305444c4f2fcdca2c0bfcdb1fc66",
+      "project_ref": {
+        "revision": 5,
+        "sha256": "bc285f83e5e2442e152b8ad950f51054b03dc034691c75bb9f9b8bfe85540b89"
+      },
+      "metrics": {
+        "overflow": false,
+        "plan": 870,
+        "header": 48,
+        "preview": 314.5
+      },
+      "checks": [
+        "default_plan",
+        "real_preview",
+        "shot_table",
+        "local_start_end",
+        "neighbor_unchanged",
+        "retime",
+        "pointer_drag",
+        "facing_handle",
+        "camera_target",
+        "reorder_remove_undo",
+        "restore_global_blocking",
+        "clipboard",
+        "3D_switch",
+        "input_shortcuts",
+        "themes",
+        "narrow",
+        "reopen"
+      ]
+    },
+    "general": {
+      "package_sha256": "3a2c3cebd17854981fd40a95f3bd68558a33305444c4f2fcdca2c0bfcdb1fc66",
+      "host_version": "0.11.2",
+      "platform": "darwin",
+      "checks": [
+        "real_electron_core",
+        "full_width",
+        "shared_gradient",
+        "actual_webgl",
+        "palette",
+        "transform",
+        "undo_redo",
+        "input_shortcuts",
+        "camera",
+        "animation",
+        "buffer_return_reopen",
+        "CAS_merge",
+        "PNG",
+        "batch_ZIP",
+        "GLB",
+        "JSON",
+        "Playblast_ZIP",
+        "trusted_handoff",
+        "light_dark",
+        "narrow",
+        "hot_disable"
+      ],
+      "metrics": {
+        "header": 48,
+        "background": "radial-gradient(at 0% 100%, color(srgb 0.862157 0.906863 0.882549), rgba(0, 0, 0, 0) 65%), radial-gradient(at 100% 0%, color(srgb 0.978039 0.974118 0.90902), rgba(0, 0, 0, 0) 60%), linear-gradient(135deg, color(srgb 0.980157 0.979765 0.947843) 10%, rgb(251, 253, 252) 52%, rgb(230, 233, 232) 100%)",
+        "border": "0.5px",
+        "overflow": false,
+        "canvas": 940
+      }
+    },
+    "renderer": {
+      "recorded_at": "2026-11-17T07:47:11.898Z",
+      "status": "passed",
+      "platform": "darwin",
+      "presets": 18,
+      "cameras": 2,
+      "non_uniform_pixel_colors": 536,
+      "frames": 6,
+      "full_decode": true,
+      "negative_checks": [
+        "renderer_integrity",
+        "occupied_output",
+        "missing_browser_receipt"
+      ],
+      "glb_cameras": 2,
+      "glb_animations": 1,
+      "media_bytes": 12494
+    }
+  },
+  "renderer_identity": {
+    "render.js": "3e9f7b7b724292e149a7d5251fa167d92744a768b45fedbcba9a70ac6f0f6d78",
+    "render.html": "0600071f102694a17ac4a48b78f61f178c2a65b21f8bafddab0118dee1edf000",
+    "scope": "18素材自动渲染测试时包摘要为71adf21f0a4047c5128ffbaebbb35f72f24066ed9eb0493016ac591263b25a1a，render.js/html与最终包逐字节一致；最终包另完成本对话350帧与三机位渲染。"
+  },
+  "UI": {
+    "captures": {
+      "direction-narrow.png": {
+        "path": "docs/research/evidence/v020-ui/direction-narrow.png",
+        "sha256": "49beffc1bc2debb1f5cd995614c3404156a3e471b771611f871383109a573749"
+      },
+      "direction-light.png": {
+        "path": "docs/research/evidence/v020-ui/direction-light.png",
+        "sha256": "22fd94583a4a24fbc44b9683e289246c66481a04b48758f1c9b82b70112c8ec2"
+      },
+      "direction-dark.png": {
+        "path": "docs/research/evidence/v020-ui/direction-dark.png",
+        "sha256": "cd6a7b9c077ff3d8545a46f354f9ff10c4385bb2bf2b68b3b3a18aab822f23a4"
+      }
+    },
+    "review_scores": {
+      "layout": 9,
+      "alignment_spacing": 9,
+      "typography": 9,
+      "color": 9,
+      "control_states": 9,
+      "interaction": 9
+    },
+    "score_basis": "真实浅暗1440×1000与窄窗图像、48px顶栏、870px平面、314.5px预览及行为断言；9/10为人工设计判断，非像素认证。窄窗镜头表在自身区域横向滚动，侧栏可折叠。"
+  },
+  "diagrams": {
+    "rendered": 5,
+    "evidence": "evidence/v020-diagrams/diagrams.json"
+  },
+  "log_sha256": {
+    "v020-final-check.log": "21392e97520b31d08e2f33137324ae052d85b759c822ff5ee9711342fe64d620",
+    "v020-final-unit.log": "f409282ea37888fe1fcc3fb9db59d6c5b659daafd53638c79e26f943940ebf58",
+    "v020-final-machine.log": "6d41b612c8aa3201e86d0781974f1c0f4cf1ae0c86b3de8458ce4affbc72f6ae",
+    "v020-final-ui.log": "c9ba9f524c3b78b50aa5d83a55d2b090d70b85b22cb5692be6722980c22e811f",
+    "v020-render-final.log": "76a99cc125d2085149fac7262a2f7735b16479bec8aa3c2ca1b9d8c021123ded",
+    "v020-cafe-decode.log": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "resolved_failures": [
+    "全局轨道控制的属性编辑被采样覆盖，现明确拒绝并指向关键帧或局部调度",
+    "换镜头丢失人物选择、延长镜头未同步局部终点、播放后仍停在局部编辑，已修复并覆盖回归",
+    "平面拖动矩阵变化抖动与pointer最后预览帧丢失，采用固定拖动矩阵及ref提交",
+    "正式Electron拒绝网页异步剪贴板，改为用户点击中的同步复制并验证真实剪贴板和还原"
+  ],
+  "not_run": [
+    "Windows/Linux插件实机",
+    "干净系统",
+    "完整辅助技术",
+    "付费模型生成",
+    "作者成片认可"
+  ]
+}

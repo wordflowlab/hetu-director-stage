@@ -112,6 +112,16 @@
                 "maximum": 99
               }
             ]
+          },
+          "marker": {
+            "type": "string",
+            "enum": [
+              "blue",
+              "red",
+              "green",
+              "amber",
+              "violet"
+            ]
           }
         },
         "required": [
@@ -367,6 +377,150 @@
             "type": "integer",
             "minimum": 1,
             "maximum": 1500
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "dialogue": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "speaker_id",
+              "text",
+              "source_index"
+            ],
+            "properties": {
+              "speaker_id": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  }
+                ]
+              },
+              "text": {
+                "type": "string",
+                "maxLength": 8000
+              },
+              "source_index": {
+                "anyOf": [
+                  {
+                    "type": "null"
+                  },
+                  {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 99
+                  }
+                ]
+              }
+            }
+          },
+          "blocking": {
+            "type": "array",
+            "maxItems": 200,
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "object_id",
+                "transform"
+              ],
+              "properties": {
+                "object_id": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 100
+                },
+                "transform": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "position": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": -10000,
+                        "maximum": 10000
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "rotation": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": -3600,
+                        "maximum": 3600
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "scale": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": 0.01,
+                        "maximum": 100
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    }
+                  },
+                  "required": [
+                    "position",
+                    "rotation",
+                    "scale"
+                  ]
+                },
+                "end_transform": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "position": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": -10000,
+                        "maximum": 10000
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "rotation": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": -3600,
+                        "maximum": 3600
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    },
+                    "scale": {
+                      "type": "array",
+                      "items": {
+                        "type": "number",
+                        "minimum": 0.01,
+                        "maximum": 100
+                      },
+                      "minItems": 3,
+                      "maxItems": 3
+                    }
+                  },
+                  "required": [
+                    "position",
+                    "rotation",
+                    "scale"
+                  ]
+                }
+              }
+            }
           }
         },
         "required": [
@@ -434,6 +588,38 @@
         ]
       },
       "maxItems": 200
+    },
+    "dialogue_axis": {
+      "anyOf": [
+        {
+          "type": "null"
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "from_id",
+            "to_id"
+          ],
+          "properties": {
+            "from_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "to_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            }
+          }
+        }
+      ]
+    },
+    "speech_rate": {
+      "type": "number",
+      "minimum": 0.5,
+      "maximum": 12
     }
   },
   "required": [

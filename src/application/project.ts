@@ -23,6 +23,7 @@ import {
   type Scene,
 } from "../domain/model.ts";
 import { renderIntegrity } from "../render/build-integrity.ts";
+import { sceneReports, shotReport } from "../domain/direction.ts";
 export const effects = new Set([
   "save_scene",
   "put_object",
@@ -39,6 +40,7 @@ export const effects = new Set([
   "set_shots",
   "add_note",
   "fork_scene",
+  "put_shot", "set_blocking", "set_direction",
 ]);
 export class StageProject {
   readonly store: ProjectStore;
@@ -178,6 +180,18 @@ export class StageProject {
           case "set_shots":
             p.shots = input.shots;
             break;
+          case "put_shot": {
+            const i=p.shots.findIndex(s=>s.id===input.shot.id);
+            if(i<0)p.shots.push(input.shot);else p.shots[i]=input.shot;
+            break;
+          }
+          case "set_blocking": {
+            const s=p.shots.find(s=>s.id===input.shot_id);need(s,"镜头不存在。");
+            for(const b of input.blocking) need(!p.objects.find(o=>o.id===b.object_id)?.locked,"对象已锁定。");
+            s.blocking=input.blocking;break;
+          }
+          case "set_direction":
+            p.dialogue_axis=input.dialogue_axis;p.speech_rate=input.speech_rate;break;
           case "add_note":
             need(
               !p.notes.some((n) => n.id === input.note.id),
@@ -212,11 +226,18 @@ export class StageProject {
                   cameras: p.cameras,
                   counts: checks(p).counts,
                   timeline: p.timeline,
+                  shots: p.shots,
                 }
               : r,
           );
         case "check_scene":
-          return success({ project_ref: fixed(r), ...checks(p) });
+          return success({ project_ref: fixed(r), ...checks(p), shots: sceneReports(p) });
+        case "shot_report": {
+          const shots=input.shot_id?p.shots.filter(s=>s.id===input.shot_id):p.shots;
+          need(shots.length,"没有找到镜头，请先安排镜头区间。");
+          if(input.frame!==undefined) need(input.shot_id,"指定检查帧时需要确切shot_id。");
+          return success({project_ref:fixed(r),source_refs:r.object.source_refs??[],basis:"程序白模几何与显式语速估算",reports:shots.sort((a,b)=>a.start-b.start).map(s=>shotReport(p,s,input.frame??s.start,input.aspect??16/9))});
+        }
         case "prepare_handoff":
           return success({
             project_ref: fixed(r),

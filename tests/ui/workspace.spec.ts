@@ -4,6 +4,7 @@ import { createRequire } from "node:module";
 import { readFile, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { start, host } from "../support/machine.ts";
+import {cafe} from "../support/cafe.ts";
 import {
   newScene,
   newObject,
@@ -16,7 +17,7 @@ const base = (r: any) => ({
   expected_sha256: r.sha256,
   operation_key: crypto.randomUUID(),
 });
-async function launch(c: any) {
+async function launch(c: any, direction=false) {
   const app = await electron.launch({
     executablePath:
       process.env.HETU_PACKAGED_APP ??
@@ -30,7 +31,7 @@ async function launch(c: any) {
     expect(await app.evaluate(({ app }) => app.isPackaged)).toBe(true);
     expect(await app.evaluate(({ app }) => app.getVersion())).toBe("0.11.2");
   }
-  await app.evaluate(({ dialog, clipboard }: any, workspace: string) => {
+  await app.evaluate(({ dialog, clipboard }: any, {workspace,direction}: {workspace:string;direction:boolean}) => {
     dialog.showOpenDialog = async () => ({
       canceled: false,
       filePaths: [workspace],
@@ -39,12 +40,13 @@ async function launch(c: any) {
       response: 1,
       checkboxChecked: false,
     });
+    if(direction) return;
     let copied = "";
     clipboard.writeText = (value: string) => {
       copied = value;
     };
     clipboard.readText = () => copied;
-  }, c.workspace);
+  }, {workspace:c.workspace,direction});
   const shell = await app.firstWindow();
   await shell
     .getByRole("button", { name: "打开作品", exact: true })
@@ -66,10 +68,12 @@ async function launch(c: any) {
           .some((p: any) => p.url().startsWith("hetu-plugin:")),
       )
       .toBe(true);
-    return app
+    const page=app
       .context()
       .pages()
       .find((p: any) => p.url().startsWith("hetu-plugin:"))!;
+    if(!direction) await page.getByRole("button",{name:"三维布景",exact:true}).click();
+    return page;
   };
   return { app, shell, open };
 }
@@ -125,6 +129,95 @@ function seed() {
   ];
   return p;
 }
+test("俯视调度与三维联动：逐镜走位、台词、检查、平面拖动与恢复",async({},info)=>{
+  const c=await start();let app:any;
+  try {
+    const initial=await c.invoke("save_scene",{content:cafe(),expected_revision:0,expected_sha256:"",operation_key:"direction-create"});
+    const ui=await launch(c,true);app=ui.app;let page:any=await ui.open();const errors:string[]=[];page.on("pageerror",(e:Error)=>errors.push(e.message));
+    await page.setViewportSize({width:1440,height:1000});
+    await expect(page.getByRole("button",{name:"俯视调度",exact:true})).toHaveAttribute("aria-pressed","true");
+    await expect(page.getByRole("group",{name:"米制场景平面图"})).toBeVisible();
+    await expect(page.getByLabel("调度机位实时预览")).toBeVisible();
+    await expect(page.locator(".shot-sheet tbody tr")).toHaveCount(4);
+    await expect(page.locator(".duration-warning")).toHaveCount(1);
+    await expect(page.locator(".error")).toHaveCount(0);
+    const metrics=await page.evaluate(()=>({overflow:document.documentElement.scrollWidth>innerWidth,plan:document.querySelector(".plan-panel")!.getBoundingClientRect().width,header:document.querySelector("header")!.getBoundingClientRect().height,preview:document.querySelector(".direction-preview canvas")!.getBoundingClientRect().width}));
+    expect(metrics.overflow).toBe(false);expect(metrics.plan).toBeGreaterThan(700);expect(metrics.preview).toBeGreaterThan(300);expect(metrics.header).toBeLessThanOrEqual(50);
+    await page.screenshot({path:info.outputPath("direction-light.png")});
+    await page.getByRole("button",{name:"查看镜头 S3",exact:true}).click();
+    await expect(page.getByTestId("shot-description")).toContainText("S3");
+    await page.getByRole("checkbox",{name:"只改当前镜头站位"}).check();
+    await page.getByRole("listbox",{name:"调度场景对象"}).getByRole("option",{name:"女主",exact:true}).click();
+    await page.getByLabel("站位 X",{exact:true}).fill("-1.5");await page.getByLabel("站位 X",{exact:true}).press("Enter");
+    await page.getByLabel("调度端点").selectOption("end");
+    await page.getByLabel("站位 X",{exact:true}).fill("-0.5");await page.getByLabel("站位 X",{exact:true}).press("Enter");
+    await expect(page.locator('[data-shot-id="s3"]')).toContainText("1 项局部调度");
+    await page.getByLabel("镜头秒数 s3").fill("5");await page.getByLabel("镜头秒数 s3").press("Enter");
+    await expect(page.locator(".duration-warning")).toHaveCount(0);
+    await expect(page.getByLabel("站位 X",{exact:true})).toHaveValue("-0.5");
+    await expect(page.getByLabel("调度预演帧")).toHaveValue("274");
+    await page.getByRole("button",{name:"保存",exact:true}).click();
+    await expect(page.getByRole("status")).toContainText("场景已保存并回读");
+    let saved=await c.invoke("get_scene",{object_id:initial.object.object_id});
+    expect(saved.object.content.objects[0].transform.position[0]).toBe(-.9);
+    expect(saved.object.content.shots[2].blocking[0].transform.position[0]).toBe(-1.5);
+    expect(saved.object.content.shots[2].blocking[0].end_transform.position[0]).toBe(-.5);
+    expect(saved.object.content.shots[3].start).toBe(275);
+    await page.getByRole("button",{name:"查看镜头 S2",exact:true}).click();
+    await expect(page.getByLabel("站位 X",{exact:true})).toHaveValue("-0.9");
+    // 真实平面拖动提交一个事务；方向手柄与机位目标另验。
+    await page.getByRole("checkbox",{name:"只改当前镜头站位"}).uncheck();
+    const target=page.locator('[data-object-id="woman"] circle').first(),box=await target.boundingBox();
+    await page.mouse.move(box.x+box.width/2,box.y+box.height/2);await page.mouse.down();await page.mouse.move(box.x+box.width/2+32,box.y+box.height/2+15,{steps:8});await page.mouse.up();
+    await expect(page.getByLabel("站位 X",{exact:true})).not.toHaveValue("-0.9");
+    await page.getByRole("button",{name:"保存",exact:true}).click();await expect(page.getByRole("status")).toContainText("场景已保存并回读");
+    const dragHandle=async(label:string)=>{const b=await page.getByLabel(label,{exact:true}).boundingBox();await page.mouse.move(b.x+b.width/2,b.y+b.height/2);await page.mouse.down();await page.mouse.move(b.x+b.width/2+24,b.y+b.height/2+18,{steps:6});await page.mouse.up();};
+    await dragHandle("朝向手柄 女主");await expect(page.getByLabel("朝向 °",{exact:true})).not.toHaveValue("180");
+    await page.getByRole("button",{name:"撤销",exact:true}).click();await expect(page.getByLabel("朝向 °",{exact:true})).toHaveValue("180");
+    await page.getByRole("option",{name:"机位 过女主拍男主",exact:true}).click();
+    const targetBefore=await page.getByLabel("目标 X",{exact:true}).inputValue();
+    await dragHandle("取景目标手柄 过女主拍男主");await expect(page.getByLabel("目标 X",{exact:true})).not.toHaveValue(targetBefore);
+    await page.getByRole("button",{name:"撤销",exact:true}).click();await expect(page.getByLabel("目标 X",{exact:true})).toHaveValue(targetBefore);
+    await page.getByRole("button",{name:"下移镜头 s2",exact:true}).click();await expect(page.locator(".shot-sheet tbody tr").nth(1)).toHaveAttribute("data-shot-id","s3");
+    await page.getByRole("button",{name:"撤销",exact:true}).click();
+    await page.getByRole("button",{name:"移除调度镜头 s4",exact:true}).click();await expect(page.locator(".shot-sheet tbody tr")).toHaveCount(3);
+    await page.getByRole("button",{name:"撤销",exact:true}).click();await expect(page.locator(".shot-sheet tbody tr")).toHaveCount(4);
+    await page.getByRole("button",{name:"查看镜头 S3",exact:true}).click();
+    await page.getByRole("checkbox",{name:"只改当前镜头站位"}).check();
+    await page.getByRole("listbox",{name:"调度场景对象"}).getByRole("option",{name:"女主",exact:true}).click();
+    await page.getByRole("button",{name:"此人物恢复全局调度",exact:true}).click();await expect(page.locator('[data-shot-id="s3"]')).not.toContainText("1 项局部调度");
+    await page.getByRole("button",{name:"撤销",exact:true}).click();await expect(page.locator('[data-shot-id="s3"]')).toContainText("1 项局部调度");
+    await page.getByRole("checkbox",{name:"只改当前镜头站位"}).uncheck();
+    await page.getByRole("button",{name:"查看镜头 S2",exact:true}).click();
+    const priorClipboard=await app.evaluate(({clipboard}:any)=>clipboard.readText());
+    await page.getByRole("button",{name:"复制这一镜",exact:true}).click();
+    await expect(page.getByRole("status")).toContainText("镜头说明已复制");
+    const clipboard=await app.evaluate(({clipboard}:any)=>clipboard.readText());expect(clipboard).toContain("S2");
+    await app.evaluate(({clipboard}:any,text:string)=>clipboard.writeText(text),priorClipboard);
+    await page.getByRole("button",{name:"放大平面图"}).click();await page.getByRole("button",{name:"适配场景",exact:true}).click();
+    await page.getByRole("button",{name:"三维布景",exact:true}).click();await expect(page.getByLabel("三维场景画布")).toBeVisible();
+    await page.getByRole("button",{name:"俯视调度",exact:true}).click();await expect(page.getByRole("group",{name:"米制场景平面图"})).toBeVisible();
+    // 字符输入不能触发W/E/R、Delete等三维快捷键。
+    await page.getByLabel("台词参考 s2").fill("我们等下一班。w e r");await page.getByLabel("台词参考 s2").press("Backspace");
+    await expect(page.locator('[data-object-id="woman"]')).toHaveCount(1);
+    await page.getByRole("button",{name:"保存",exact:true}).click();await expect(page.getByRole("status")).toContainText("场景已保存并回读");
+    // 通过宿主偏好推送真实浅暗外观。
+    await app.evaluate(({webContents}:any)=>{for(const wc of webContents.getAllWebContents())if(wc.getURL().startsWith("hetu-plugin:"))wc.send("plugin:preferences",{theme:"dark",language:"zh-CN"});});
+    await expect(page.locator("html")).toHaveAttribute("data-theme","dark");
+    await page.screenshot({path:info.outputPath("direction-dark.png")});
+    await page.setViewportSize({width:740,height:780});await page.getByRole("button",{name:"收起调度预览"}).click();await page.getByRole("button",{name:"收起调度对象"}).click();
+    expect(await page.evaluate(()=>document.documentElement.scrollWidth>innerWidth)).toBe(false);
+    await page.screenshot({path:info.outputPath("direction-narrow.png")});
+    await page.getByLabel("台词参考 s2").fill("我们等下一班。w e !");
+    await page.getByRole("button",{name:"返回工作台",exact:true}).click();page=await ui.open();
+    await expect(page.getByRole("button",{name:"俯视调度",exact:true})).toHaveAttribute("aria-pressed","true");
+    await expect(page.getByLabel("台词参考 s2")).toHaveValue("我们等下一班。w e !");
+    await page.getByRole("button",{name:"保存",exact:true}).click();await expect(page.getByRole("status")).toContainText("场景已保存并回读");
+    await expect(page.locator(".error")).toHaveCount(0);expect(errors).toEqual([]);
+    saved=await c.invoke("get_scene",{object_id:initial.object.object_id});
+    await writeFile(info.outputPath("direction-acceptance.json"),JSON.stringify({status:"passed",package_sha256:c.pkg.package_sha256,project_ref:{revision:saved.object.revision,sha256:saved.sha256},metrics,checks:["default_plan","real_preview","shot_table","local_start_end","neighbor_unchanged","retime","pointer_drag","facing_handle","camera_target","reorder_remove_undo","restore_global_blocking","clipboard","3D_switch","input_shortcuts","themes","narrow","reopen"]},null,2));
+  }finally{await app?.close();await c.client.close();}
+});
 test("真实Electron布景、机位、动画、导出、恢复、并发比较和停用", async ({}, info) => {
   test.setTimeout(600000);
   const c = await start();

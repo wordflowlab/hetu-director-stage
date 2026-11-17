@@ -2,14 +2,14 @@
   "manifest_version": 1,
   "host_api": "1",
   "id": "org.wordflowlab.director-stage",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "display": {
     "zh-CN": "导演布景台",
     "en": "Director Stage"
   },
   "description": {
-    "zh-CN": "可由Agent操作的三维白模布景、机位、动画预演和可恢复工程。",
-    "en": "Agent-operated 3D blocking, cameras, previs and recoverable creative projects."
+    "zh-CN": "同一场景的俯视调度、三维布景、分镜台词与真实白模预演，可由Agent接续。",
+    "en": "Shared 2D blocking, 3D staging, shot dialogue and real previs, operated by your Agent."
   },
   "license": "Apache-2.0",
   "dependencies": [],
@@ -145,6 +145,16 @@
                         "minimum": 0,
                         "maximum": 99
                       }
+                    ]
+                  },
+                  "marker": {
+                    "type": "string",
+                    "enum": [
+                      "blue",
+                      "red",
+                      "green",
+                      "amber",
+                      "violet"
                     ]
                   }
                 },
@@ -401,6 +411,150 @@
                     "type": "integer",
                     "minimum": 1,
                     "maximum": 1500
+                  },
+                  "label": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "dialogue": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "speaker_id",
+                      "text",
+                      "source_index"
+                    ],
+                    "properties": {
+                      "speaker_id": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          }
+                        ]
+                      },
+                      "text": {
+                        "type": "string",
+                        "maxLength": 8000
+                      },
+                      "source_index": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 99
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "blocking": {
+                    "type": "array",
+                    "maxItems": 200,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "object_id",
+                        "transform"
+                      ],
+                      "properties": {
+                        "object_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        },
+                        "transform": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "position": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": -10000,
+                                "maximum": 10000
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "rotation": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": -3600,
+                                "maximum": 3600
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "scale": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0.01,
+                                "maximum": 100
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            }
+                          },
+                          "required": [
+                            "position",
+                            "rotation",
+                            "scale"
+                          ]
+                        },
+                        "end_transform": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "position": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": -10000,
+                                "maximum": 10000
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "rotation": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": -3600,
+                                "maximum": 3600
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "scale": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0.01,
+                                "maximum": 100
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            }
+                          },
+                          "required": [
+                            "position",
+                            "rotation",
+                            "scale"
+                          ]
+                        }
+                      }
+                    }
                   }
                 },
                 "required": [
@@ -468,6 +622,38 @@
                 ]
               },
               "maxItems": 200
+            },
+            "dialogue_axis": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "from_id",
+                    "to_id"
+                  ],
+                  "properties": {
+                    "from_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "to_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    }
+                  }
+                }
+              ]
+            },
+            "speech_rate": {
+              "type": "number",
+              "minimum": 0.5,
+              "maximum": 12
             }
           },
           "required": [
@@ -788,6 +974,16 @@
                             "maximum": 99
                           }
                         ]
+                      },
+                      "marker": {
+                        "type": "string",
+                        "enum": [
+                          "blue",
+                          "red",
+                          "green",
+                          "amber",
+                          "violet"
+                        ]
                       }
                     },
                     "required": [
@@ -1043,6 +1239,150 @@
                         "type": "integer",
                         "minimum": 1,
                         "maximum": 1500
+                      },
+                      "label": {
+                        "type": "string",
+                        "maxLength": 200
+                      },
+                      "dialogue": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "required": [
+                          "speaker_id",
+                          "text",
+                          "source_index"
+                        ],
+                        "properties": {
+                          "speaker_id": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "string",
+                                "minLength": 1,
+                                "maxLength": 100
+                              }
+                            ]
+                          },
+                          "text": {
+                            "type": "string",
+                            "maxLength": 8000
+                          },
+                          "source_index": {
+                            "anyOf": [
+                              {
+                                "type": "null"
+                              },
+                              {
+                                "type": "integer",
+                                "minimum": 0,
+                                "maximum": 99
+                              }
+                            ]
+                          }
+                        }
+                      },
+                      "blocking": {
+                        "type": "array",
+                        "maxItems": 200,
+                        "items": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "required": [
+                            "object_id",
+                            "transform"
+                          ],
+                          "properties": {
+                            "object_id": {
+                              "type": "string",
+                              "minLength": 1,
+                              "maxLength": 100
+                            },
+                            "transform": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "position": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "number",
+                                    "minimum": -10000,
+                                    "maximum": 10000
+                                  },
+                                  "minItems": 3,
+                                  "maxItems": 3
+                                },
+                                "rotation": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "number",
+                                    "minimum": -3600,
+                                    "maximum": 3600
+                                  },
+                                  "minItems": 3,
+                                  "maxItems": 3
+                                },
+                                "scale": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "number",
+                                    "minimum": 0.01,
+                                    "maximum": 100
+                                  },
+                                  "minItems": 3,
+                                  "maxItems": 3
+                                }
+                              },
+                              "required": [
+                                "position",
+                                "rotation",
+                                "scale"
+                              ]
+                            },
+                            "end_transform": {
+                              "type": "object",
+                              "additionalProperties": false,
+                              "properties": {
+                                "position": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "number",
+                                    "minimum": -10000,
+                                    "maximum": 10000
+                                  },
+                                  "minItems": 3,
+                                  "maxItems": 3
+                                },
+                                "rotation": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "number",
+                                    "minimum": -3600,
+                                    "maximum": 3600
+                                  },
+                                  "minItems": 3,
+                                  "maxItems": 3
+                                },
+                                "scale": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "number",
+                                    "minimum": 0.01,
+                                    "maximum": 100
+                                  },
+                                  "minItems": 3,
+                                  "maxItems": 3
+                                }
+                              },
+                              "required": [
+                                "position",
+                                "rotation",
+                                "scale"
+                              ]
+                            }
+                          }
+                        }
                       }
                     },
                     "required": [
@@ -1110,6 +1450,38 @@
                     ]
                   },
                   "maxItems": 200
+                },
+                "dialogue_axis": {
+                  "anyOf": [
+                    {
+                      "type": "null"
+                    },
+                    {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "from_id",
+                        "to_id"
+                      ],
+                      "properties": {
+                        "from_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        },
+                        "to_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        }
+                      }
+                    }
+                  ]
+                },
+                "speech_rate": {
+                  "type": "number",
+                  "minimum": 0.5,
+                  "maximum": 12
                 }
               },
               "required": [
@@ -1357,6 +1729,16 @@
                       "minimum": 0,
                       "maximum": 99
                     }
+                  ]
+                },
+                "marker": {
+                  "type": "string",
+                  "enum": [
+                    "blue",
+                    "red",
+                    "green",
+                    "amber",
+                    "violet"
                   ]
                 }
               },
@@ -3268,6 +3650,150 @@
                     "type": "integer",
                     "minimum": 1,
                     "maximum": 1500
+                  },
+                  "label": {
+                    "type": "string",
+                    "maxLength": 200
+                  },
+                  "dialogue": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "speaker_id",
+                      "text",
+                      "source_index"
+                    ],
+                    "properties": {
+                      "speaker_id": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 100
+                          }
+                        ]
+                      },
+                      "text": {
+                        "type": "string",
+                        "maxLength": 8000
+                      },
+                      "source_index": {
+                        "anyOf": [
+                          {
+                            "type": "null"
+                          },
+                          {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 99
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "blocking": {
+                    "type": "array",
+                    "maxItems": 200,
+                    "items": {
+                      "type": "object",
+                      "additionalProperties": false,
+                      "required": [
+                        "object_id",
+                        "transform"
+                      ],
+                      "properties": {
+                        "object_id": {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        },
+                        "transform": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "position": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": -10000,
+                                "maximum": 10000
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "rotation": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": -3600,
+                                "maximum": 3600
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "scale": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0.01,
+                                "maximum": 100
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            }
+                          },
+                          "required": [
+                            "position",
+                            "rotation",
+                            "scale"
+                          ]
+                        },
+                        "end_transform": {
+                          "type": "object",
+                          "additionalProperties": false,
+                          "properties": {
+                            "position": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": -10000,
+                                "maximum": 10000
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "rotation": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": -3600,
+                                "maximum": 3600
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            },
+                            "scale": {
+                              "type": "array",
+                              "items": {
+                                "type": "number",
+                                "minimum": 0.01,
+                                "maximum": 100
+                              },
+                              "minItems": 3,
+                              "maxItems": 3
+                            }
+                          },
+                          "required": [
+                            "position",
+                            "rotation",
+                            "scale"
+                          ]
+                        }
+                      }
+                    }
                   }
                 },
                 "required": [
@@ -3727,6 +4253,779 @@
           },
           "required": [
             "operation_key"
+          ]
+        }
+      },
+      {
+        "id": "put_shot",
+        "title": "创建或修改镜头",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 1
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "operation_key": {
+              "type": "string",
+              "maxLength": 160,
+              "minLength": 1
+            },
+            "source_refs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "document",
+                      "blueprint",
+                      "work",
+                      "asset",
+                      "cue"
+                    ]
+                  },
+                  "work_ref": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "workspace_id": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                      },
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "novel",
+                          "drama",
+                          "video"
+                        ]
+                      },
+                      "object_id": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "workspace_id",
+                      "kind",
+                      "object_id"
+                    ]
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "document_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "revision_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "blueprint_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "asset_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "cue_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "revision_ref": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "revision": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1000000
+                      }
+                    },
+                    "required": [
+                      "revision"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "work_ref",
+                  "sha256"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 100
+            },
+            "shot": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "id": {
+                  "type": "string",
+                  "maxLength": 100,
+                  "minLength": 1
+                },
+                "camera_id": {
+                  "type": "string",
+                  "maxLength": 100,
+                  "minLength": 1
+                },
+                "start": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 1499
+                },
+                "end": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1500
+                },
+                "label": {
+                  "type": "string",
+                  "maxLength": 200
+                },
+                "dialogue": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "speaker_id",
+                    "text",
+                    "source_index"
+                  ],
+                  "properties": {
+                    "speaker_id": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 100
+                        }
+                      ]
+                    },
+                    "text": {
+                      "type": "string",
+                      "maxLength": 8000
+                    },
+                    "source_index": {
+                      "anyOf": [
+                        {
+                          "type": "null"
+                        },
+                        {
+                          "type": "integer",
+                          "minimum": 0,
+                          "maximum": 99
+                        }
+                      ]
+                    }
+                  }
+                },
+                "blocking": {
+                  "type": "array",
+                  "maxItems": 200,
+                  "items": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "required": [
+                      "object_id",
+                      "transform"
+                    ],
+                    "properties": {
+                      "object_id": {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 100
+                      },
+                      "transform": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "position": {
+                            "type": "array",
+                            "items": {
+                              "type": "number",
+                              "minimum": -10000,
+                              "maximum": 10000
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                          },
+                          "rotation": {
+                            "type": "array",
+                            "items": {
+                              "type": "number",
+                              "minimum": -3600,
+                              "maximum": 3600
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                          },
+                          "scale": {
+                            "type": "array",
+                            "items": {
+                              "type": "number",
+                              "minimum": 0.01,
+                              "maximum": 100
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                          }
+                        },
+                        "required": [
+                          "position",
+                          "rotation",
+                          "scale"
+                        ]
+                      },
+                      "end_transform": {
+                        "type": "object",
+                        "additionalProperties": false,
+                        "properties": {
+                          "position": {
+                            "type": "array",
+                            "items": {
+                              "type": "number",
+                              "minimum": -10000,
+                              "maximum": 10000
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                          },
+                          "rotation": {
+                            "type": "array",
+                            "items": {
+                              "type": "number",
+                              "minimum": -3600,
+                              "maximum": 3600
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                          },
+                          "scale": {
+                            "type": "array",
+                            "items": {
+                              "type": "number",
+                              "minimum": 0.01,
+                              "maximum": 100
+                            },
+                            "minItems": 3,
+                            "maxItems": 3
+                          }
+                        },
+                        "required": [
+                          "position",
+                          "rotation",
+                          "scale"
+                        ]
+                      }
+                    }
+                  }
+                }
+              },
+              "required": [
+                "id",
+                "camera_id",
+                "start",
+                "end"
+              ]
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "shot"
+          ]
+        }
+      },
+      {
+        "id": "set_blocking",
+        "title": "设置当前镜头局部走位",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 1
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "operation_key": {
+              "type": "string",
+              "maxLength": 160,
+              "minLength": 1
+            },
+            "source_refs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "document",
+                      "blueprint",
+                      "work",
+                      "asset",
+                      "cue"
+                    ]
+                  },
+                  "work_ref": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "workspace_id": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                      },
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "novel",
+                          "drama",
+                          "video"
+                        ]
+                      },
+                      "object_id": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "workspace_id",
+                      "kind",
+                      "object_id"
+                    ]
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "document_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "revision_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "blueprint_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "asset_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "cue_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "revision_ref": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "revision": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1000000
+                      }
+                    },
+                    "required": [
+                      "revision"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "work_ref",
+                  "sha256"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 100
+            },
+            "shot_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "blocking": {
+              "type": "array",
+              "maxItems": 200,
+              "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "object_id",
+                  "transform"
+                ],
+                "properties": {
+                  "object_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 100
+                  },
+                  "transform": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "position": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": -10000,
+                          "maximum": 10000
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
+                      },
+                      "rotation": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": -3600,
+                          "maximum": 3600
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
+                      },
+                      "scale": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 0.01,
+                          "maximum": 100
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
+                      }
+                    },
+                    "required": [
+                      "position",
+                      "rotation",
+                      "scale"
+                    ]
+                  },
+                  "end_transform": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "position": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": -10000,
+                          "maximum": 10000
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
+                      },
+                      "rotation": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": -3600,
+                          "maximum": 3600
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
+                      },
+                      "scale": {
+                        "type": "array",
+                        "items": {
+                          "type": "number",
+                          "minimum": 0.01,
+                          "maximum": 100
+                        },
+                        "minItems": 3,
+                        "maxItems": 3
+                      }
+                    },
+                    "required": [
+                      "position",
+                      "rotation",
+                      "scale"
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "shot_id",
+            "blocking"
+          ]
+        }
+      },
+      {
+        "id": "set_direction",
+        "title": "设置对话轴线与估算语速",
+        "effect": "managed_write",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 1
+            },
+            "expected_revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "expected_sha256": {
+              "type": "string",
+              "pattern": "^[a-f0-9]{64}$"
+            },
+            "operation_key": {
+              "type": "string",
+              "maxLength": 160,
+              "minLength": 1
+            },
+            "source_refs": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "kind": {
+                    "type": "string",
+                    "enum": [
+                      "document",
+                      "blueprint",
+                      "work",
+                      "asset",
+                      "cue"
+                    ]
+                  },
+                  "work_ref": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "workspace_id": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                      },
+                      "kind": {
+                        "type": "string",
+                        "enum": [
+                          "novel",
+                          "drama",
+                          "video"
+                        ]
+                      },
+                      "object_id": {
+                        "type": "string",
+                        "maxLength": 100,
+                        "minLength": 1
+                      }
+                    },
+                    "required": [
+                      "workspace_id",
+                      "kind",
+                      "object_id"
+                    ]
+                  },
+                  "sha256": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{64}$"
+                  },
+                  "document_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "revision_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "revision": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000000
+                  },
+                  "blueprint_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "asset_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "cue_id": {
+                    "type": "string",
+                    "maxLength": 200,
+                    "minLength": 0
+                  },
+                  "revision_ref": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                      "revision": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "maximum": 1000000
+                      }
+                    },
+                    "required": [
+                      "revision"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind",
+                  "work_ref",
+                  "sha256"
+                ],
+                "additionalProperties": false
+              },
+              "maxItems": 100
+            },
+            "dialogue_axis": {
+              "anyOf": [
+                {
+                  "type": "null"
+                },
+                {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": [
+                    "from_id",
+                    "to_id"
+                  ],
+                  "properties": {
+                    "from_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    },
+                    "to_id": {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 100
+                    }
+                  }
+                }
+              ]
+            },
+            "speech_rate": {
+              "type": "number",
+              "minimum": 0.5,
+              "maximum": 12
+            }
+          },
+          "required": [
+            "object_id",
+            "expected_revision",
+            "expected_sha256",
+            "operation_key",
+            "dialogue_axis",
+            "speech_rate"
+          ]
+        }
+      },
+      {
+        "id": "shot_report",
+        "title": "读取固定分镜站位与检查",
+        "effect": "read",
+        "input_schema": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "object_id": {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 1
+            },
+            "revision": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 1000000
+            },
+            "shot_id": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 100
+            },
+            "frame": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1499
+            },
+            "aspect": {
+              "type": "number",
+              "minimum": 0.25,
+              "maximum": 4
+            }
+          },
+          "required": [
+            "object_id",
+            "revision"
           ]
         }
       }

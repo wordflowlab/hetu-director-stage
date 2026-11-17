@@ -88,6 +88,58 @@
     "duration_frames": 150
   },
   "tracks": [],
-  "shots": [],
+  "shots": [
+    {
+      "id": "s1",
+      "label": "S1",
+      "camera_id": "camera-1",
+      "start": 0,
+      "end": 75,
+      "dialogue": {
+        "speaker_id": "lin",
+        "text": "末班车还没来。",
+        "source_index": null
+      },
+      "blocking": [
+        {
+          "object_id": "lin",
+          "transform": {
+            "position": [
+              0,
+              0,
+              0
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          },
+          "end_transform": {
+            "position": [
+              1,
+              0,
+              0
+            ],
+            "rotation": [
+              0,
+              0,
+              0
+            ],
+            "scale": [
+              1,
+              1,
+              1
+            ]
+          }
+        }
+      ]
+    }
+  ],
   "notes": []
 }

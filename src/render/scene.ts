@@ -34,9 +34,10 @@ function part(
   group.add(mesh);
   return mesh;
 }
-export function geometry(preset: string, white = true) {
+export function geometry(preset: string, white = true, marker?: Entity["marker"]) {
   const g = new THREE.Group();
-  const m = material(white ? 0xb9bdc4 : 0x7e9f91),
+  const identity = {blue:0x3e63dd,red:0xe5484d,green:0x30a46c,amber:0xffc53d,violet:0x6e56cf};
+  const m = material(white ? 0xb9bdc4 : preset.startsWith("person-")&&marker ? identity[marker] : 0x7e9f91),
     seat = material(white ? 0xaeb2ba : 0xc2a78b),
     light = material(white ? 0xe0e1e3 : 0xcbdcc7);
   const box = (
@@ -67,6 +68,7 @@ export function geometry(preset: string, white = true) {
     const skin = preset === "person-light" ? light : m;
     const head = sphere(0.145, 0, 1.64, 0, skin);
     head.name = "head";
+    box(0.065,0.065,0.09,0,1.64,0.15,skin);
     cyl(0.085, 0.11, 0, 1.45, 0, skin);
     box(0.35, 0.48, 0.23, 0, 1.15, 0, skin);
     box(0.3, 0.18, 0.2, 0, 0.85, 0, skin);
@@ -204,7 +206,7 @@ export class StageWorld {
     this.scene.add(this.root);
     const state = sample(value, frame);
     for (const e of state.objects) {
-      const g = geometry(e.preset, value.environment.white_model);
+      const g = geometry(e.preset, value.environment.white_model, e.marker);
       g.name = e.id;
       g.userData = {
         entity_id: e.id,
@@ -374,12 +376,14 @@ export async function png(
 export async function glb(value: Scene): Promise<Uint8Array> {
   const w = new StageWorld(value, 0);
   try {
+    w.root.userData = {format:"hetu.director-stage",timeline:value.timeline,shots:value.shots};
     w.helpers.removeFromParent();
     const times = Array.from(
         { length: value.timeline.duration_frames },
         (_, i) => i / value.timeline.fps,
       ),
       tracks: THREE.KeyframeTrack[] = [];
+    const states = times.map((_,f)=>sample(value,f));
     for (const e of value.objects) {
       const g = w.groups.get(e.id)!;
       for (const [property, out] of [
@@ -388,7 +392,7 @@ export async function glb(value: Scene): Promise<Uint8Array> {
         ["scale", "scale"],
       ] as const) {
         if (
-          !value.tracks.some(
+          !value.shots.some(s=>s.blocking?.some(b=>b.object_id===e.id)) && !value.tracks.some(
             (t) =>
               t.target_kind === "object" &&
               t.target_id === e.id &&
@@ -398,7 +402,7 @@ export async function glb(value: Scene): Promise<Uint8Array> {
           continue;
         const values: number[] = [];
         for (let f = 0; f < times.length; f++) {
-          const t = sample(value, f).objects.find(
+          const t = states[f].objects.find(
             (x) => x.id === e.id,
           )!.transform;
           if (property === "rotation")
@@ -461,7 +465,7 @@ export async function glb(value: Scene): Promise<Uint8Array> {
         quaternions: number[] = [];
       const c = w.cameras.get(cam.id)!;
       for (let f = 0; f < times.length; f++) {
-        const state = sample(value, f).cameras.find((x) => x.id === cam.id)!;
+        const state = states[f].cameras.find((x) => x.id === cam.id)!;
         setCamera(c, state, 1280, 720);
         positions.push(...c.position.toArray());
         quaternions.push(...c.quaternion.toArray());

@@ -1,0 +1,33 @@
+{
+  "status": "passed",
+  "package_sha256": "3a2c3cebd17854981fd40a95f3bd68558a33305444c4f2fcdca2c0bfcdb1fc66",
+  "project_ref": {
+    "revision": 5,
+    "sha256": "bc285f83e5e2442e152b8ad950f51054b03dc034691c75bb9f9b8bfe85540b89"
+  },
+  "metrics": {
+    "overflow": false,
+    "plan": 870,
+    "header": 48,
+    "preview": 314.5
+  },
+  "checks": [
+    "default_plan",
+    "real_preview",
+    "shot_table",
+    "local_start_end",
+    "neighbor_unchanged",
+    "retime",
+    "pointer_drag",
+    "facing_handle",
+    "camera_target",
+    "reorder_remove_undo",
+    "restore_global_blocking",
+    "clipboard",
+    "3D_switch",
+    "input_shortcuts",
+    "themes",
+    "narrow",
+    "reopen"
+  ]
+}

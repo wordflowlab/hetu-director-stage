@@ -65,6 +65,7 @@ export interface Entity {
   visible: boolean;
   locked: boolean;
   source_index: number | null;
+  marker?: "blue" | "red" | "green" | "amber" | "violet";
 }
 export interface Camera {
   id: string;
@@ -89,7 +90,11 @@ export interface Shot {
   camera_id: string;
   start: number;
   end: number;
+  label?: string;
+  dialogue?: { speaker_id: string | null; text: string; source_index: number | null };
+  blocking?: Blocking[];
 }
+export interface Blocking { object_id: string; transform: Transform; end_transform?: Transform }
 export interface Note {
   id: string;
   origin: "author" | "agent";
@@ -117,6 +122,8 @@ export interface Scene {
   tracks: Track[];
   shots: Shot[];
   notes: Note[];
+  dialogue_axis?: { from_id: string; to_id: string } | null;
+  speech_rate?: number;
 }
 export function validateAction(action: string, input: unknown) {
   const v = (validators as any)[action];
@@ -247,6 +254,18 @@ export function validate(p: Scene) {
       "镜头区间无效或重叠。",
     );
     end = s.end;
+    unique((s.blocking ?? []).map((b) => b.object_id), "逐镜调度对象");
+    for (const b of s.blocking ?? []) {
+      const o = p.objects.find((o) => o.id === b.object_id);
+      need(o, "逐镜调度对象不存在。");
+      // 锁定对象可以保留既有调度，锁定后拒绝变换由编辑动作核验。
+    }
+    need(!s.dialogue?.speaker_id || p.objects.some((o) => o.id === s.dialogue!.speaker_id && o.preset.startsWith("person-")), "说话人必须指向存在的人物。");
+  }
+  if (p.dialogue_axis) {
+    need(p.dialogue_axis.from_id !== p.dialogue_axis.to_id, "对话轴线需要两个不同人物。");
+    for (const id of [p.dialogue_axis.from_id,p.dialogue_axis.to_id])
+      need(p.objects.some((o) => o.id === id && o.preset.startsWith("person-")), "对话轴线人物不存在。");
   }
   for (const n of p.notes) {
     need(n.frame < frames, "意见时间超出预演范围。");
@@ -274,6 +293,8 @@ export function validateIndices(p: Scene, count: number) {
       o.source_index === null || o.source_index < count,
       "对象来源索引不存在。",
     );
+  for (const s of p.shots)
+    need(s.dialogue?.source_index == null || s.dialogue.source_index < count, "台词固定来源索引不存在。");
 }
 export function interpolate(track: Track, frame: number): Vec {
   const keys = track.keyframes;
@@ -295,7 +316,41 @@ export function sample(p: Scene, frame: number): Scene {
         : s.cameras.find((x) => x.id === t.target_id);
     if (target) target[t.property] = interpolate(t, frame);
   }
+  const shot = p.shots.find((s) => s.start <= frame && frame < s.end);
+  if (shot) for (const b of shot.blocking ?? []) {
+    const o = s.objects.find((o) => o.id === b.object_id);
+    if (o) o.transform = blendTransform(b.transform, b.end_transform ?? b.transform,
+      shot.end - shot.start <= 1 ? 0 : (frame - shot.start) / (shot.end - shot.start - 1));
+  }
   return s;
+}
+export function blendTransform(a: Transform, b: Transform, t: number): Transform {
+  return Object.fromEntries((["position","rotation","scale"] as const).map((k) => [k,
+    a[k].map((v,i) => v + (k === "rotation" ? ((b[k][i]-v+540)%360+360)%360-180 : b[k][i]-v)*t)
+  ])) as unknown as Transform;
+}
+/** 一次编辑只改变明确选定的基础或镜头局部范围。 */
+export function setTransformAt(p: Scene, id: string, transform: Transform, shotId?: string, endpoint: "start" | "end" = "start") {
+  const o = p.objects.find((o) => o.id === id);
+  need(o, "对象不存在。"); need(!o.locked, "对象已锁定。");
+  if (!shotId) {
+    for (const t of p.tracks.filter(t => t.target_kind === "object" && t.target_id === id))
+      need(JSON.stringify(transform[t.property as keyof Transform]) === JSON.stringify(o.transform[t.property as keyof Transform]), "该属性已有全局动画，请修改关键帧或启用当前镜头局部调度。");
+    o.transform = clone(transform); return;
+  }
+  const s = p.shots.find((s) => s.id === shotId); need(s,"当前镜头不存在。");
+  s.blocking ??= [];
+  let b = s.blocking.find((b) => b.object_id === id);
+  if (!b) { b = {object_id:id, transform:clone(sample(p,s.start).objects.find((o)=>o.id===id)!.transform)}; s.blocking.push(b); }
+  if (endpoint === "end") b.end_transform = clone(transform); else b.transform = clone(transform);
+}
+export function retimeShot(p: Scene, id: string, frames: number) {
+  need(Number.isInteger(frames) && frames > 0, "镜头时长至少一帧。");
+  const s = p.shots.find((s) => s.id === id); need(s, "镜头不存在。");
+  const end = s.end, delta = frames-(s.end-s.start);
+  s.end += delta;
+  for (const next of p.shots) if (next.id !== id && next.start >= end) { next.start += delta; next.end += delta; }
+  p.timeline.duration_frames += delta;
 }
 export function cameraAt(p: Scene, frame: number, fallback?: string) {
   return (
@@ -315,6 +370,11 @@ export function removeObjects(p: Scene, ids: string[]) {
   p.tracks = p.tracks.filter(
     (x) => x.target_kind !== "object" || !ids.includes(x.target_id),
   );
+  for (const s of p.shots) {
+    if (s.blocking) s.blocking = s.blocking.filter((b) => !ids.includes(b.object_id));
+    if (s.dialogue && ids.includes(s.dialogue.speaker_id ?? "")) s.dialogue.speaker_id = null;
+  }
+  if (p.dialogue_axis && [p.dialogue_axis.from_id,p.dialogue_axis.to_id].some((id) => ids.includes(id))) p.dialogue_axis = null;
   p.notes = p.notes.map((n) =>
     ids.includes(n.target_id ?? "") ? { ...n, target_id: null } : n,
   );

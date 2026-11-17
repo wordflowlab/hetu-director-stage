@@ -1,0 +1,247 @@
+{
+  "recorded_at": "2026-11-17T08:13:13.333945+00:00",
+  "status": "passed",
+  "version": "0.2.0",
+  "package_sha256": "3a2c3cebd17854981fd40a95f3bd68558a33305444c4f2fcdca2c0bfcdb1fc66",
+  "work": {
+    "title": "咖啡馆 导演调度验收",
+    "kind": "video",
+    "objects": 6,
+    "cameras": 3,
+    "shots": 4,
+    "project_ref": {
+      "object_id": "ext_0d2bfdbc-d9ae-488c-a52e-961cfe1c7953",
+      "revision": 8,
+      "sha256": "9c900a0c36ea01413718e1aec8509968627213499e2cd003918887a46abacbd0"
+    }
+  },
+  "entry": "当前Codex已有稳定MCP发现同包Skill及新动作；固定公开0.11.2 CLI与隔离插件注册表沿同一作品及确切management_ref接续。未以GUI创建或修改业务数据。",
+  "legacy": {
+    "revision": 1,
+    "sha256": "b5d358471c6ea06a9137cb4838dd1dac8766e0bb436e9f1686d9040310e95175",
+    "unchanged_after_upgrade": true
+  },
+  "checks": [
+    "发现27专业动作与同包Skill",
+    "在v0.1.0创建旧格式工程，升级后旧修订及原键不变",
+    "记录Agent自查意见，S3台词估计4.3秒，镜头由2秒延长为5秒",
+    "只对S3写入人物起止走位及转身，基础和邻镜保持",
+    "回读S2末149、S3起150/末274、S4起275帧报告",
+    "比较修订2和8，回读原操作键并准备下一次交接",
+    "350张PNG和14秒25FPS MP4完整解码、三机位PNG及动画GLB"
+  ],
+  "blocking": {
+    "shot_id": "s3",
+    "object_id": "woman",
+    "start": {
+      "x": -0.9,
+      "yaw": 110
+    },
+    "end": {
+      "x": -0.4,
+      "yaw": 70
+    },
+    "scope": "[150,275)，末帧274达到终值，275恢复基础采样。"
+  },
+  "media": {
+    "sequence": {
+      "plan_sha256": "070653d7255e0d85e982816ed20c6f2a6002fee76c5e0c07e68af40921a2f01a",
+      "project_ref": {
+        "object_id": "ext_0d2bfdbc-d9ae-488c-a52e-961cfe1c7953",
+        "revision": 8,
+        "sha256": "9c900a0c36ea01413718e1aec8509968627213499e2cd003918887a46abacbd0"
+      },
+      "render": {
+        "camera_ids": [
+          "wide"
+        ],
+        "end_frame": 350,
+        "fps": 25,
+        "frame": 0,
+        "height": 360,
+        "mode": "sequence",
+        "start_frame": 0,
+        "width": 640
+      },
+      "manifest_sha256": "6b3f505de41fa2ec7bf640298570db5ee4a25134db6d65d1389112bc7cbc8134",
+      "files": 351,
+      "png_frames": 350,
+      "frame_boundaries": [
+        0,
+        74,
+        75,
+        149,
+        150,
+        212,
+        274,
+        275,
+        349
+      ],
+      "mp4": {
+        "path": "previs.mp4",
+        "sha256": "9917c8e614d04e63742fa21fe55b86fb91797cfc12b8413e3d96579ff1b16af6",
+        "size_bytes": 68663
+      },
+      "first_frame": {
+        "path": "frame-00000.png",
+        "sha256": "1a87454d3331a54444e2ea709540d172b3898ca60da3972930fb03ff452521f1",
+        "size_bytes": 24907,
+        "frame": 0,
+        "camera_id": null
+      },
+      "last_frame": {
+        "path": "frame-00349.png",
+        "sha256": "1a87454d3331a54444e2ea709540d172b3898ca60da3972930fb03ff452521f1",
+        "size_bytes": 24907,
+        "frame": 349,
+        "camera_id": null
+      }
+    },
+    "glb": {
+      "format": "hetu.director-stage.render-output",
+      "version": 1,
+      "plan_sha256": "c84cd5f39849d1302badb98cc9500343facc146b6f1eca3e7e32e61c826e4cc8",
+      "project_ref": {
+        "object_id": "ext_0d2bfdbc-d9ae-488c-a52e-961cfe1c7953",
+        "revision": 8,
+        "sha256": "9c900a0c36ea01413718e1aec8509968627213499e2cd003918887a46abacbd0"
+      },
+      "source_refs": [
+        {
+          "kind": "work",
+          "revision_ref": {
+            "revision": 1
+          },
+          "sha256": "2279d52f69fca062ebbb278890e4e5d1f3eafb0befb7d8672ec593f65c4953ac",
+          "work_ref": {
+            "kind": "video",
+            "object_id": "video_d12f8265-3c28-4f6a-92cb-3ee2622b1320",
+            "workspace_id": "workspace_53ee7740-e7a7-4e8a-9a79-97dd5a535a24"
+          }
+        }
+      ],
+      "render": {
+        "camera_ids": [
+          "wide"
+        ],
+        "end_frame": 350,
+        "fps": 25,
+        "frame": 0,
+        "height": 360,
+        "mode": "glb",
+        "start_frame": 0,
+        "width": 640
+      },
+      "files": [
+        {
+          "path": "scene.glb",
+          "sha256": "b68b957fbd0f897c279b913169ceb486387e6f026726309c4434750583b889fc",
+          "size_bytes": 224512,
+          "frame": 0,
+          "camera_id": null
+        }
+      ],
+      "representation": "程序白模预演；无音轨；不代表最终画面或作者认可。"
+    },
+    "cameras": {
+      "format": "hetu.director-stage.render-output",
+      "version": 1,
+      "plan_sha256": "618ee6e9c3da377c27e156b1ef3060e6da4b92bece10f211d851db910788a3f9",
+      "project_ref": {
+        "object_id": "ext_0d2bfdbc-d9ae-488c-a52e-961cfe1c7953",
+        "revision": 8,
+        "sha256": "9c900a0c36ea01413718e1aec8509968627213499e2cd003918887a46abacbd0"
+      },
+      "source_refs": [
+        {
+          "kind": "work",
+          "revision_ref": {
+            "revision": 1
+          },
+          "sha256": "2279d52f69fca062ebbb278890e4e5d1f3eafb0befb7d8672ec593f65c4953ac",
+          "work_ref": {
+            "kind": "video",
+            "object_id": "video_d12f8265-3c28-4f6a-92cb-3ee2622b1320",
+            "workspace_id": "workspace_53ee7740-e7a7-4e8a-9a79-97dd5a535a24"
+          }
+        }
+      ],
+      "render": {
+        "camera_ids": [
+          "wide",
+          "over",
+          "reverse"
+        ],
+        "end_frame": 350,
+        "fps": 25,
+        "frame": 150,
+        "height": 360,
+        "mode": "cameras",
+        "start_frame": 0,
+        "width": 640
+      },
+      "files": [
+        {
+          "path": "camera-01.png",
+          "sha256": "7183d87aaca95a15bbe87c9cc7bf1946a1a3c42b0bfb5752abd7599a242d0378",
+          "size_bytes": 24208,
+          "frame": 150,
+          "camera_id": "wide"
+        },
+        {
+          "path": "camera-02.png",
+          "sha256": "94db02f462f9dd671baa9a2164476eb9ae6fcd47b12d120294a04e080d59ffeb",
+          "size_bytes": 46809,
+          "frame": 150,
+          "camera_id": "over"
+        },
+        {
+          "path": "camera-03.png",
+          "sha256": "03f1687c6dd5c1afeb278478d21ed545323a4e560357cf5ec5e196b2cacbf01b",
+          "size_bytes": 46510,
+          "frame": 150,
+          "camera_id": "reverse"
+        }
+      ],
+      "representation": "程序白模预演；无音轨；不代表最终画面或作者认可。"
+    },
+    "glb_checks": {
+      "cameras": 3,
+      "animations": 1
+    },
+    "full_decode": true,
+    "contact_sheet": {
+      "path": "docs/research/evidence/v020-ui/cafe-contact-sheet.jpg",
+      "sha256": "dfc65642f97f416252695b0848b2ffd8e239a240d16e9449984684cefcf14890"
+    },
+    "visual_review": [
+      "切镜74/75、149/150、274/275及S3中间帧已实际观看",
+      "S3蓝色人物半步移动与转向可见，S4恢复基础位置",
+      "店员吧台后下半身遮挡为预期，几何报告保留"
+    ]
+  },
+  "retained_failures": [
+    {
+      "phase": "parallel_host_replacement",
+      "observed": "宿主及本机插件被并行会话替换，能力摘要和package_ref拒绝、部分结果未知。",
+      "recovery": "保留原键及回执，改用不可变公开宿主与固定插件注册表；原键回读not_found后用同键完成S3修订8，不使用新键掩盖结果。"
+    },
+    {
+      "phase": "contact_sheet",
+      "observed": "系统python缺少Pillow",
+      "recovery": "uv隔离运行Pillow生成联系表，未修改核心依赖。"
+    }
+  ],
+  "desktop_observation": {
+    "method": "Computer Use",
+    "observed": "本机现有旧站工程正常显示俯视、三维取景和镜头表；存在未保存稿，未覆盖。",
+    "scope": "本机包有并行导航合同修改，不冒充最终发行包或咖啡馆revision8验收。"
+  },
+  "not_run": [
+    "真实演员与最终材质质量",
+    "音频及口型",
+    "付费模型生成",
+    "作者成片认可"
+  ],
+  "privacy": "不发布管理授权、私密任务定位、用户文件路径和原始私密回执。"
+}
