@@ -1,0 +1,309 @@
+{
+  "recorded_at": "2026-11-17T08:27:56.268234+00:00",
+  "status": "published_and_catalog_verified",
+  "release": {
+    "plugin_id": "org.wordflowlab.director-stage",
+    "version": "0.2.0",
+    "source_commit": "03eab799a426dbc0883dd59c9c56ce5ee03affeb",
+    "tag": "v0.2.0",
+    "archive": "org.wordflowlab.director-stage-0.2.0.tgz",
+    "archive_sha256": "7a6a8c8f45a3f8398adcf85cca9112e39ee3f9f7dc982d87b69c507c8b032aaa",
+    "package_sha256": "3a2c3cebd17854981fd40a95f3bd68558a33305444c4f2fcdca2c0bfcdb1fc66",
+    "size_bytes": 1007163,
+    "minimum_host_version": "0.11.2",
+    "verified_platforms": [
+      "macOS arm64"
+    ],
+    "channel": "preview"
+  },
+  "release_url": "https://github.com/wordflowlab/hetu-director-stage/releases/tag/v0.2.0",
+  "download_verification": {
+    "archive_sha256_match": true,
+    "package_sha256_match": true,
+    "matched_files": 26,
+    "source_tag_commit": "03eab799a426dbc0883dd59c9c56ce5ee03affeb",
+    "public_package_installed": true,
+    "fixed_revision_readback": true,
+    "skill_read": true,
+    "original_operation_readback": true,
+    "isolation": "只修改独立验收注册表，本机并行宿主和已有未保存稿未覆盖。"
+  },
+  "direct_public_downloads": [
+    {
+      "name": "release-integrity.json",
+      "url": "https://github.com/wordflowlab/hetu-director-stage/releases/download/v0.2.0/release-integrity.json",
+      "status": 200,
+      "sha256": "829b9a0f9b592f08404cff692cd34017d9a279c85aaadbfcae61c24c0026e91e",
+      "size_bytes": 523,
+      "byte_match": true
+    },
+    {
+      "name": "org.wordflowlab.director-stage-0.2.0.tgz",
+      "url": "https://github.com/wordflowlab/hetu-director-stage/releases/download/v0.2.0/org.wordflowlab.director-stage-0.2.0.tgz",
+      "status": 200,
+      "sha256": "7a6a8c8f45a3f8398adcf85cca9112e39ee3f9f7dc982d87b69c507c8b032aaa",
+      "size_bytes": 1007163,
+      "byte_match": true
+    }
+  ],
+  "machine_and_UI": {
+    "package_sha256": "3a2c3cebd17854981fd40a95f3bd68558a33305444c4f2fcdca2c0bfcdb1fc66",
+    "unit_tests": 33,
+    "professional_actions": 27,
+    "electron_journeys": 4,
+    "runtime_evidence": "runtime-v020-acceptance-2026-11-17.json",
+    "conversation_evidence": "conversation-v020-acceptance-2026-11-17.json",
+    "scope": "全部动作及Electron使用不可变公开宿主0.11.2；重新下载同包后另验收安装、Skill、固定修订和原操作回读。",
+    "local_development": "全局安装含另一会话的未发布work_kinds，本轮不覆盖；使用隔离注册表安装正式发行包，既有作品及未保存稿保留。"
+  },
+  "website": {
+    "catalog_url": "https://hetu.limeai.run/plugins/director-stage/",
+    "source_commit": "17aab6c857991bffeded44a83f9af3b872c467fb",
+    "deployment_url": "https://c0fa9cee.hetu-website-3uu.pages.dev",
+    "local_browser_tests": {
+      "startTime": "2026-11-17T08:17:41.169Z",
+      "duration": 96843.13699999999,
+      "expected": 52,
+      "skipped": 0,
+      "unexpected": 1,
+      "flaky": 0
+    },
+    "local_navigation_recheck": {
+      "startTime": "2026-11-17T08:21:25.905Z",
+      "duration": 5299.279,
+      "expected": 1,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "public_browser_tests": {
+      "startTime": "2026-11-17T08:22:56.962Z",
+      "duration": 117872.39499999999,
+      "expected": 53,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "public_browser_errors": [],
+    "bytes": {
+      "status": "passed",
+      "normalization": "仅移除生产域名单一Cloudflare统计script及其附加换行；部署Origin原始字节完全一致。",
+      "pages": [
+        {
+          "path": "/plugins/",
+          "expected_sha256": "b4ea9a0515aeafc0ad82033738aa9ab05ad1e809732651adb1589d0b753db4d7",
+          "production": {
+            "status": 200,
+            "raw_sha256": "cf9f4532e32e332cf0d3e916883bfd60fbeb8fa83ce353089379cbfa78565f2f",
+            "raw_byte_match": false,
+            "cloudflare_analytics_tags": 1,
+            "normalized_sha256": "b4ea9a0515aeafc0ad82033738aa9ab05ad1e809732651adb1589d0b753db4d7",
+            "normalized_byte_match": true
+          },
+          "deployment": {
+            "status": 200,
+            "raw_sha256": "b4ea9a0515aeafc0ad82033738aa9ab05ad1e809732651adb1589d0b753db4d7",
+            "raw_byte_match": true,
+            "cloudflare_analytics_tags": 0,
+            "normalized_sha256": "b4ea9a0515aeafc0ad82033738aa9ab05ad1e809732651adb1589d0b753db4d7",
+            "normalized_byte_match": true
+          }
+        },
+        {
+          "path": "/en/plugins/",
+          "expected_sha256": "36905c3ff5a0f0ae93241e6cb6416112c807be2c4b8a05dbbd0d63d6a455f124",
+          "production": {
+            "status": 200,
+            "raw_sha256": "8427cfc9a19a46c0d65590fad88684c05f8fe24508a0b656d5f2a06dfb48f966",
+            "raw_byte_match": false,
+            "cloudflare_analytics_tags": 1,
+            "normalized_sha256": "36905c3ff5a0f0ae93241e6cb6416112c807be2c4b8a05dbbd0d63d6a455f124",
+            "normalized_byte_match": true
+          },
+          "deployment": {
+            "status": 200,
+            "raw_sha256": "36905c3ff5a0f0ae93241e6cb6416112c807be2c4b8a05dbbd0d63d6a455f124",
+            "raw_byte_match": true,
+            "cloudflare_analytics_tags": 0,
+            "normalized_sha256": "36905c3ff5a0f0ae93241e6cb6416112c807be2c4b8a05dbbd0d63d6a455f124",
+            "normalized_byte_match": true
+          }
+        },
+        {
+          "path": "/plugins/director-stage/",
+          "expected_sha256": "86cefc352079b4c5f3f63859b024ebb1639afa0152bca90dd2a8e1b8e46fa699",
+          "production": {
+            "status": 200,
+            "raw_sha256": "2f33ebd2df3aa532a53fc103541d46f6b6fb523e35ab3ee5b96fc7ec4726fd49",
+            "raw_byte_match": false,
+            "cloudflare_analytics_tags": 1,
+            "normalized_sha256": "86cefc352079b4c5f3f63859b024ebb1639afa0152bca90dd2a8e1b8e46fa699",
+            "normalized_byte_match": true
+          },
+          "deployment": {
+            "status": 200,
+            "raw_sha256": "86cefc352079b4c5f3f63859b024ebb1639afa0152bca90dd2a8e1b8e46fa699",
+            "raw_byte_match": true,
+            "cloudflare_analytics_tags": 0,
+            "normalized_sha256": "86cefc352079b4c5f3f63859b024ebb1639afa0152bca90dd2a8e1b8e46fa699",
+            "normalized_byte_match": true
+          }
+        },
+        {
+          "path": "/en/plugins/director-stage/",
+          "expected_sha256": "f7d663868cab5976aad743b9d0a42fd9343248df0f943ff8957fc0b9d82577af",
+          "production": {
+            "status": 200,
+            "raw_sha256": "3292daa62ef3fbdef08d78e75c4d779d709d2659a745a81501b7f4e90c433bdd",
+            "raw_byte_match": false,
+            "cloudflare_analytics_tags": 1,
+            "normalized_sha256": "f7d663868cab5976aad743b9d0a42fd9343248df0f943ff8957fc0b9d82577af",
+            "normalized_byte_match": true
+          },
+          "deployment": {
+            "status": 200,
+            "raw_sha256": "f7d663868cab5976aad743b9d0a42fd9343248df0f943ff8957fc0b9d82577af",
+            "raw_byte_match": true,
+            "cloudflare_analytics_tags": 0,
+            "normalized_sha256": "f7d663868cab5976aad743b9d0a42fd9343248df0f943ff8957fc0b9d82577af",
+            "normalized_byte_match": true
+          }
+        },
+        {
+          "path": "/plugins/director-stage.png",
+          "expected_sha256": "22fd94583a4a24fbc44b9683e289246c66481a04b48758f1c9b82b70112c8ec2",
+          "production": {
+            "status": 200,
+            "raw_sha256": "22fd94583a4a24fbc44b9683e289246c66481a04b48758f1c9b82b70112c8ec2",
+            "raw_byte_match": true,
+            "cloudflare_analytics_tags": 0,
+            "normalized_sha256": "22fd94583a4a24fbc44b9683e289246c66481a04b48758f1c9b82b70112c8ec2",
+            "normalized_byte_match": true
+          },
+          "deployment": {
+            "status": 200,
+            "raw_sha256": "22fd94583a4a24fbc44b9683e289246c66481a04b48758f1c9b82b70112c8ec2",
+            "raw_byte_match": true,
+            "cloudflare_analytics_tags": 0,
+            "normalized_sha256": "22fd94583a4a24fbc44b9683e289246c66481a04b48758f1c9b82b70112c8ec2",
+            "normalized_byte_match": true
+          }
+        },
+        {
+          "path": "/docs/plugins/",
+          "expected_sha256": "3e9c0bc81405a2ef4a600cfe68df1b033a3d694048292135b193109f3a247235",
+          "production": {
+            "status": 200,
+            "raw_sha256": "e73bba224f9535965635aedf89c624c530e23fd06b623a2cc0463552df6abe2e",
+            "raw_byte_match": false,
+            "cloudflare_analytics_tags": 1,
+            "normalized_sha256": "3e9c0bc81405a2ef4a600cfe68df1b033a3d694048292135b193109f3a247235",
+            "normalized_byte_match": true
+          },
+          "deployment": {
+            "status": 200,
+            "raw_sha256": "3e9c0bc81405a2ef4a600cfe68df1b033a3d694048292135b193109f3a247235",
+            "raw_byte_match": true,
+            "cloudflare_analytics_tags": 0,
+            "normalized_sha256": "3e9c0bc81405a2ef4a600cfe68df1b033a3d694048292135b193109f3a247235",
+            "normalized_byte_match": true
+          }
+        },
+        {
+          "path": "/en/docs/plugins/",
+          "expected_sha256": "9b07db877055507bcefd97beb780c04a38d780ec9a9994967c7271bb9c81730c",
+          "production": {
+            "status": 200,
+            "raw_sha256": "4b4b80c8f054d693f256b3dd821c8cf9f31d1737be99f732d0f7632a73a040a5",
+            "raw_byte_match": false,
+            "cloudflare_analytics_tags": 1,
+            "normalized_sha256": "9b07db877055507bcefd97beb780c04a38d780ec9a9994967c7271bb9c81730c",
+            "normalized_byte_match": true
+          },
+          "deployment": {
+            "status": 200,
+            "raw_sha256": "9b07db877055507bcefd97beb780c04a38d780ec9a9994967c7271bb9c81730c",
+            "raw_byte_match": true,
+            "cloudflare_analytics_tags": 0,
+            "normalized_sha256": "9b07db877055507bcefd97beb780c04a38d780ec9a9994967c7271bb9c81730c",
+            "normalized_byte_match": true
+          }
+        },
+        {
+          "path": "/blog/creative-plugins/",
+          "expected_sha256": "02bb0fdb23db93abb865ccb8f7b354b276d288b9086d67c0f81f8adfc3c9b21e",
+          "production": {
+            "status": 200,
+            "raw_sha256": "888774d85bdef87fa34ec03a204afc0da70abd691c0483be679c15d86412aba6",
+            "raw_byte_match": false,
+            "cloudflare_analytics_tags": 1,
+            "normalized_sha256": "02bb0fdb23db93abb865ccb8f7b354b276d288b9086d67c0f81f8adfc3c9b21e",
+            "normalized_byte_match": true
+          },
+          "deployment": {
+            "status": 200,
+            "raw_sha256": "02bb0fdb23db93abb865ccb8f7b354b276d288b9086d67c0f81f8adfc3c9b21e",
+            "raw_byte_match": true,
+            "cloudflare_analytics_tags": 0,
+            "normalized_sha256": "02bb0fdb23db93abb865ccb8f7b354b276d288b9086d67c0f81f8adfc3c9b21e",
+            "normalized_byte_match": true
+          }
+        },
+        {
+          "path": "/en/blog/creative-plugins/",
+          "expected_sha256": "bda275e28d51fbaa179f04db6b0a8b1d94d4b2613863576fffe5a0f302793d06",
+          "production": {
+            "status": 200,
+            "raw_sha256": "f5e245aac6571f75bfe367e69d22f95dcc22ada23ace23c3e2c3f3ac4017d10b",
+            "raw_byte_match": false,
+            "cloudflare_analytics_tags": 1,
+            "normalized_sha256": "bda275e28d51fbaa179f04db6b0a8b1d94d4b2613863576fffe5a0f302793d06",
+            "normalized_byte_match": true
+          },
+          "deployment": {
+            "status": 200,
+            "raw_sha256": "bda275e28d51fbaa179f04db6b0a8b1d94d4b2613863576fffe5a0f302793d06",
+            "raw_byte_match": true,
+            "cloudflare_analytics_tags": 0,
+            "normalized_sha256": "bda275e28d51fbaa179f04db6b0a8b1d94d4b2613863576fffe5a0f302793d06",
+            "normalized_byte_match": true
+          }
+        }
+      ]
+    }
+  },
+  "retained_failures": [
+    {
+      "phase": "release_asset_name",
+      "observed": "gh上传的#后缀设置附件label，初次完整性文件名为release-integrity-v020.json。",
+      "correction": "改正资产文件名为release-integrity.json，公开下载HTTP200且与本地字节一致；未改动版本标签或插件包。"
+    },
+    {
+      "phase": "website_local_navigation",
+      "observed": "53项首轮52通过，英文1440px文档导航60秒用例超时。首次目标过滤带锚点未匹配测试；保留两次回执。",
+      "correction": "正确定位该用例后以原60秒预算单独复验5.3秒通过；未修改产品或测试超时。随后53项线上全量通过，不将首轮记录改写为全通过。"
+    },
+    {
+      "phase": "website_raw_byte_check",
+      "observed": "生产域名HTML包含Cloudflare访问统计标签及附加换行，直接比较与构建不同。",
+      "correction": "部署Origin九项原字节一致；生产域名仅移除已识别单一统计标签及附加换行后相同，图片原字节一致。没有修改线上统计配置，也不声称原始HTML完全相同。"
+    }
+  ],
+  "log_sha256": {
+    "director-v020-website-local-tests.json": "7fbb1cdcfded1a8c94701bceb1a57078da1b818f98e7dac8e7a74fb57a6a3ea0",
+    "director-v020-website-doc-recheck.json": "d116c09db35733663b0615e9cf3c37552371540fe736cf9ec2d8bb67c0e1a82f",
+    "director-v020-website-doc-recheck-2.json": "6c5666a09c9daa913ad69ecc9e00b7b4d2366b9e027410ecbfde25a53fb36b77",
+    "director-v020-website-public-tests.json": "78b1376f6d757f1fa42cce6110f0d53405d6250483601790f8989e130d6ba5ad",
+    "director-v020-website-public-bytes.json": "cf3857d0e2ed91c534e5243525ee9f96f8abf70603a8b2848a7e4c4eb93995b1",
+    "director-v020-website-public-verified-bytes.json": "ec9d74fadbfb8d45a3f1de16d74cd0d8f690c021ea2ac7f0a778e2428b1df18b",
+    "director-v020-website-deploy.log": "833f6dfe87b2f100cb0911351996a28155aec84b9d83d1a778cf17d6fe9e9fc6",
+    "director-v020-final-docs-check.log": "0c37b7f68d3152b9ee0e053e8c94bddf7efa827199a314307d1c38896d10e917"
+  },
+  "not_run": [
+    "Windows/Linux插件实机",
+    "干净系统",
+    "完整辅助技术",
+    "付费模型生成",
+    "作者成片认可"
+  ]
+}
