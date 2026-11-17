@@ -16,8 +16,17 @@ export async function start() {
   );
   await mkdir(path.join(directory, "requests"));
   const packageDirectory = path.join(directory, "package");
-  await cp(path.resolve("dist"), packageDirectory, { recursive: true });
-  const bin = path.join(host, "target/debug");
+  await cp(
+    path.resolve(process.env.HETU_TEST_PACKAGE ?? "dist"),
+    packageDirectory,
+    { recursive: true },
+  );
+  const packaged = !!process.env.HETU_PACKAGED_APP;
+  assert.ok(
+    !packaged || process.env.HETU_TEST_BIN,
+    "安装验收必须明确随包机器入口目录",
+  );
+  const bin = process.env.HETU_TEST_BIN ?? path.join(host, "target/debug");
   const env = {
     ...process.env,
     HETU_DESKTOP_PROFILE: path.join(directory, "profile"),
@@ -32,6 +41,12 @@ export async function start() {
       "apps/desktop/dist/plugin-manager.mjs",
     ),
   };
+  if (packaged) {
+    for (const key of [
+      "HETU_PLUGIN_NODE", "HETU_PLUGIN_CLI", "HETU_APP_SERVER",
+      "HETU_PLUGIN_MANAGER", "HETU_CLI", "ELECTRON_RUN_AS_NODE",
+    ]) delete (env as Record<string, string | undefined>)[key];
+  }
   const resolve = createRequire(path.join(host, "apps/desktop/package.json"));
   const { Client } = await import(
     pathToFileURL(resolve.resolve("@modelcontextprotocol/client")).href

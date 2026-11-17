@@ -37,7 +37,7 @@ npm run package
 
 ## 配置 / 参数
 
-测试使用`HETU_SOURCE`指定河图源码目录，默认相对本仓库为`../../limecloud/hetu`。无窗口渲染通过`--browser`指定Chromium可执行文件，`--ffmpeg`指定FFmpeg；完整参数见[开发与发行](docs/09-开发发布与上架.md)。
+测试使用`HETU_SOURCE`指定河图源码目录，默认相对本仓库为`../../limecloud/hetu`。正式安装验收使用`HETU_PACKAGED_APP`、`HETU_TEST_BIN`及`HETU_TEST_PACKAGE`分别指定安装版程序、随包机器入口和发行插件目录。无窗口渲染通过`--browser`指定Chromium可执行文件，`--ffmpeg`指定FFmpeg；完整参数见[开发与发行](docs/09-开发发布与上架.md)。
 
 ## 边界
 

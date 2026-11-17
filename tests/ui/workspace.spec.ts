@@ -18,10 +18,18 @@ const base = (r: any) => ({
 });
 async function launch(c: any) {
   const app = await electron.launch({
-    executablePath: createRequire(path.join(host, "package.json"))("electron"),
-    args: [path.join(host, "apps/desktop")],
+    executablePath:
+      process.env.HETU_PACKAGED_APP ??
+      createRequire(path.join(host, "package.json"))("electron"),
+    args: process.env.HETU_PACKAGED_APP
+      ? []
+      : [path.join(host, "apps/desktop")],
     env: c.env,
   });
+  if (process.env.HETU_PACKAGED_APP) {
+    expect(await app.evaluate(({ app }) => app.isPackaged)).toBe(true);
+    expect(await app.evaluate(({ app }) => app.getVersion())).toBe("0.11.2");
+  }
   await app.evaluate(({ dialog, clipboard }: any, workspace: string) => {
     dialog.showOpenDialog = async () => ({
       canceled: false,
@@ -406,6 +414,8 @@ test("真实Electron布景、机位、动画、导出、恢复、并发比较和
       JSON.stringify(
         {
           package_sha256: c.pkg.package_sha256,
+          executable: process.env.HETU_PACKAGED_APP ?? "development",
+          host_version: await app.evaluate(({ app }: any) => app.getVersion()),
           platform: process.platform,
           checks: [
             "real_electron_core",

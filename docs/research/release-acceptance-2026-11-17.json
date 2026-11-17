@@ -1,0 +1,251 @@
+{
+  "recorded_at": "2026-11-17T06:43:25.613174+00:00",
+  "status": "published_and_installed_release_acceptance_passed",
+  "release": {
+    "plugin_id": "org.wordflowlab.director-stage",
+    "version": "0.1.0",
+    "source_commit": "58a1edd7a6757bfed6612bf81bf69434442dc8b1",
+    "tag": "v0.1.0",
+    "archive": "org.wordflowlab.director-stage-0.1.0.tgz",
+    "archive_sha256": "48cf28b179ad2dec22a101734ac759e1d174e8ca6462d8c4f30f5ae1e6e815e0",
+    "package_sha256": "a5ad3022c5db21628a13aa2fda2ad06d4a883f88158fc58bd613f0328196db24",
+    "size_bytes": 937392,
+    "minimum_host_version": "0.11.2",
+    "verified_platforms": [
+      "macOS arm64"
+    ],
+    "channel": "preview"
+  },
+  "release_url": "https://github.com/wordflowlab/hetu-director-stage/releases/tag/v0.1.0",
+  "download_verification": {
+    "archive_sha256_match": true,
+    "package_sha256_match": true,
+    "source_tag_match": true,
+    "matched_files": 26
+  },
+  "host": {
+    "release_url": "https://github.com/limecloud/hetu/releases/tag/v0.11.2",
+    "workflow_url": "https://github.com/limecloud/hetu/actions/runs/44025693258",
+    "workflow_conclusion": "success",
+    "release_platform_checks": [
+      "macOS arm64",
+      "Windows x64",
+      "Linux x64"
+    ],
+    "local_installation": {
+      "version": "0.11.2",
+      "git_sha": "80f1f8ab721dddd08059c1bdce14a99de67acd8b",
+      "app_artifacts": 2798,
+      "archive_sha256": "01e2925914985c64dec1a8e335d3dd8ceb3b4a3adb606088ca201b558e297038",
+      "notarization_status": "Accepted",
+      "notarization_id": "30602077-0fac-4a76-aa8b-bc2edde3d5eb",
+      "backup_created": false
+    },
+    "codesign": "passed",
+    "gatekeeper": "accepted_notarized_developer_id"
+  },
+  "machine": {
+    "recorded_at": "2026-11-17T06:33:40.287Z",
+    "status": "passed",
+    "package_sha256": "a5ad3022c5db21628a13aa2fda2ad06d4a883f88158fc58bd613f0328196db24",
+    "actions": [
+      "skills.read",
+      "save_scene",
+      "list_scenes",
+      "get_scene",
+      "put_object",
+      "transform_objects",
+      "duplicate_objects",
+      "set_visibility",
+      "remove_objects",
+      "put_camera",
+      "remove_camera",
+      "set_environment",
+      "set_timeline",
+      "put_track",
+      "remove_track",
+      "set_shots",
+      "add_note",
+      "render_plan",
+      "compare_versions",
+      "check_scene",
+      "export_scene",
+      "fork_scene",
+      "prepare_handoff",
+      "get_operation"
+    ],
+    "project_ref": {
+      "object_id": "ext_f2947e3a-88f6-4216-9a84-fd170219f5c5",
+      "revision": 16,
+      "sha256": "96a2acbcd18844ed555fdb928a891121afb174f8618f702a0158623418722df5"
+    },
+    "platform": "darwin"
+  },
+  "UI": {
+    "journeys_passed": 3,
+    "general_journey": {
+      "package_sha256": "a5ad3022c5db21628a13aa2fda2ad06d4a883f88158fc58bd613f0328196db24",
+      "executable": "/Applications/Hetu.app/Contents/MacOS/Hetu",
+      "host_version": "0.11.2",
+      "platform": "darwin",
+      "checks": [
+        "real_electron_core",
+        "full_width",
+        "shared_gradient",
+        "actual_webgl",
+        "palette",
+        "transform",
+        "undo_redo",
+        "input_shortcuts",
+        "camera",
+        "animation",
+        "buffer_return_reopen",
+        "CAS_merge",
+        "PNG",
+        "batch_ZIP",
+        "GLB",
+        "JSON",
+        "Playblast_ZIP",
+        "trusted_handoff",
+        "light_dark",
+        "narrow",
+        "hot_disable"
+      ],
+      "metrics": {
+        "header": 48,
+        "background": "radial-gradient(at 0% 100%, color(srgb 0.862157 0.906863 0.882549), rgba(0, 0, 0, 0) 65%), radial-gradient(at 100% 0%, color(srgb 0.978039 0.974118 0.90902), rgba(0, 0, 0, 0) 60%), linear-gradient(135deg, color(srgb 0.980157 0.979765 0.947843) 10%, rgb(251, 253, 252) 52%, rgb(230, 233, 232) 100%)",
+        "border": "0.5px",
+        "overflow": false,
+        "canvas": 940
+      }
+    },
+    "first_use": "passed_on_first_run",
+    "import_visibility_duplicate_feedback_cancel": "passed_on_serial_recheck",
+    "recheck_duration_seconds": 17.1
+  },
+  "conversation_readback": {
+    "installed_cli_version": "0.11.2",
+    "project_revision": 5,
+    "project_sha256": "766e43118fc8b4f86ffe8971e98f9f9ed93bee45c35f548817ff318cb54c13e3",
+    "objects": 9,
+    "cameras": 2,
+    "readback_elapsed_seconds": 5.382,
+    "existing_codex_mcp_process_version": "0.10.0",
+    "scope": "现有Codex连接动态发现同包Skill与专业动作；新安装CLI回读原固定成果，新启动安装版MCP完整动作测试分别通过。"
+  },
+  "retained_failures": [
+    {
+      "phase": "parallel_installed_acceptance",
+      "observed_load_average_peak": 267.830078125,
+      "observed_cpu_idle_percent": 0.0,
+      "machine_failure": "set_timeline返回结果未知",
+      "UI_failure": "第三条旅程get_scene返回结果未知",
+      "recovery": "按原stage-10查询为not_found，保持原请求和原键恢复成功，修订11；保留首次记录，系统负载下降后串行机器及目标UI复验通过。",
+      "timeouts_changed": false,
+      "scope": "观测到严重系统资源压力；没有声明在该负载下的性能或确定全部超时根因。"
+    },
+    {
+      "phase": "isolated_recovery_invocation",
+      "failure": "首次恢复命令遗漏独立collaboration目录，按权限失败关闭",
+      "correction": "使用原夹具的确切collaboration目录回读，未扩大授权。"
+    },
+    {
+      "phase": "installed_conversation_readback",
+      "failure": "首次固定场景只读回读在45秒预算内未完成",
+      "correction": "保留原对象、修订和摘要，串行只读回读5.382秒通过，无内容写入。"
+    }
+  ],
+  "log_sha256": {
+    "installed-ui.log": "81d963f311b58894c8b6f062122165eec25b05ec973d3bcb1cb223a589089597",
+    "installed-ui-2.log": "9f5fba95a5ce5f05cd30ccfaca37f8b3ea82c76ff1f69ea73d04d59a2d6ea0ff",
+    "installed-machine.log": "845284d42de058b1423fbe57bb4f2618d78c1d447156df9bccb74437ff15cfc0",
+    "installed-machine-2.log": "a632888fe5068932221fccf7a4177f67d726b95ffcf9f4a6849ed0c372b9915f"
+  },
+  "not_run": [
+    "Windows/Linux插件实机",
+    "干净系统",
+    "完整辅助技术",
+    "付费模型生成",
+    "作者成片认可"
+  ],
+  "desktop_observation": {
+    "method": "Computer Use",
+    "installed_version": "0.11.2",
+    "window": "雨港旧站 导演布景验收",
+    "scene": "雨港旧站 候车亭对白",
+    "revision": 5,
+    "checks": [
+      "正式安装版打开对话工程",
+      "独立全幅插件工作面",
+      "真实WebGL画布与取景画中画",
+      "九对象与两机位",
+      "固定修订意见与继续AI入口"
+    ]
+  },
+  "website": {
+    "catalog_url": "https://hetu.limeai.run/plugins/director-stage/",
+    "catalog_source_commit": "5d12964d0eb9d099b2cc56e5fd461d724df4db20",
+    "deployment_url": "https://af6a6b16.hetu-website-3uu.pages.dev",
+    "public_browser_tests": {
+      "startTime": "2026-11-17T06:37:00.011Z",
+      "duration": 103334.75600000001,
+      "expected": 47,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "public_browser_errors": [],
+    "fixed_build_byte_matches": [
+      {
+        "path": "/plugins/",
+        "status": 200,
+        "sha256": "981e7e282d416d79dcc2e429f6594eae45bb167bf3613060bafcb0108b43b3c8"
+      },
+      {
+        "path": "/en/plugins/",
+        "status": 200,
+        "sha256": "4b0e66ba230c393fa6cd21fa4ae441e4f7e2ae532856e28ac1864e26b80b31dd"
+      },
+      {
+        "path": "/plugins/director-stage/",
+        "status": 200,
+        "sha256": "dad4b8370b48d83c5e824a0254b86f9dcb359c6c8058b651c8d94a57a01bc796"
+      },
+      {
+        "path": "/en/plugins/director-stage/",
+        "status": 200,
+        "sha256": "2ddbfc23e02230f0870b4c037074c4b787fdce2328a69d3e8dca78199d082287"
+      },
+      {
+        "path": "/plugins/director-stage.png",
+        "status": 200,
+        "sha256": "58975b1c47b7d38ddab902978abcbc3a9b13eb67e4db3cc834d09b8f5e049b77"
+      },
+      {
+        "path": "/docs/plugins/",
+        "status": 200,
+        "sha256": "274fbdf8981d105821b5fe0ce84083eb0fcd2701d2b59de13cca21952be3399d"
+      },
+      {
+        "path": "/en/docs/plugins/",
+        "status": 200,
+        "sha256": "54baa3b5f3d885814201c5436adf98a1e0526730f5f9ea2ebad5f56b77d8d3dc"
+      },
+      {
+        "path": "/blog/creative-plugins/",
+        "status": 200,
+        "sha256": "e98b9f7bd12115428d8e4a1a210fa05b0b40046924523821b688ca794a8cd53a"
+      },
+      {
+        "path": "/en/blog/creative-plugins/",
+        "status": 200,
+        "sha256": "aa5958094ac87f67b36771450afec71a21b9263db8e5ceb80b535b31608b1074"
+      }
+    ],
+    "log_sha256": {
+      "director-website-public-tests.json": "f205c740f635eecf54a35ff8ccc06b74edc9661a31cac3b627652cae76328962",
+      "director-website-public-bytes.json": "f08efe28ee55622f73d7578d6096f14f456f7b7cd4d05599040720623ab69d7e",
+      "director-website-deploy.log": "eeaf1ab67bd2de6d6a33df7e8f97d01095362d60384484349e748ad6e8d7da86"
+    }
+  }
+}
