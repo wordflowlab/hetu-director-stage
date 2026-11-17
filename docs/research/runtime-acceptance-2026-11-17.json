@@ -1,0 +1,151 @@
+{
+  "recorded_at": "2026-11-17",
+  "status": "passed",
+  "version": "0.1.0",
+  "package_sha256": "a5ad3022c5db21628a13aa2fda2ad06d4a883f88158fc58bd613f0328196db24",
+  "platform": "macOS arm64",
+  "host_source": "https://github.com/limecloud/hetu/commit/80f1f8ab721dddd08059c1bdce14a99de67acd8b",
+  "node": "25.0.0",
+  "checks": {
+    "typescript": "passed",
+    "unit_tests": 18,
+    "machine_actions": [
+      "skills.read",
+      "save_scene",
+      "list_scenes",
+      "get_scene",
+      "put_object",
+      "transform_objects",
+      "duplicate_objects",
+      "set_visibility",
+      "remove_objects",
+      "put_camera",
+      "remove_camera",
+      "set_environment",
+      "set_timeline",
+      "put_track",
+      "remove_track",
+      "set_shots",
+      "add_note",
+      "render_plan",
+      "compare_versions",
+      "check_scene",
+      "export_scene",
+      "fork_scene",
+      "prepare_handoff",
+      "get_operation"
+    ],
+    "skill_resources": [
+      "SKILL.md",
+      "references/workflow.md",
+      "references/operations.md",
+      "references/rendering.md",
+      "scripts/render-stage.mjs"
+    ],
+    "CLI_MCP_interread": true,
+    "disable_enable_uninstall_reinstall": true,
+    "history_and_unknown_recovery": true,
+    "electron_journeys": 3,
+    "electron_checks": [
+      "real_electron_core",
+      "full_width",
+      "shared_gradient",
+      "actual_webgl",
+      "palette",
+      "transform",
+      "undo_redo",
+      "input_shortcuts",
+      "camera",
+      "animation",
+      "buffer_return_reopen",
+      "CAS_merge",
+      "PNG",
+      "batch_ZIP",
+      "GLB",
+      "JSON",
+      "Playblast_ZIP",
+      "trusted_handoff",
+      "light_dark",
+      "narrow",
+      "hot_disable",
+      "invalid_JSON",
+      "JSON_import",
+      "visibility",
+      "duplicate_delete",
+      "author_note",
+      "cancel_export"
+    ],
+    "renderer": {
+      "status": "passed",
+      "platform": "darwin",
+      "presets": 18,
+      "cameras": 2,
+      "non_uniform_pixel_colors": 538,
+      "frames": 6,
+      "full_decode": true,
+      "negative_checks": [
+        "renderer_integrity",
+        "occupied_output",
+        "missing_browser_receipt"
+      ],
+      "glb_cameras": 2,
+      "glb_animations": 1,
+      "media_bytes": 10396
+    }
+  },
+  "UI": {
+    "metrics": {
+      "header": 48,
+      "background": "radial-gradient(at 0% 100%, color(srgb 0.862157 0.906863 0.882549), rgba(0, 0, 0, 0) 65%), radial-gradient(at 100% 0%, color(srgb 0.978039 0.974118 0.90902), rgba(0, 0, 0, 0) 60%), linear-gradient(135deg, color(srgb 0.980157 0.979765 0.947843) 10%, rgb(251, 253, 252) 52%, rgb(230, 233, 232) 100%)",
+      "border": "0.5px",
+      "overflow": false,
+      "canvas": 940
+    },
+    "captures": {
+      "light-wide": {
+        "path": "docs/research/evidence/ui/light-wide.png",
+        "sha256": "58975b1c47b7d38ddab902978abcbc3a9b13eb67e4db3cc834d09b8f5e049b77"
+      },
+      "camera-view": {
+        "path": "docs/research/evidence/ui/camera-view.png",
+        "sha256": "729515dee55add2119d44096695f79bd4360050523797851c1451ecd88e51e10"
+      },
+      "timeline": {
+        "path": "docs/research/evidence/ui/timeline.png",
+        "sha256": "c218fd40008d4feacde26dc30b4c269fb7f5119d160c1763ea95ec82b1c17e29"
+      },
+      "dark-wide": {
+        "path": "docs/research/evidence/ui/dark-wide.png",
+        "sha256": "7a404c5e27e1d7865f0f61d30c0f6b3e536077a29c9a95caa585b96dc2fd6eff"
+      },
+      "dark-narrow": {
+        "path": "docs/research/evidence/ui/dark-narrow.png",
+        "sha256": "b32a656d5955e4106e9a73cf2a87fd4ce43398559d26f87c9fee927d1a40bdbe"
+      }
+    },
+    "review_scores": {
+      "layout": 9,
+      "alignment_spacing": 9,
+      "typography": 9,
+      "color": 9,
+      "control_states": 9,
+      "interaction": 9
+    },
+    "score_basis": "人工设计判断，以真实浅暗/窄窗图像、计算尺寸和行为断言为依据，不是像素认证。"
+  },
+  "resolved_failures": [
+    "GUI运行时Ajv编译触发CSP拒绝，改为构建期静态校验器",
+    "坐标轴与直接拖动的事件接管冲突，直接拖动期间分离控件",
+    "初次读取期间空恢复稿覆盖原buffer，读取完成前禁止写回",
+    "异步交接测试读取剪贴板过早，等待实际完成",
+    "完整32MiB宿主Base64正则栈溢出，采用线性字符检查并核验规范重编码"
+  ],
+  "not_run": [
+    "Windows/Linux插件实机",
+    "干净系统",
+    "完整辅助技术",
+    "付费模型生成",
+    "最终演员/口型/材质质量",
+    "作者成片认可"
+  ]
+}

@@ -1,0 +1,26 @@
+[
+  {
+    "source": "02-总体架构与技术选型.md",
+    "index": 0,
+    "svg": "docs/research/evidence/02-0.mmd.svg",
+    "sha256": "e22106951e37908aff0c84de73d0b436a0f514870287e940f35df2fd0d9e8bcd"
+  },
+  {
+    "source": "03-领域模型与数据合同.md",
+    "index": 0,
+    "svg": "docs/research/evidence/03-0.mmd.svg",
+    "sha256": "90e7e52cd7507755cbaf082a7bb7b446ec8ea9b5a996d227e60474c2e6372e68"
+  },
+  {
+    "source": "04-API与Agent协作合同.md",
+    "index": 0,
+    "svg": "docs/research/evidence/04-0.mmd.svg",
+    "sha256": "980cf1c4eb79d2678e2c59c7c929e44203c8f65c62b7c7e2f0a7ec6fc0308746"
+  },
+  {
+    "source": "05-用户故事与业务流程.md",
+    "index": 0,
+    "svg": "docs/research/evidence/05-0.mmd.svg",
+    "sha256": "61c469ecc2d2061a9e135d52efe78a93ac04c99b387bd56c1b2013d2e5fdbca0"
+  }
+]

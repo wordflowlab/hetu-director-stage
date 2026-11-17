@@ -1,0 +1,35 @@
+{
+  "name": "@wordflowlab/hetu-director-stage",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "Apache-2.0",
+  "engines": {
+    "node": ">=25 <26"
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "check": "tsc --noEmit",
+    "test:unit": "node --experimental-strip-types --test tests/*.test.ts",
+    "test:machine": "npm run build && node --experimental-strip-types --test tests/machine.integration.ts",
+    "test:ui": "playwright test",
+    "test:render": "npm run build && node --experimental-strip-types --test tests/render.integration.ts",
+    "verify": "npm run check && npm run test:unit && npm run test:machine && npm run test:render && npm run test:ui",
+    "package": "npm run build && node scripts/package.mjs"
+  },
+  "dependencies": {
+    "ajv": "8.20.0",
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "three": "0.187.0"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.64.1",
+    "@types/node": "24.19.2",
+    "@types/react": "18.3.28",
+    "@types/react-dom": "18.3.7",
+    "@types/three": "0.187.0",
+    "esbuild": "0.28.2",
+    "typescript": "6.0.3"
+  }
+}

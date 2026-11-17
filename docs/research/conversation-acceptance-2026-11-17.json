@@ -1,0 +1,1144 @@
+{
+  "recorded_at": "2026-11-17",
+  "status": "passed",
+  "client": "codex",
+  "existing_connection": true,
+  "connection_host_version": "0.10.0",
+  "package_sha256": "a5ad3022c5db21628a13aa2fda2ad06d4a883f88158fc58bd613f0328196db24",
+  "plugin_id": "org.wordflowlab.director-stage",
+  "skill": "hetu-director-stage",
+  "methods_loaded_through": "hetu.plugins.invoke -> skills.read",
+  "case": "雨港旧站 候车亭对白",
+  "objects": 9,
+  "cameras": 2,
+  "timeline": {
+    "fps": 25,
+    "frames": 75,
+    "duration_seconds": 3,
+    "audio": false
+  },
+  "fixed_versions": [
+    {
+      "revision": 1,
+      "sha256": "66c73b5dd7af28352ea605f2f0d6066dfac0c122818710b0329b4554039a9a7e"
+    },
+    {
+      "revision": 5,
+      "sha256": "766e43118fc8b4f86ffe8971e98f9f9ed93bee45c35f548817ff318cb54c13e3"
+    }
+  ],
+  "checks": [
+    "从当前对话稳定MCP发现并安装插件",
+    "新建独立视频工程并固定作品来源",
+    "同包Skill与脚本资源读取",
+    "首版保存与固定回读",
+    "真实75帧预演",
+    "Agent自查意见固定旧版",
+    "植物遮挡与近景返工",
+    "近景切镜40帧改为53帧",
+    "新旧修订比较与原操作回读",
+    "下一次固定交接",
+    "两版MP4完整解码",
+    "PNG抽查与8帧联系表人工观看",
+    "GLB真实导出"
+  ],
+  "plans": {
+    "v1-headless": {
+      "plan_sha256": "4015a944340ddfa6d4ad976b127465e5146960d4380404bda822551392093959",
+      "project_revision": 1,
+      "files": [
+        {
+          "path": "frame-00000.png",
+          "sha256": "6c8851b0fe5c047624312f30b542bd2bb506605b5c08c13c65b7eb084910f70b",
+          "size_bytes": 30785,
+          "frame": 0,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00001.png",
+          "sha256": "6468d69158cfdbc8f31a23c1258a76d3b9f9d024da34b9996724c0b3d8bb3fe5",
+          "size_bytes": 31371,
+          "frame": 1,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00002.png",
+          "sha256": "8d951bb2e40e5c1b1415f7a8756174c0da40116b46f6aea466d7f70bc07e59ea",
+          "size_bytes": 31856,
+          "frame": 2,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00003.png",
+          "sha256": "36cef2da6c657d3bccc916fc1f82e5dc0114c0e4950d467e6d787accf8b02904",
+          "size_bytes": 31941,
+          "frame": 3,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00004.png",
+          "sha256": "f431f6a9dd990ce3fcb071e314d7e6e18d0e1a2724cac9d91cd04d4cce9325d9",
+          "size_bytes": 31824,
+          "frame": 4,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00005.png",
+          "sha256": "6bbb92b35012ebe97e226085d3c8b6612cdef3a544e715f7579a7475ba1d95f2",
+          "size_bytes": 32228,
+          "frame": 5,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00006.png",
+          "sha256": "3c47e8296d8239c31f26efce8ee21d75fda91d3f5b237758a3a9d365f7a7de52",
+          "size_bytes": 32221,
+          "frame": 6,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00007.png",
+          "sha256": "f7109dcd5e5fff1dfb5e6c1fa75cc2579617721ddd8b9e2a262f09407c14f720",
+          "size_bytes": 32075,
+          "frame": 7,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00008.png",
+          "sha256": "345fe1c47788c8c508165e8b3f589d78f89ce1f258612905af0965bbd6b8b3de",
+          "size_bytes": 31972,
+          "frame": 8,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00009.png",
+          "sha256": "e229f81d30b159a69d777292ac3f439de538335cf5a917b3548daf174d944d44",
+          "size_bytes": 31856,
+          "frame": 9,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00010.png",
+          "sha256": "336bc3dd4d0c120c1c55f52fa2e8ad0775b848e68e25fb333af61aaf041daba9",
+          "size_bytes": 31522,
+          "frame": 10,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00011.png",
+          "sha256": "f88adb994be0d3440e89d3a8e4815a3aaec8ccea511b8bdc427d88f6158274f3",
+          "size_bytes": 31257,
+          "frame": 11,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00012.png",
+          "sha256": "825109e9da7b5c05233736201f5b5ff8a1b6be241c4c16c7ba6774619f3df4b1",
+          "size_bytes": 30374,
+          "frame": 12,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00013.png",
+          "sha256": "f4090940842366476daebc02c3372f8d25d3189b7a3bd3baeb4eb8374d37f329",
+          "size_bytes": 30131,
+          "frame": 13,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00014.png",
+          "sha256": "2a98e0a959808a537606eb563aa80d19682702db07a43e5b7c286f81dd37d68a",
+          "size_bytes": 30751,
+          "frame": 14,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00015.png",
+          "sha256": "48317d111f03011e475a2b725150eed4e3648831d8a4de4f7a4a52c68a1a816f",
+          "size_bytes": 31216,
+          "frame": 15,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00016.png",
+          "sha256": "57b0f6e5ef22d6ae70621e42c3e49763947a5b9ba40ba802f4bada5cb05a718e",
+          "size_bytes": 31439,
+          "frame": 16,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00017.png",
+          "sha256": "5f2268d2df535f406f4f74322b6376b6e34819bc3ab8a050f6b9d523f90eadf5",
+          "size_bytes": 31600,
+          "frame": 17,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00018.png",
+          "sha256": "5be6b467dccc2278f31045b981b036794d8866514428746177529e58e06d8873",
+          "size_bytes": 31610,
+          "frame": 18,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00019.png",
+          "sha256": "c3226d1ccc0f608c89810caa4a6aea53bf7786fb625b0e1353f784a9bd7a02e8",
+          "size_bytes": 31768,
+          "frame": 19,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00020.png",
+          "sha256": "ea5722d49e165610825795b78df75f8ccbeda4d89df77a149a89247ea7c34b78",
+          "size_bytes": 31721,
+          "frame": 20,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00021.png",
+          "sha256": "451af1691cd51c8216d226d92f6037fb7d5db40271997f992f6be90786e24e1c",
+          "size_bytes": 31442,
+          "frame": 21,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00022.png",
+          "sha256": "3b37b08dbeb4c872bd2e523c1b3f64dd5b1eea8fd9e0252edc4181b28ff87c05",
+          "size_bytes": 31270,
+          "frame": 22,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00023.png",
+          "sha256": "9072eddaa67d75183f5228c977500edbb335dc757c3897ec599e1aa6054c9c82",
+          "size_bytes": 30831,
+          "frame": 23,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00024.png",
+          "sha256": "846fd1ab8339e392cf74b5b2db5335b35c50ce4c812048284f18336a0e99277d",
+          "size_bytes": 30394,
+          "frame": 24,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00025.png",
+          "sha256": "8b6d81471f1cf0b9c32f972b8f2183eb27ac1710cd5d2779f04ec4c7eae00703",
+          "size_bytes": 30169,
+          "frame": 25,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00026.png",
+          "sha256": "d48e0d0b0ea4dbdd76ca9f1a4b6c62af455a7ee4bea875a29bb230fcbfcbaf92",
+          "size_bytes": 30718,
+          "frame": 26,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00027.png",
+          "sha256": "4ff19a9a400e96650030a9b1dce566676bc0e5cdbd986c61a4183ef906742170",
+          "size_bytes": 31123,
+          "frame": 27,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00028.png",
+          "sha256": "dc61f9a19944b590961d769569da321de54ace12a35c179e490bf7468ac4f789",
+          "size_bytes": 31299,
+          "frame": 28,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00029.png",
+          "sha256": "ab7ae3429af0f5a3478d19fda4e7501f52dffd8e6a62c36629b0ce9b2efcd28e",
+          "size_bytes": 31401,
+          "frame": 29,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00030.png",
+          "sha256": "016dc8a3246ec9fd3ed69243f45c42107be53abd70f7972f3dfb1730b5418bf3",
+          "size_bytes": 31531,
+          "frame": 30,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00031.png",
+          "sha256": "98ea61c07ce5c6fbbf1560bf1984f2702583dc4e32b78a1a5dd3512939cc87cb",
+          "size_bytes": 31442,
+          "frame": 31,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00032.png",
+          "sha256": "87c9330a7a89c4ba58cacc7256897e4bed7ea9c9e014e580a83b72320236e2b4",
+          "size_bytes": 31472,
+          "frame": 32,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00033.png",
+          "sha256": "897a67b1710ccb12337043bcefeb32dd51760316823329eae2218df1d64d1cd5",
+          "size_bytes": 31163,
+          "frame": 33,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00034.png",
+          "sha256": "04972211388c070f6b6ea14b72a18a8579877c056f2249b0cb2027d6d13d72f5",
+          "size_bytes": 31082,
+          "frame": 34,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00035.png",
+          "sha256": "981579230d63020c5bd5e58282ecc839574647d32e40236895728e64b01ed96f",
+          "size_bytes": 30854,
+          "frame": 35,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00036.png",
+          "sha256": "d560cb23a7b6f23dad0abd9306a367f4ade7e94b637b50068e9e9d5d60e701ba",
+          "size_bytes": 30350,
+          "frame": 36,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00037.png",
+          "sha256": "719086c63ee0f16689293c0de93d0014f3ef0304ff252f30611e77862b7349eb",
+          "size_bytes": 29697,
+          "frame": 37,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00038.png",
+          "sha256": "5f25d6be068392e83dce9cab315e9029750a2923c9895274cd4cdc4b47588028",
+          "size_bytes": 29575,
+          "frame": 38,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00039.png",
+          "sha256": "5f91fb5a60b0860ce759d710a26a621e2422576b1efa5cc08657947dfeddda1b",
+          "size_bytes": 29819,
+          "frame": 39,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00040.png",
+          "sha256": "4b25cbb9d4396d6338efd381b9a61f20a6a298e98092e3156806ba604ec94976",
+          "size_bytes": 34108,
+          "frame": 40,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00041.png",
+          "sha256": "faf64d606da1a2a889f41b9a5a1d67ca4f3f4bc039b813f50966b3233694e571",
+          "size_bytes": 34780,
+          "frame": 41,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00042.png",
+          "sha256": "11c90fcb741d1f75ac6f93e5ea5bac886c4c544eb9977251b1a7ad2992fcb170",
+          "size_bytes": 35017,
+          "frame": 42,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00043.png",
+          "sha256": "81c97267ba579c2a0c61dd8b2de16d75070a41fef7f9643cabb86fb4dbad62cb",
+          "size_bytes": 35532,
+          "frame": 43,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00044.png",
+          "sha256": "3b70032a5cf85836a1a276de3578d96d41ae06c69e89d1d644cb0c8e1ca9137a",
+          "size_bytes": 35453,
+          "frame": 44,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00045.png",
+          "sha256": "93dce7602076d5c8636e938f8466bcba5745f058ccf190f0665c29a01be3a824",
+          "size_bytes": 35516,
+          "frame": 45,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00046.png",
+          "sha256": "7cafceda92d722a4ff3c009a9ff2b5f313b383ac8e96a5cfde9590b10c404e2b",
+          "size_bytes": 35322,
+          "frame": 46,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00047.png",
+          "sha256": "bdb71d649b235c3da2f0a6786c5652114e88716ab80471fea1446a699ccdf7e8",
+          "size_bytes": 35653,
+          "frame": 47,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00048.png",
+          "sha256": "7039236810a08f68140c93225066e79b893111c93b287cf8ccf5ead4203d722a",
+          "size_bytes": 35947,
+          "frame": 48,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00049.png",
+          "sha256": "e68538361c79845118b2cf909a303b5b335dbcae16317a289844b0fe985f39f6",
+          "size_bytes": 35459,
+          "frame": 49,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00050.png",
+          "sha256": "ad714729c8b794e70032e5834ddc6ca3821a0f9f56108671c51d92a28520671a",
+          "size_bytes": 35326,
+          "frame": 50,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00051.png",
+          "sha256": "2d5ed935e5cee2bee766ca593004d1c7b67626dac556c9281cd2cdf660cf463b",
+          "size_bytes": 35297,
+          "frame": 51,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00052.png",
+          "sha256": "03c956886d42f4a49b01c0fa59fe2332fde4f776d762c3574509abe4fe418008",
+          "size_bytes": 35301,
+          "frame": 52,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00053.png",
+          "sha256": "e0677643ffca707fe0d6a61ee370829857caf9e0fca1a46f920107a3ea99403b",
+          "size_bytes": 35258,
+          "frame": 53,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00054.png",
+          "sha256": "01617c52b77fa1bbf3110610f04eebfb81281b9a1ed154c4637b7ca43d3d437c",
+          "size_bytes": 35285,
+          "frame": 54,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00055.png",
+          "sha256": "066372522fd20cc66a99861d0f5ee325ea827e17fb661f5e731690dd28e137bf",
+          "size_bytes": 35214,
+          "frame": 55,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00056.png",
+          "sha256": "066372522fd20cc66a99861d0f5ee325ea827e17fb661f5e731690dd28e137bf",
+          "size_bytes": 35214,
+          "frame": 56,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00057.png",
+          "sha256": "066372522fd20cc66a99861d0f5ee325ea827e17fb661f5e731690dd28e137bf",
+          "size_bytes": 35214,
+          "frame": 57,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00058.png",
+          "sha256": "9bcbef19c9499017e77b4bb6f546ff0722a55e5b4d92ef385250f1dd82d79884",
+          "size_bytes": 35231,
+          "frame": 58,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00059.png",
+          "sha256": "42908dc6b41dda852c484929c31b284e486341a65d543fa15e0e82d83c5e1922",
+          "size_bytes": 35273,
+          "frame": 59,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00060.png",
+          "sha256": "9f7415542db3722d1a99fe43aecbee94647ad97ba78dbaba8267f1d9188d72ec",
+          "size_bytes": 35258,
+          "frame": 60,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00061.png",
+          "sha256": "54a1be738c20fce36cfea1214c2eac8f3d4cb39a00dcd82b6bd48816442fd722",
+          "size_bytes": 35306,
+          "frame": 61,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00062.png",
+          "sha256": "c3c5287224867e4190c73a89d7e4a03319ef017fc1d36fa4f3e4a83a5799b996",
+          "size_bytes": 35287,
+          "frame": 62,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00063.png",
+          "sha256": "51724037ef1e1588c519234e935dc3848a29cce51f63c936e99c00484dc6474e",
+          "size_bytes": 35406,
+          "frame": 63,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00064.png",
+          "sha256": "794a7d1a1f200a9925448845b88d2d77b182191dec6a2f4de9f5215eab0b6583",
+          "size_bytes": 35471,
+          "frame": 64,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00065.png",
+          "sha256": "dbb245cc86a1cccf3b03ced9f7cdbe942befaf1393055424f0928c228da00f8c",
+          "size_bytes": 35911,
+          "frame": 65,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00066.png",
+          "sha256": "457e8c8d05be08860470e393b97f5e2e97ecf5ddadc984f78ade5a009936b049",
+          "size_bytes": 36324,
+          "frame": 66,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00067.png",
+          "sha256": "a42b2e581bd3c1f343b4ca247864382eb9ee6008ad39559d5af9872c56357deb",
+          "size_bytes": 36154,
+          "frame": 67,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00068.png",
+          "sha256": "a079fa76108fd9988d1338c500ea17d5bc492def5afe17c294277e9124826b6e",
+          "size_bytes": 36024,
+          "frame": 68,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00069.png",
+          "sha256": "06fbbef72c44d012fb32f7d7f48a05842034bd017ef2f3001d79d6b5701afcce",
+          "size_bytes": 35932,
+          "frame": 69,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00070.png",
+          "sha256": "df20dab14e861412e86f631e3946b38dcf5262c47da77cfa14b4effa3a6f18ee",
+          "size_bytes": 35996,
+          "frame": 70,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00071.png",
+          "sha256": "b51da6219d0f9c76e3be9b48cf22688a0a065902397195fe1e3c611661e761cb",
+          "size_bytes": 36246,
+          "frame": 71,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00072.png",
+          "sha256": "153ad727133a2e262cf8b0c8b26afbdd460df8f8360be47e676a8d48f91ba38e",
+          "size_bytes": 36236,
+          "frame": 72,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00073.png",
+          "sha256": "bb882f33d0effdf9bb592cd1717e54338f089382f2d42c170b15ce231a84ff58",
+          "size_bytes": 35630,
+          "frame": 73,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00074.png",
+          "sha256": "e68538361c79845118b2cf909a303b5b335dbcae16317a289844b0fe985f39f6",
+          "size_bytes": 35459,
+          "frame": 74,
+          "camera_id": null
+        },
+        {
+          "path": "previs.mp4",
+          "sha256": "df40898ae4b3499b13db868f02ac721c9901017883f14ef133ed706ea36f9795",
+          "size_bytes": 24687
+        }
+      ]
+    },
+    "v2": {
+      "plan_sha256": "a02026ad5e0e27f1f725da93d282698d63f52b637117a66e10c57d87ba677b1c",
+      "project_revision": 5,
+      "files": [
+        {
+          "path": "frame-00000.png",
+          "sha256": "26ca19a1c8282fc8b996435a77564f94f8ae6ba282efb3a9747dce5fb4f8c1fc",
+          "size_bytes": 31646,
+          "frame": 0,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00001.png",
+          "sha256": "fdbaf773cd21dcd1733bacc08eaeac081489de181bac1e83988f10ead294d382",
+          "size_bytes": 32236,
+          "frame": 1,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00002.png",
+          "sha256": "b56f804a540c954364f1b868b4e9f52ff88f050367fd156265a385494de0c514",
+          "size_bytes": 32742,
+          "frame": 2,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00003.png",
+          "sha256": "f14b0c2cca35703f786010b3ddc4ad3b9fa0c5c765a73803d4fed826346a0f9e",
+          "size_bytes": 32823,
+          "frame": 3,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00004.png",
+          "sha256": "934194c30d5ab51945d1dcff1a0c1c9c2ed77883b5c8081f30458ffeb38d0234",
+          "size_bytes": 32706,
+          "frame": 4,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00005.png",
+          "sha256": "70f9818d35919cba7aa374b99bc0e0050f4fa13f79c07060e17b89f4846a8db2",
+          "size_bytes": 33112,
+          "frame": 5,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00006.png",
+          "sha256": "c1923176029396e9cdabf6453c14166aab0cd3fe8c403956d8701a3e548b62ca",
+          "size_bytes": 33083,
+          "frame": 6,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00007.png",
+          "sha256": "ed92392182d45c6333c7fda7c8f8a02600381a3446fae39b332b8e373f00c161",
+          "size_bytes": 32959,
+          "frame": 7,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00008.png",
+          "sha256": "9ad2186493e25fd62152267210398f4b44811aa8d745879ba35e943deee2959f",
+          "size_bytes": 32850,
+          "frame": 8,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00009.png",
+          "sha256": "6499afafdc985515c469847dac24bc04cfaff8b29a18e2a31b3167e5bb6ffa49",
+          "size_bytes": 32720,
+          "frame": 9,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00010.png",
+          "sha256": "5b61096b9ea4daeded829da5d44685896f7242e3ee5f279e4d4ce42d838cf255",
+          "size_bytes": 32366,
+          "frame": 10,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00011.png",
+          "sha256": "170803bf941406b7ac030366bb06cbcdac2fc8414292109278d0ef1622cef0ab",
+          "size_bytes": 32121,
+          "frame": 11,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00012.png",
+          "sha256": "455281acdd99cfb5167f033656a04b06edc530664ea55962a2cf76f908153b9a",
+          "size_bytes": 31239,
+          "frame": 12,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00013.png",
+          "sha256": "e41d57ff9cf35cd085033b2dc1f765af3e2a034749148d7a4228e795dd595add",
+          "size_bytes": 31001,
+          "frame": 13,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00014.png",
+          "sha256": "97b6bffd3995d598c453e33d0792efa15280ac131e0a5efc6feb7512f44ff0ae",
+          "size_bytes": 31575,
+          "frame": 14,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00015.png",
+          "sha256": "488e1ee0ed8c278a51dd04b8aa0614a2afd0bc2591286233079be86d1697d61a",
+          "size_bytes": 32078,
+          "frame": 15,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00016.png",
+          "sha256": "8d12013c1faca6948e135ab3cfba74d4d76fb9a07a9d796513da1470e8252062",
+          "size_bytes": 32313,
+          "frame": 16,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00017.png",
+          "sha256": "99ebe6bc5c31628b540b6dc44ab1b03d5a6513642e0c1efa9e8aa5eb2c44bcd6",
+          "size_bytes": 32476,
+          "frame": 17,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00018.png",
+          "sha256": "7bd3b0d373a98e89771c443e44bd4b72592ad33f293fdc011bcfc1857b199f9b",
+          "size_bytes": 32492,
+          "frame": 18,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00019.png",
+          "sha256": "c206239f8644d4229a4960df9ca483af89437067fe06c36c6dc4c0502f850471",
+          "size_bytes": 32639,
+          "frame": 19,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00020.png",
+          "sha256": "79d6d8b3609ab9adeb0fc25e905c2316fa7e09dac9fe9d09888b5dc31b84949b",
+          "size_bytes": 32568,
+          "frame": 20,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00021.png",
+          "sha256": "88135680881fef145ef2f57ff76491ebd3ab0bc99775be4f2b45ef709bf1ff67",
+          "size_bytes": 32298,
+          "frame": 21,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00022.png",
+          "sha256": "6c657e8da6161aec200b888ceaa9907e90cf3bc1a59837a47555049ccb885c0c",
+          "size_bytes": 32108,
+          "frame": 22,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00023.png",
+          "sha256": "859a43d49140f9aef1635a6589637d454a33f534033a32b11244d45f11d59865",
+          "size_bytes": 31696,
+          "frame": 23,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00024.png",
+          "sha256": "d5a841b855b2c40fdeb7f8eae97ff4df1451e47e410b06e51926dbea49d36a60",
+          "size_bytes": 31258,
+          "frame": 24,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00025.png",
+          "sha256": "6f7b2a92096342791aeecd0a234697d7ead8a6d0c7b4271c6e88b51c8f1e6836",
+          "size_bytes": 31036,
+          "frame": 25,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00026.png",
+          "sha256": "acd68a494ce310abe5179f8a36a92af46e74e54f9016214720fac1c1de66830d",
+          "size_bytes": 31598,
+          "frame": 26,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00027.png",
+          "sha256": "5230a3e412293ce2e40a49fd441d6ff2263f4d716018c25509dde45aaf908458",
+          "size_bytes": 31989,
+          "frame": 27,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00028.png",
+          "sha256": "1e38a59484e35d6a14c3e7974d5243e7be3f8a05aea78e8dd50fceab1ad5e082",
+          "size_bytes": 32156,
+          "frame": 28,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00029.png",
+          "sha256": "014a3953ee0cafe4738ea69935079935695153ac213621f6ff836c0ed42edf4c",
+          "size_bytes": 32272,
+          "frame": 29,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00030.png",
+          "sha256": "ed33ec1ef5ac0acecf0cd06444a04cb029211f3d4ee3f363013f41613a308908",
+          "size_bytes": 32369,
+          "frame": 30,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00031.png",
+          "sha256": "fd3530bd6e6bb40dd5480b491d81dbc8624cb6f82302c5ad0f6c36f91a2af130",
+          "size_bytes": 32278,
+          "frame": 31,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00032.png",
+          "sha256": "ae1ef304e1c68f6bae83e83a8c4bf3daa4f034e92bb73332db964b3cdc01de8b",
+          "size_bytes": 32352,
+          "frame": 32,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00033.png",
+          "sha256": "5b3e242812ed2fd1d1c90f24de32a62f040da6609b947fbc10bf63458d47f50e",
+          "size_bytes": 32012,
+          "frame": 33,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00034.png",
+          "sha256": "099a69db3ea8663a451923bf8f9e6ea03151bf29fdae815efd3cf3f0e1dd000e",
+          "size_bytes": 31915,
+          "frame": 34,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00035.png",
+          "sha256": "88cd273ae08aa61c392cd803b348ec57f53f97e283a4121a22fead16c69804a6",
+          "size_bytes": 31695,
+          "frame": 35,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00036.png",
+          "sha256": "f5ff20cb3de1794c96b79659aa40274558ba574ca6140ad87ee4427057a04baa",
+          "size_bytes": 31272,
+          "frame": 36,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00037.png",
+          "sha256": "026ce62330bcd9341d6d53bdaf177944fc90808ea854e0bf731f213fb017b098",
+          "size_bytes": 30543,
+          "frame": 37,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00038.png",
+          "sha256": "b58d021d7ccc32b5a7cff5885eda1f76e79b5ef8be5a200e3757beabcd919663",
+          "size_bytes": 30425,
+          "frame": 38,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00039.png",
+          "sha256": "a6ffe6b9299325ef59e699b7e232fe1e941ea053a33fd934705ff307fc927dd2",
+          "size_bytes": 30655,
+          "frame": 39,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00040.png",
+          "sha256": "9fd98e7153ef6171c9cdd59658f5b2eaeb05c4e40a015c727b453e26f183a696",
+          "size_bytes": 31103,
+          "frame": 40,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00041.png",
+          "sha256": "153591ada49cbd2e7f002413372908a4cdde552a090186e2de485697b4b81429",
+          "size_bytes": 31211,
+          "frame": 41,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00042.png",
+          "sha256": "05d6ee5204c8b5768c483f91855afc2878e2da82de70180f6b86bb59321be47b",
+          "size_bytes": 31406,
+          "frame": 42,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00043.png",
+          "sha256": "d075c2de73fb88c5ba7edd93f6bea38992d7b9bf2ad0cdb9c57347ebff371e15",
+          "size_bytes": 31481,
+          "frame": 43,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00044.png",
+          "sha256": "c41bf5af5b7ded964bcf4ec309be33bd0707fbb01a312a1506f5149a4af18ee5",
+          "size_bytes": 31435,
+          "frame": 44,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00045.png",
+          "sha256": "84a224e5d05403b9c0c0f888a558367387509f08d435ae0c471fd4646831c691",
+          "size_bytes": 31440,
+          "frame": 45,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00046.png",
+          "sha256": "6c2be2be7cf75688537d6e3f9b83eae37450f839d760d4312ea08bebebd5151c",
+          "size_bytes": 31152,
+          "frame": 46,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00047.png",
+          "sha256": "e6bbfff76c716f4eb539c6205485e0edc88eed7aa0703274d78e61665da432f1",
+          "size_bytes": 31059,
+          "frame": 47,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00048.png",
+          "sha256": "a7c3c1b950bbeeb5aa54a93e43b9ecf9e7228435bb28f13fa85909706a2cae99",
+          "size_bytes": 30639,
+          "frame": 48,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00049.png",
+          "sha256": "27a3916d751d62dc1723311fa674a8cc4d771bea45447bac14108f5a9cb0e6b6",
+          "size_bytes": 30313,
+          "frame": 49,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00050.png",
+          "sha256": "f2e9876943e1233bbf83d3ff2539604f30c985331c25e1ec50329bd5f6a4b2e4",
+          "size_bytes": 29598,
+          "frame": 50,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00051.png",
+          "sha256": "471b85bb678edf6a7e5a3aa974bc70cc4779256542176dc28cce0ad9c120fe38",
+          "size_bytes": 30523,
+          "frame": 51,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00052.png",
+          "sha256": "c1e339f5ca71f5c409a9fe456de938d66e75fbb88d8c50c0dbddf3fe4663fcb3",
+          "size_bytes": 30931,
+          "frame": 52,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00053.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 53,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00054.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 54,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00055.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 55,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00056.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 56,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00057.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 57,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00058.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 58,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00059.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 59,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00060.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 60,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00061.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 61,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00062.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 62,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00063.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 63,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00064.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 64,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00065.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 65,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00066.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 66,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00067.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 67,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00068.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 68,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00069.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 69,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00070.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 70,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00071.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 71,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00072.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 72,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00073.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 73,
+          "camera_id": null
+        },
+        {
+          "path": "frame-00074.png",
+          "sha256": "4c797d046c19f24c3d251a06631fd9a62c1825060e3342e12d215f5dc2a7dafa",
+          "size_bytes": 29792,
+          "frame": 74,
+          "camera_id": null
+        },
+        {
+          "path": "previs.mp4",
+          "sha256": "6a5a717fcfd532d60836a1b549ab1dd32d273ce7c6489314ea0363ed40615112",
+          "size_bytes": 23245
+        }
+      ]
+    },
+    "engineering": {
+      "plan_sha256": "a02026ad5e0e27f1f725da93d282698d63f52b637117a66e10c57d87ba677b1c",
+      "project_revision": 5,
+      "files": [
+        {
+          "path": "scene.glb",
+          "sha256": "51af5dde0a006de9b0b3e958a3679469ba569e32b133789db782741b4d3e8619",
+          "size_bytes": 258468,
+          "frame": 0,
+          "camera_id": null
+        }
+      ]
+    }
+  },
+  "visual_review": {
+    "range": "两版首帧、切镜前后及联系表；完整解码另行执行",
+    "observation": "首版植物与人物头部重叠；第二版移开植物并收紧人物近景，切镜从40延后到53。",
+    "origin": "agent",
+    "author_approval": false
+  },
+  "browser": {
+    "verified": "Playwright Chromium headless shell macOS arm64",
+    "explicit_full_Chrome": "Page.navigate超时，保留failure.json；不据此声明支持本机全部Chrome版本",
+    "default": "优先发现已有headless shell，使用独立页和回环直连；明确指定浏览器失败不自动切换"
+  },
+  "privacy": "完整授权、请求和回执仅保存在本机output，发布记录不包含management_ref或本机用户路径。"
+}

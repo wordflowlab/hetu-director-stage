@@ -1,0 +1,3743 @@
+{
+ "manifest_version": 1,
+ "host_api": "1",
+ "id": "org.wordflowlab.director-stage",
+ "version": "0.1.0",
+ "display": {
+  "zh-CN": "导演布景台",
+  "en": "Director Stage"
+ },
+ "description": {
+  "zh-CN": "可由Agent操作的三维白模布景、机位、动画预演和可恢复工程。",
+  "en": "Agent-operated 3D blocking, cameras, previs and recoverable creative projects."
+ },
+ "license": "Apache-2.0",
+ "dependencies": [],
+ "runtime": {
+  "entry": "backend.mjs"
+ },
+ "contributions": {
+  "views": [
+   {
+    "id": "main",
+    "title": "导演布景台",
+    "entry": "index.html",
+    "object_kinds": [
+     "director_stage_scene"
+    ],
+    "navigation": "integrated"
+   }
+  ],
+  "data": [
+   {
+    "kind": "director_stage_scene",
+    "schema_version": "1.0.0",
+    "schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "format_version": {
+       "const": 1
+      },
+      "title": {
+       "type": "string",
+       "maxLength": 200,
+       "minLength": 1
+      },
+      "description": {
+       "type": "string",
+       "maxLength": 8000,
+       "minLength": 0
+      },
+      "objects": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "name": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+         },
+         "preset": {
+          "type": "string",
+          "enum": [
+           "person-standing",
+           "person-walking",
+           "person-light",
+           "table",
+           "chair",
+           "sofa",
+           "bed",
+           "rug",
+           "floor-lamp",
+           "plant",
+           "wall-3m",
+           "wall-5m",
+           "door-wall",
+           "steps",
+           "box",
+           "sphere",
+           "cylinder",
+           "plane"
+          ]
+         },
+         "transform": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "position": {
+            "type": "array",
+            "items": {
+             "type": "number",
+             "minimum": -10000,
+             "maximum": 10000
+            },
+            "minItems": 3,
+            "maxItems": 3
+           },
+           "rotation": {
+            "type": "array",
+            "items": {
+             "type": "number",
+             "minimum": -3600,
+             "maximum": 3600
+            },
+            "minItems": 3,
+            "maxItems": 3
+           },
+           "scale": {
+            "type": "array",
+            "items": {
+             "type": "number",
+             "minimum": 0.01,
+             "maximum": 100
+            },
+            "minItems": 3,
+            "maxItems": 3
+           }
+          },
+          "required": [
+           "position",
+           "rotation",
+           "scale"
+          ]
+         },
+         "visible": {
+          "type": "boolean"
+         },
+         "locked": {
+          "type": "boolean"
+         },
+         "source_index": {
+          "anyOf": [
+           {
+            "type": "null"
+           },
+           {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 99
+           }
+          ]
+         }
+        },
+        "required": [
+         "id",
+         "name",
+         "preset",
+         "transform",
+         "visible",
+         "locked",
+         "source_index"
+        ]
+       },
+       "maxItems": 200
+      },
+      "cameras": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "name": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+         },
+         "position": {
+          "type": "array",
+          "items": {
+           "type": "number",
+           "minimum": -10000,
+           "maximum": 10000
+          },
+          "minItems": 3,
+          "maxItems": 3
+         },
+         "target": {
+          "type": "array",
+          "items": {
+           "type": "number",
+           "minimum": -10000,
+           "maximum": 10000
+          },
+          "minItems": 3,
+          "maxItems": 3
+         },
+         "focal_length_mm": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 200
+         },
+         "sensor_width_mm": {
+          "type": "number",
+          "minimum": 10,
+          "maximum": 70
+         },
+         "near": {
+          "type": "number",
+          "minimum": 0.001,
+          "maximum": 10
+         },
+         "far": {
+          "type": "number",
+          "minimum": 20,
+          "maximum": 10000
+         }
+        },
+        "required": [
+         "id",
+         "name",
+         "position",
+         "target",
+         "focal_length_mm",
+         "sensor_width_mm",
+         "near",
+         "far"
+        ]
+       },
+       "maxItems": 24,
+       "minItems": 1
+      },
+      "environment": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "ground": {
+         "type": "boolean"
+        },
+        "shadows": {
+         "type": "boolean"
+        },
+        "grid": {
+         "type": "boolean"
+        },
+        "white_model": {
+         "type": "boolean"
+        },
+        "background": {
+         "type": "string",
+         "enum": [
+          "studio",
+          "dark"
+         ]
+        },
+        "sun_azimuth": {
+         "type": "number",
+         "minimum": -360,
+         "maximum": 360
+        },
+        "sun_elevation": {
+         "type": "number",
+         "minimum": 5,
+         "maximum": 85
+        }
+       },
+       "required": [
+        "ground",
+        "shadows",
+        "grid",
+        "white_model",
+        "background",
+        "sun_azimuth",
+        "sun_elevation"
+       ]
+      },
+      "timeline": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "fps": {
+         "type": "integer",
+         "minimum": 1,
+         "maximum": 60
+        },
+        "duration_frames": {
+         "type": "integer",
+         "minimum": 1,
+         "maximum": 1500
+        }
+       },
+       "required": [
+        "fps",
+        "duration_frames"
+       ]
+      },
+      "tracks": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "target_kind": {
+          "type": "string",
+          "enum": [
+           "object",
+           "camera"
+          ]
+         },
+         "target_id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "property": {
+          "type": "string",
+          "enum": [
+           "position",
+           "rotation",
+           "scale",
+           "target"
+          ]
+         },
+         "interpolation": {
+          "type": "string",
+          "enum": [
+           "linear",
+           "step"
+          ]
+         },
+         "keyframes": {
+          "type": "array",
+          "items": {
+           "type": "object",
+           "additionalProperties": false,
+           "properties": {
+            "frame": {
+             "type": "integer",
+             "minimum": 0,
+             "maximum": 1499
+            },
+            "value": {
+             "type": "array",
+             "items": {
+              "type": "number",
+              "minimum": -10000,
+              "maximum": 10000
+             },
+             "minItems": 3,
+             "maxItems": 3
+            }
+           },
+           "required": [
+            "frame",
+            "value"
+           ]
+          },
+          "maxItems": 1000,
+          "minItems": 1
+         }
+        },
+        "required": [
+         "id",
+         "target_kind",
+         "target_id",
+         "property",
+         "interpolation",
+         "keyframes"
+        ]
+       },
+       "maxItems": 200
+      },
+      "shots": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "camera_id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "start": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1499
+         },
+         "end": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1500
+         }
+        },
+        "required": [
+         "id",
+         "camera_id",
+         "start",
+         "end"
+        ]
+       },
+       "maxItems": 200
+      },
+      "notes": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "origin": {
+          "type": "string",
+          "enum": [
+           "author",
+           "agent"
+          ]
+         },
+         "text": {
+          "type": "string",
+          "maxLength": 8000,
+          "minLength": 1
+         },
+         "target_id": {
+          "anyOf": [
+           {
+            "type": "null"
+           },
+           {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          ]
+         },
+         "fixed_revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "frame": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1499
+         }
+        },
+        "required": [
+         "id",
+         "origin",
+         "text",
+         "target_id",
+         "fixed_revision",
+         "frame"
+        ]
+       },
+       "maxItems": 200
+      }
+     },
+     "required": [
+      "format_version",
+      "title",
+      "description",
+      "objects",
+      "cameras",
+      "environment",
+      "timeline",
+      "tracks",
+      "shots",
+      "notes"
+     ]
+    }
+   }
+  ],
+  "actions": [
+   {
+    "id": "list_scenes",
+    "title": "查找场景",
+    "effect": "read",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "query": {
+       "type": "string",
+       "maxLength": 1000,
+       "minLength": 0
+      },
+      "limit": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 100
+      },
+      "cursor": {
+       "type": "string",
+       "maxLength": 4000,
+       "minLength": 0
+      }
+     },
+     "required": []
+    }
+   },
+   {
+    "id": "get_scene",
+    "title": "读取固定场景",
+    "effect": "read",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "projection": {
+       "type": "string",
+       "enum": [
+        "full",
+        "summary"
+       ]
+      }
+     },
+     "required": [
+      "object_id"
+     ]
+    }
+   },
+   {
+    "id": "save_scene",
+    "title": "保存完整场景",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 0,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "maxLength": 64,
+       "minLength": 0
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "content": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "format_version": {
+         "const": 1
+        },
+        "title": {
+         "type": "string",
+         "maxLength": 200,
+         "minLength": 1
+        },
+        "description": {
+         "type": "string",
+         "maxLength": 8000,
+         "minLength": 0
+        },
+        "objects": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+           },
+           "preset": {
+            "type": "string",
+            "enum": [
+             "person-standing",
+             "person-walking",
+             "person-light",
+             "table",
+             "chair",
+             "sofa",
+             "bed",
+             "rug",
+             "floor-lamp",
+             "plant",
+             "wall-3m",
+             "wall-5m",
+             "door-wall",
+             "steps",
+             "box",
+             "sphere",
+             "cylinder",
+             "plane"
+            ]
+           },
+           "transform": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+             "position": {
+              "type": "array",
+              "items": {
+               "type": "number",
+               "minimum": -10000,
+               "maximum": 10000
+              },
+              "minItems": 3,
+              "maxItems": 3
+             },
+             "rotation": {
+              "type": "array",
+              "items": {
+               "type": "number",
+               "minimum": -3600,
+               "maximum": 3600
+              },
+              "minItems": 3,
+              "maxItems": 3
+             },
+             "scale": {
+              "type": "array",
+              "items": {
+               "type": "number",
+               "minimum": 0.01,
+               "maximum": 100
+              },
+              "minItems": 3,
+              "maxItems": 3
+             }
+            },
+            "required": [
+             "position",
+             "rotation",
+             "scale"
+            ]
+           },
+           "visible": {
+            "type": "boolean"
+           },
+           "locked": {
+            "type": "boolean"
+           },
+           "source_index": {
+            "anyOf": [
+             {
+              "type": "null"
+             },
+             {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 99
+             }
+            ]
+           }
+          },
+          "required": [
+           "id",
+           "name",
+           "preset",
+           "transform",
+           "visible",
+           "locked",
+           "source_index"
+          ]
+         },
+         "maxItems": 200
+        },
+        "cameras": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "name": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1
+           },
+           "position": {
+            "type": "array",
+            "items": {
+             "type": "number",
+             "minimum": -10000,
+             "maximum": 10000
+            },
+            "minItems": 3,
+            "maxItems": 3
+           },
+           "target": {
+            "type": "array",
+            "items": {
+             "type": "number",
+             "minimum": -10000,
+             "maximum": 10000
+            },
+            "minItems": 3,
+            "maxItems": 3
+           },
+           "focal_length_mm": {
+            "type": "number",
+            "minimum": 10,
+            "maximum": 200
+           },
+           "sensor_width_mm": {
+            "type": "number",
+            "minimum": 10,
+            "maximum": 70
+           },
+           "near": {
+            "type": "number",
+            "minimum": 0.001,
+            "maximum": 10
+           },
+           "far": {
+            "type": "number",
+            "minimum": 20,
+            "maximum": 10000
+           }
+          },
+          "required": [
+           "id",
+           "name",
+           "position",
+           "target",
+           "focal_length_mm",
+           "sensor_width_mm",
+           "near",
+           "far"
+          ]
+         },
+         "maxItems": 24,
+         "minItems": 1
+        },
+        "environment": {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "ground": {
+           "type": "boolean"
+          },
+          "shadows": {
+           "type": "boolean"
+          },
+          "grid": {
+           "type": "boolean"
+          },
+          "white_model": {
+           "type": "boolean"
+          },
+          "background": {
+           "type": "string",
+           "enum": [
+            "studio",
+            "dark"
+           ]
+          },
+          "sun_azimuth": {
+           "type": "number",
+           "minimum": -360,
+           "maximum": 360
+          },
+          "sun_elevation": {
+           "type": "number",
+           "minimum": 5,
+           "maximum": 85
+          }
+         },
+         "required": [
+          "ground",
+          "shadows",
+          "grid",
+          "white_model",
+          "background",
+          "sun_azimuth",
+          "sun_elevation"
+         ]
+        },
+        "timeline": {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "fps": {
+           "type": "integer",
+           "minimum": 1,
+           "maximum": 60
+          },
+          "duration_frames": {
+           "type": "integer",
+           "minimum": 1,
+           "maximum": 1500
+          }
+         },
+         "required": [
+          "fps",
+          "duration_frames"
+         ]
+        },
+        "tracks": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "target_kind": {
+            "type": "string",
+            "enum": [
+             "object",
+             "camera"
+            ]
+           },
+           "target_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "property": {
+            "type": "string",
+            "enum": [
+             "position",
+             "rotation",
+             "scale",
+             "target"
+            ]
+           },
+           "interpolation": {
+            "type": "string",
+            "enum": [
+             "linear",
+             "step"
+            ]
+           },
+           "keyframes": {
+            "type": "array",
+            "items": {
+             "type": "object",
+             "additionalProperties": false,
+             "properties": {
+              "frame": {
+               "type": "integer",
+               "minimum": 0,
+               "maximum": 1499
+              },
+              "value": {
+               "type": "array",
+               "items": {
+                "type": "number",
+                "minimum": -10000,
+                "maximum": 10000
+               },
+               "minItems": 3,
+               "maxItems": 3
+              }
+             },
+             "required": [
+              "frame",
+              "value"
+             ]
+            },
+            "maxItems": 1000,
+            "minItems": 1
+           }
+          },
+          "required": [
+           "id",
+           "target_kind",
+           "target_id",
+           "property",
+           "interpolation",
+           "keyframes"
+          ]
+         },
+         "maxItems": 200
+        },
+        "shots": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "camera_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "start": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1499
+           },
+           "end": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1500
+           }
+          },
+          "required": [
+           "id",
+           "camera_id",
+           "start",
+           "end"
+          ]
+         },
+         "maxItems": 200
+        },
+        "notes": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "origin": {
+            "type": "string",
+            "enum": [
+             "author",
+             "agent"
+            ]
+           },
+           "text": {
+            "type": "string",
+            "maxLength": 8000,
+            "minLength": 1
+           },
+           "target_id": {
+            "anyOf": [
+             {
+              "type": "null"
+             },
+             {
+              "type": "string",
+              "maxLength": 100,
+              "minLength": 1
+             }
+            ]
+           },
+           "fixed_revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           },
+           "frame": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1499
+           }
+          },
+          "required": [
+           "id",
+           "origin",
+           "text",
+           "target_id",
+           "fixed_revision",
+           "frame"
+          ]
+         },
+         "maxItems": 200
+        }
+       },
+       "required": [
+        "format_version",
+        "title",
+        "description",
+        "objects",
+        "cameras",
+        "environment",
+        "timeline",
+        "tracks",
+        "shots",
+        "notes"
+       ]
+      }
+     },
+     "required": [
+      "content",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key"
+     ]
+    }
+   },
+   {
+    "id": "put_object",
+    "title": "添加或修改白模对象",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "object": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "id": {
+         "type": "string",
+         "maxLength": 100,
+         "minLength": 1
+        },
+        "name": {
+         "type": "string",
+         "maxLength": 200,
+         "minLength": 1
+        },
+        "preset": {
+         "type": "string",
+         "enum": [
+          "person-standing",
+          "person-walking",
+          "person-light",
+          "table",
+          "chair",
+          "sofa",
+          "bed",
+          "rug",
+          "floor-lamp",
+          "plant",
+          "wall-3m",
+          "wall-5m",
+          "door-wall",
+          "steps",
+          "box",
+          "sphere",
+          "cylinder",
+          "plane"
+         ]
+        },
+        "transform": {
+         "type": "object",
+         "additionalProperties": false,
+         "properties": {
+          "position": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "minimum": -10000,
+            "maximum": 10000
+           },
+           "minItems": 3,
+           "maxItems": 3
+          },
+          "rotation": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "minimum": -3600,
+            "maximum": 3600
+           },
+           "minItems": 3,
+           "maxItems": 3
+          },
+          "scale": {
+           "type": "array",
+           "items": {
+            "type": "number",
+            "minimum": 0.01,
+            "maximum": 100
+           },
+           "minItems": 3,
+           "maxItems": 3
+          }
+         },
+         "required": [
+          "position",
+          "rotation",
+          "scale"
+         ]
+        },
+        "visible": {
+         "type": "boolean"
+        },
+        "locked": {
+         "type": "boolean"
+        },
+        "source_index": {
+         "anyOf": [
+          {
+           "type": "null"
+          },
+          {
+           "type": "integer",
+           "minimum": 0,
+           "maximum": 99
+          }
+         ]
+        }
+       },
+       "required": [
+        "id",
+        "name",
+        "preset",
+        "transform",
+        "visible",
+        "locked",
+        "source_index"
+       ]
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "object"
+     ]
+    }
+   },
+   {
+    "id": "transform_objects",
+    "title": "修改对象变换",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "changes": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "transform": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "position": {
+            "type": "array",
+            "items": {
+             "type": "number",
+             "minimum": -10000,
+             "maximum": 10000
+            },
+            "minItems": 3,
+            "maxItems": 3
+           },
+           "rotation": {
+            "type": "array",
+            "items": {
+             "type": "number",
+             "minimum": -3600,
+             "maximum": 3600
+            },
+            "minItems": 3,
+            "maxItems": 3
+           },
+           "scale": {
+            "type": "array",
+            "items": {
+             "type": "number",
+             "minimum": 0.01,
+             "maximum": 100
+            },
+            "minItems": 3,
+            "maxItems": 3
+           }
+          },
+          "required": [
+           "position",
+           "rotation",
+           "scale"
+          ]
+         }
+        },
+        "required": [
+         "id",
+         "transform"
+        ]
+       },
+       "maxItems": 200,
+       "minItems": 1
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "changes"
+     ]
+    }
+   },
+   {
+    "id": "duplicate_objects",
+    "title": "复制对象",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "items": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "source_id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "new_id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "name": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 1
+         }
+        },
+        "required": [
+         "source_id",
+         "new_id",
+         "name"
+        ]
+       },
+       "maxItems": 200,
+       "minItems": 1
+      },
+      "offset": {
+       "type": "array",
+       "items": {
+        "type": "number",
+        "minimum": -10000,
+        "maximum": 10000
+       },
+       "minItems": 3,
+       "maxItems": 3
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "items",
+      "offset"
+     ]
+    }
+   },
+   {
+    "id": "remove_objects",
+    "title": "移除对象及其轨道",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "object_ids": {
+       "type": "array",
+       "items": {
+        "type": "string",
+        "maxLength": 100,
+        "minLength": 1
+       },
+       "maxItems": 200,
+       "minItems": 1
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "object_ids"
+     ]
+    }
+   },
+   {
+    "id": "set_visibility",
+    "title": "设置对象显隐",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "object_ids": {
+       "type": "array",
+       "items": {
+        "type": "string",
+        "maxLength": 100,
+        "minLength": 1
+       },
+       "maxItems": 200,
+       "minItems": 1
+      },
+      "visible": {
+       "type": "boolean"
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "object_ids",
+      "visible"
+     ]
+    }
+   },
+   {
+    "id": "put_camera",
+    "title": "添加或修改机位",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "camera": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "id": {
+         "type": "string",
+         "maxLength": 100,
+         "minLength": 1
+        },
+        "name": {
+         "type": "string",
+         "maxLength": 200,
+         "minLength": 1
+        },
+        "position": {
+         "type": "array",
+         "items": {
+          "type": "number",
+          "minimum": -10000,
+          "maximum": 10000
+         },
+         "minItems": 3,
+         "maxItems": 3
+        },
+        "target": {
+         "type": "array",
+         "items": {
+          "type": "number",
+          "minimum": -10000,
+          "maximum": 10000
+         },
+         "minItems": 3,
+         "maxItems": 3
+        },
+        "focal_length_mm": {
+         "type": "number",
+         "minimum": 10,
+         "maximum": 200
+        },
+        "sensor_width_mm": {
+         "type": "number",
+         "minimum": 10,
+         "maximum": 70
+        },
+        "near": {
+         "type": "number",
+         "minimum": 0.001,
+         "maximum": 10
+        },
+        "far": {
+         "type": "number",
+         "minimum": 20,
+         "maximum": 10000
+        }
+       },
+       "required": [
+        "id",
+        "name",
+        "position",
+        "target",
+        "focal_length_mm",
+        "sensor_width_mm",
+        "near",
+        "far"
+       ]
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "camera"
+     ]
+    }
+   },
+   {
+    "id": "remove_camera",
+    "title": "移除无引用机位",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "camera_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "camera_id"
+     ]
+    }
+   },
+   {
+    "id": "set_environment",
+    "title": "设置场景环境",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "environment": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "ground": {
+         "type": "boolean"
+        },
+        "shadows": {
+         "type": "boolean"
+        },
+        "grid": {
+         "type": "boolean"
+        },
+        "white_model": {
+         "type": "boolean"
+        },
+        "background": {
+         "type": "string",
+         "enum": [
+          "studio",
+          "dark"
+         ]
+        },
+        "sun_azimuth": {
+         "type": "number",
+         "minimum": -360,
+         "maximum": 360
+        },
+        "sun_elevation": {
+         "type": "number",
+         "minimum": 5,
+         "maximum": 85
+        }
+       },
+       "required": [
+        "ground",
+        "shadows",
+        "grid",
+        "white_model",
+        "background",
+        "sun_azimuth",
+        "sun_elevation"
+       ]
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "environment"
+     ]
+    }
+   },
+   {
+    "id": "set_timeline",
+    "title": "设置预演时基与长度",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "timeline": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "fps": {
+         "type": "integer",
+         "minimum": 1,
+         "maximum": 60
+        },
+        "duration_frames": {
+         "type": "integer",
+         "minimum": 1,
+         "maximum": 1500
+        }
+       },
+       "required": [
+        "fps",
+        "duration_frames"
+       ]
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "timeline"
+     ]
+    }
+   },
+   {
+    "id": "put_track",
+    "title": "添加或修改关键帧轨道",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "track": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "id": {
+         "type": "string",
+         "maxLength": 100,
+         "minLength": 1
+        },
+        "target_kind": {
+         "type": "string",
+         "enum": [
+          "object",
+          "camera"
+         ]
+        },
+        "target_id": {
+         "type": "string",
+         "maxLength": 100,
+         "minLength": 1
+        },
+        "property": {
+         "type": "string",
+         "enum": [
+          "position",
+          "rotation",
+          "scale",
+          "target"
+         ]
+        },
+        "interpolation": {
+         "type": "string",
+         "enum": [
+          "linear",
+          "step"
+         ]
+        },
+        "keyframes": {
+         "type": "array",
+         "items": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "frame": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 1499
+           },
+           "value": {
+            "type": "array",
+            "items": {
+             "type": "number",
+             "minimum": -10000,
+             "maximum": 10000
+            },
+            "minItems": 3,
+            "maxItems": 3
+           }
+          },
+          "required": [
+           "frame",
+           "value"
+          ]
+         },
+         "maxItems": 1000,
+         "minItems": 1
+        }
+       },
+       "required": [
+        "id",
+        "target_kind",
+        "target_id",
+        "property",
+        "interpolation",
+        "keyframes"
+       ]
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "track"
+     ]
+    }
+   },
+   {
+    "id": "remove_track",
+    "title": "移除关键帧轨道",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "track_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "track_id"
+     ]
+    }
+   },
+   {
+    "id": "set_shots",
+    "title": "设置镜头切换",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "shots": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+         "id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "camera_id": {
+          "type": "string",
+          "maxLength": 100,
+          "minLength": 1
+         },
+         "start": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 1499
+         },
+         "end": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1500
+         }
+        },
+        "required": [
+         "id",
+         "camera_id",
+         "start",
+         "end"
+        ]
+       },
+       "maxItems": 200
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "shots"
+     ]
+    }
+   },
+   {
+    "id": "add_note",
+    "title": "记录固定版本意见",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "expected_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "expected_sha256": {
+       "type": "string",
+       "pattern": "^[a-f0-9]{64}$"
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      },
+      "source_refs": {
+       "type": "array",
+       "items": {
+        "type": "object",
+        "properties": {
+         "kind": {
+          "type": "string",
+          "enum": [
+           "document",
+           "blueprint",
+           "work",
+           "asset",
+           "cue"
+          ]
+         },
+         "work_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "workspace_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           },
+           "kind": {
+            "type": "string",
+            "enum": [
+             "novel",
+             "drama",
+             "video"
+            ]
+           },
+           "object_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1
+           }
+          },
+          "required": [
+           "workspace_id",
+           "kind",
+           "object_id"
+          ]
+         },
+         "sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+         },
+         "document_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000000
+         },
+         "blueprint_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "asset_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "cue_id": {
+          "type": "string",
+          "maxLength": 200,
+          "minLength": 0
+         },
+         "revision_ref": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+           "revision": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 1000000
+           }
+          },
+          "required": [
+           "revision"
+          ]
+         }
+        },
+        "required": [
+         "kind",
+         "work_ref",
+         "sha256"
+        ],
+        "additionalProperties": false
+       },
+       "maxItems": 100
+      },
+      "note": {
+       "type": "object",
+       "additionalProperties": false,
+       "properties": {
+        "id": {
+         "type": "string",
+         "maxLength": 100,
+         "minLength": 1
+        },
+        "origin": {
+         "type": "string",
+         "enum": [
+          "author",
+          "agent"
+         ]
+        },
+        "text": {
+         "type": "string",
+         "maxLength": 8000,
+         "minLength": 1
+        },
+        "target_id": {
+         "anyOf": [
+          {
+           "type": "null"
+          },
+          {
+           "type": "string",
+           "maxLength": 100,
+           "minLength": 1
+          }
+         ]
+        },
+        "fixed_revision": {
+         "type": "integer",
+         "minimum": 1,
+         "maximum": 1000000
+        },
+        "frame": {
+         "type": "integer",
+         "minimum": 0,
+         "maximum": 1499
+        }
+       },
+       "required": [
+        "id",
+        "origin",
+        "text",
+        "target_id",
+        "fixed_revision",
+        "frame"
+       ]
+      }
+     },
+     "required": [
+      "object_id",
+      "expected_revision",
+      "expected_sha256",
+      "operation_key",
+      "note"
+     ]
+    }
+   },
+   {
+    "id": "fork_scene",
+    "title": "从固定场景建立备选",
+    "effect": "managed_write",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "title": {
+       "type": "string",
+       "maxLength": 200,
+       "minLength": 1
+      },
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      }
+     },
+     "required": [
+      "object_id",
+      "revision",
+      "title",
+      "operation_key"
+     ]
+    }
+   },
+   {
+    "id": "compare_versions",
+    "title": "比较场景修订",
+    "effect": "read",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "from_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "to_revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      }
+     },
+     "required": [
+      "object_id",
+      "from_revision",
+      "to_revision"
+     ]
+    }
+   },
+   {
+    "id": "check_scene",
+    "title": "检查场景引用与制作准备",
+    "effect": "read",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      }
+     },
+     "required": [
+      "object_id"
+     ]
+    }
+   },
+   {
+    "id": "export_scene",
+    "title": "分块导出固定场景JSON",
+    "effect": "read",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "offset": {
+       "type": "integer",
+       "minimum": 0,
+       "maximum": 10000000
+      },
+      "max_bytes": {
+       "type": "integer",
+       "minimum": 256,
+       "maximum": 65536
+      }
+     },
+     "required": [
+      "object_id",
+      "revision"
+     ]
+    }
+   },
+   {
+    "id": "render_plan",
+    "title": "固定三维渲染计划",
+    "effect": "read",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "mode": {
+       "type": "string",
+       "enum": [
+        "still",
+        "cameras",
+        "sequence",
+        "glb"
+       ]
+      },
+      "camera_ids": {
+       "type": "array",
+       "items": {
+        "type": "string",
+        "maxLength": 100,
+        "minLength": 1
+       },
+       "maxItems": 24
+      },
+      "frame": {
+       "type": "integer",
+       "minimum": 0,
+       "maximum": 1499
+      },
+      "start_frame": {
+       "type": "integer",
+       "minimum": 0,
+       "maximum": 1499
+      },
+      "end_frame": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1500
+      },
+      "width": {
+       "type": "integer",
+       "enum": [
+        640,
+        1280,
+        1920
+       ]
+      },
+      "height": {
+       "type": "integer",
+       "minimum": 240,
+       "maximum": 2160
+      }
+     },
+     "required": [
+      "object_id",
+      "revision",
+      "mode"
+     ]
+    }
+   },
+   {
+    "id": "prepare_handoff",
+    "title": "准备固定场景AI交接",
+    "effect": "read",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "object_id": {
+       "type": "string",
+       "maxLength": 100,
+       "minLength": 1
+      },
+      "revision": {
+       "type": "integer",
+       "minimum": 1,
+       "maximum": 1000000
+      },
+      "goal": {
+       "type": "string",
+       "maxLength": 8000,
+       "minLength": 1
+      }
+     },
+     "required": [
+      "object_id",
+      "revision",
+      "goal"
+     ]
+    }
+   },
+   {
+    "id": "get_operation",
+    "title": "回读原操作结果",
+    "effect": "read",
+    "input_schema": {
+     "type": "object",
+     "additionalProperties": false,
+     "properties": {
+      "operation_key": {
+       "type": "string",
+       "maxLength": 160,
+       "minLength": 1
+      }
+     },
+     "required": [
+      "operation_key"
+     ]
+    }
+   }
+  ],
+  "skills": [
+   {
+    "id": "director-stage",
+    "name": "hetu-director-stage",
+    "description": "在河图中布置三维白模场景、安排机位、制作预演并按固定意见返工。",
+    "entry": "skills/hetu-director-stage/SKILL.md"
+   }
+  ]
+ }
+}
