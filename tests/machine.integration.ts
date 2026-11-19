@@ -4,6 +4,7 @@ import { readFile, writeFile, mkdir } from "node:fs/promises";
 import manifest from "../contracts/plugin-manifest.json" with { type: "json" };
 import { newScene, newObject, newCamera, clone } from "../src/domain/model.ts";
 import { start } from "./support/machine.ts";
+import {fixedScript} from './support/fixed-script.ts';
 let n = 0;
 const base = (r: any) => ({
   object_id: r.object.object_id,
@@ -298,3 +299,23 @@ test(
     }
   },
 );
+
+
+test('正式宿主固定脚本资料及错误摘要、跨作品和缺字段拒绝',{timeout:600000},async t=>{
+ const c=await start();try{
+  const script=await fixedScript(c,'INT. 雨港旧站 - NIGHT\n\n林溪等候。\n','stage-resource');
+  const scene=newScene('固定资料场景');scene.objects.push({...newObject('person-standing','lin','林溪'),source_index:0});
+  scene.shots=[{id:'s1',camera_id:scene.cameras[0].id,start:0,end:25,dialogue:{speaker_id:'lin',text:'我在等信。',source_index:0}}];
+  const saved=await c.invoke('save_scene',{content:scene,source_refs:[script.source_ref],expected_revision:0,expected_sha256:'',operation_key:'resource-scene'});
+  for(const [label,ref] of [
+    ['wrong-sha',{...script.source_ref,sha256:'f'.repeat(64)}],
+    ['wrong-work',{...script.source_ref,work_ref:{...c.work,object_id:'video_missing'}}],
+    ['missing-id',Object.fromEntries(Object.entries(script.source_ref).filter(([k])=>k!=='resource_id'))],
+    ['missing-revision',Object.fromEntries(Object.entries(script.source_ref).filter(([k])=>k!=='revision'))]
+  ] as const){const r=await c.raw('save_scene',{content:scene,source_refs:[ref],expected_revision:0,expected_sha256:'',operation_key:label});assert.ok(r.status!=='succeeded'||r.data.result.status!=='succeeded',label);}
+  assert.equal((await c.invoke('list_scenes',{})).objects.length,1);
+  assert.deepEqual((await c.invoke('shot_report',{object_id:saved.object.object_id,revision:1})).source_refs,[script.source_ref]);
+  assert.deepEqual((await c.invoke('render_plan',{object_id:saved.object.object_id,revision:1,mode:'still',width:640,frame:0})).source_refs,[script.source_ref]);
+  t.diagnostic(c.directory);
+ }finally{await c.client.close();}
+});

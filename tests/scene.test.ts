@@ -437,3 +437,16 @@ test("大场景恢复稿保留原请求和当前稿，裁剪撤销栈而不超�
   assert.deepEqual(recoveredPending(snapshot).input, input);
   assert.deepEqual(snapshot.draft, draft);
 });
+
+test('固定脚本资料支持场景与镜头索引，缺标识或修订在写前拒绝', async () => {
+  const c=memoryCore(), {canonical}=await import('../src/domain/model.ts');
+  const ref={kind:'resource',resource_id:'resource_script',revision:1,sha256:'c'.repeat(64),work_ref:c.work};
+  c.sources.set(canonical(ref),{resource:{body:'INT. 旧站 - NIGHT\n林溪等候。'}});
+  const scene=newScene('资料脚本布景');scene.objects.push({...newObject('person-standing','lin','林溪'),source_index:0});
+  scene.shots=[{id:'s1',camera_id:scene.cameras[0].id,start:0,end:25,dialogue:{speaker_id:'lin',text:'我在等信。',source_index:0}}];
+  const input={content:scene,source_refs:[ref],expected_revision:0,expected_sha256:'',operation_key:'resource-script'};
+  const r=await c.invoke('save_scene',input);assert.equal(r.status,'succeeded');assert.deepEqual(r.data.object.source_refs,[ref]);
+  assert.deepEqual((await c.invoke('shot_report',{object_id:r.data.object.object_id,revision:1})).data.source_refs,[ref]);
+  for(const key of ['resource_id','revision']){const bad:any={...ref};delete bad[key];assert.equal((await c.invoke('save_scene',{...input,source_refs:[bad],operation_key:'missing-'+key})).status,'failed');}
+  assert.equal(c.writes,1);
+});

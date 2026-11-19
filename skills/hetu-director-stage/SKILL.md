@@ -8,7 +8,7 @@ description: 在河图中联动俯视调度与三维布景，安排逐镜走位�
 将剧本中的空间与动作变成可看的白模场景。作者可以只提出目标，由外部Agent操作插件；手工布景可选。白模用于空间、构图与节奏，不代表演员形象、最终质感或成片认可。
 
 1. 通过河图`plugins.inspect`与精确作品连接发现活动包，再读取`plugins.capabilities`。固定包摘要、能力摘要与当前作品；不安装同名Codex插件，不新增MCP连接。
-2. 读取已有场景的固定修订、来源和意见。新场景使用`save_scene`，空基线为revision=0、sha256=""；已有数据携带原CAS基线及原操作键。
+2. 读取已有场景的固定修订、来源和意见。独立视频的脚本资料使用固定resource引用（resource_id、revision、sha256和同作品work_ref），先回读实际内容，不能改用无来源台词绕过校验。新场景使用`save_scene`，空基线为revision=0、sha256=""；已有数据携带原CAS基线及原操作键。
 3. 按需要建立程序白模、人物站位、机位、轨道及镜头区间。采用米、Y向上、度制旋转和整数帧；普通作者不用自己填写这些字段。字段及变换见[流程与数据](references/workflow.md)，动作由[操作地图](references/operations.md)定位。
    - 先区分基础布置与“只改这一镜”。局部调度使用`set_blocking`，绑定shot_id与对象ID，设置起始transform和可选end_transform；不要改全局人物去冒充局部走位。旋转沿最短角度插值，单帧只用起始值，邻镜恢复全局采样。
    - `put_shot`维护机位、区间、label与dialogue；台词为调度参考，引用正式剧本时追加固定source_ref再填source_index，不改正文。整表更新必须保留其他镜头的台词与blocking。

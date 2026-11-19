@@ -40,6 +40,8 @@ export interface PluginManifest {
   description: Record<"zh-CN" | "en", string>;
   license: string;
   dependencies: { id: string; version: string }[];
+  /** 工作面适用范围；省略兼容全部作品类型，不改变作品授权。 */
+  work_kinds?: WorkRef["kind"][];
   /** 历史清单字段；开放宿主不据此限制核心能力。 */
   permissions?: ("objects.read" | "objects.write" | "work.read")[];
   contributions: {
@@ -65,6 +67,7 @@ export interface PluginObject {
 export type PluginSourceRef = { work_ref: WorkRef; sha256: string } & (
   | { kind: "document"; document_id: string; revision_id: string }
   | { kind: "blueprint"; blueprint_id: string; revision: number }
+  | { kind: "resource"; resource_id: string; revision: number }
   | { kind: "work"; revision_ref: { revision: number } }
   | { kind: "asset"; asset_id: string; revision: number }
   | { kind: "cue"; cue_id: string; revision: number }
@@ -78,6 +81,13 @@ export interface Result<T = Record<string, unknown>> {
 }
 export interface ObjectResult {
   object: PluginObject;
+  sha256: string;
+}
+/** 同作品的固定专业依据；不携带另一作品授权或写入权限。 */
+export interface PluginBasisRef {
+  owner_plugin_id: string;
+  object_id: string;
+  revision: number;
   sha256: string;
 }
 export interface PluginContext {
@@ -115,6 +125,7 @@ export interface BackendModule {
 export const dataActions = [
   "hetu.extensions.work.snapshot",
   "hetu.extensions.sources.inspect",
+  "hetu.extensions.sources.read_blob",
   "hetu.extensions.objects.list",
   "hetu.extensions.objects.search",
   "hetu.extensions.index.status",
@@ -153,6 +164,10 @@ export function sameWork(left: unknown, right: WorkRef): boolean {
     ref.kind === right.kind &&
     ref.object_id === right.object_id
   );
+}
+
+export function supportsWork(manifest: Pick<PluginManifest, "work_kinds">, work: WorkRef): boolean {
+  return manifest.work_kinds === undefined || manifest.work_kinds.includes(work.kind);
 }
 
 /** 核心服务不依赖 Electron 或 Cordis；Schema 以当前入口能力发现为准。 */

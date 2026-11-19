@@ -2,7 +2,7 @@
   "manifest_version": 1,
   "host_api": "1",
   "id": "org.wordflowlab.director-stage",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "display": {
     "zh-CN": "导演布景台",
     "en": "Director Stage"
@@ -770,7 +770,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -849,6 +850,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -856,7 +862,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -1545,7 +1568,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -1624,6 +1648,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -1631,7 +1660,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -1801,7 +1847,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -1880,6 +1927,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -1887,7 +1939,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -2001,7 +2070,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -2080,6 +2150,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -2087,7 +2162,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -2182,7 +2274,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -2261,6 +2354,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -2268,7 +2366,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -2331,7 +2446,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -2410,6 +2526,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -2417,7 +2538,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -2484,7 +2622,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -2563,6 +2702,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -2570,7 +2714,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -2689,7 +2850,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -2768,6 +2930,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -2775,7 +2942,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -2833,7 +3017,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -2912,6 +3097,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -2919,7 +3109,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -3016,7 +3223,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -3095,6 +3303,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -3102,7 +3315,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -3175,7 +3405,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -3254,6 +3485,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -3261,7 +3497,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -3391,7 +3644,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -3470,6 +3724,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -3477,7 +3736,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -3535,7 +3811,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -3614,6 +3891,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -3621,7 +3903,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -3854,7 +4153,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -3933,6 +4233,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -3940,7 +4245,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -4295,7 +4617,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -4374,6 +4697,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -4381,7 +4709,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -4610,7 +4955,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -4689,6 +5035,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -4696,7 +5047,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },
@@ -4856,7 +5224,8 @@
                       "blueprint",
                       "work",
                       "asset",
-                      "cue"
+                      "cue",
+                      "resource"
                     ]
                   },
                   "work_ref": {
@@ -4935,6 +5304,11 @@
                     "required": [
                       "revision"
                     ]
+                  },
+                  "resource_id": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 160
                   }
                 },
                 "required": [
@@ -4942,7 +5316,24 @@
                   "work_ref",
                   "sha256"
                 ],
-                "additionalProperties": false
+                "additionalProperties": false,
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "kind": {
+                          "const": "resource"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [
+                        "resource_id",
+                        "revision"
+                      ]
+                    }
+                  }
+                ]
               },
               "maxItems": 100
             },

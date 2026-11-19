@@ -29,7 +29,7 @@ async function launch(c: any, direction=false) {
   });
   if (process.env.HETU_PACKAGED_APP) {
     expect(await app.evaluate(({ app }) => app.isPackaged)).toBe(true);
-    expect(await app.evaluate(({ app }) => app.getVersion())).toBe("0.11.2");
+    expect(await app.evaluate(({ app }) => app.getVersion())).toBe("0.12.4");
   }
   await app.evaluate(({ dialog, clipboard }: any, {workspace,direction}: {workspace:string;direction:boolean}) => {
     dialog.showOpenDialog = async () => ({

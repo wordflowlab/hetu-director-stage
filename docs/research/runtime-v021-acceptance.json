@@ -1,0 +1,36 @@
+{
+  "version": "0.2.1",
+  "package_sha256": "bf0544d37b1bc9c67cd0a93fa0297a720e7a46fc73dcb21596885e62cac0a8c6",
+  "archive_sha256": "43153a24597604fb70391f907a324bfdf2a8fd97ff8c426e7b207610793f6737",
+  "size_bytes": 1014674,
+  "minimum_host_version": "0.12.3",
+  "verified_host": "0.12.4",
+  "verified_platforms": [
+    "macOS arm64"
+  ],
+  "recorded_at": "2026-11-19",
+  "checks": {
+    "types": "passed",
+    "unit": 34,
+    "professional_actions": 27,
+    "resource_source_positive_negative": "passed",
+    "renderer": "18程序素材、实际PNG、GLB和MP4通过",
+    "electron": "四条真实Electron旅程通过"
+  },
+  "retained_failures": [
+    {
+      "test": "resource-source",
+      "reason": "测试以frame作为render mode，实际Schema为still",
+      "resolution": "修正测试输入，未修改运行包，增量用例复验通过"
+    },
+    {
+      "test": "ui-first",
+      "reason": "测试断言仍固定旧宿主0.11.2",
+      "resolution": "固定正式0.12.4并更新隔离作品名称，四旅程通过"
+    }
+  ],
+  "limits": [
+    "未验收Windows/Linux专业实机",
+    "未执行付费生成、素材选用或成片确认"
+  ]
+}

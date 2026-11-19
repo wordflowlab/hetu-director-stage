@@ -34,4 +34,6 @@
 | `set_direction` | 设置对话轴线与估算语速 | managed_write |
 | `shot_report` | 读取固定分镜站位与检查 | read |
 
+固定来源支持同作品资料参考（resource）、文稿、设定、作品、素材和线索，归属与摘要由Core核验。
+
 同包Skill：hetu-director-stage。18种程序白模、俯视与三维联动、逐镜走位、台词与空间检查、机位、关键帧、镜头、PNG／GLB／序列及可选MP4由专业层提供。文件与媒体不代表作者认可。

@@ -17,3 +17,5 @@ Camera保存position、target、focal_length_mm、sensor_width_mm、near、far�
 Shot保留id／camera_id／start／end，增加可选label、dialogue={speaker_id,text,source_index}、blocking=[{object_id,transform,end_transform?}]。局部变换覆盖该镜头内的完整变换，end_transform按末帧采样；无该对象局部项时继续全局轨道。清空某镜头blocking恢复全局，不删除全局轨道。旧工程可直接读取，新增字段仅在显式保存后产生新修订。
 
 典型目标：“S3女主往桌边走，其他镜头别动；这句说得完吗？”先读完整固定场景和S3；使用set_blocking，只更新S3；调用shot_report查看显式语速估算与遮挡；需要延长时按整数帧调整S3及后续镜头区间和总帧数，保留其他字段。回读S2末帧、S3首末帧及S4首帧，生成新预演后比较旧新修订。站位说明可作为后续生成参考，不能保证提供方严格复现。
+
+独立视频脚本若保存为宿主资料，先用公开资料动作回读，再将`kind:resource`、确切`resource_id`、`revision`、`sha256`与同作品`work_ref`追加到source_refs。通过source_index引用该内容；摘要错误、缺修订和跨作品来源不降级为无来源。

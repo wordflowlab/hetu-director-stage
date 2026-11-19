@@ -8,7 +8,10 @@
     },
     {
       "file": "hetu-sdk.ts",
-      "sha256": "56a92c31bd131064db6432d0ad7d6ae6d0cd4a0a6761c5a9deb3fb9e216c7b2d"
+      "sha256": "922bfb17f945ae4180de7e116d62ef20950f58602441c615eff859055ba158cb",
+      "source": "packages/plugin-sdk/src/index.ts",
+      "revision": "fe03d8eaa83fb47055125d8868ef4bdfc8832d0c",
+      "adaptation": "原字节"
     },
     {
       "file": "project-store.ts",

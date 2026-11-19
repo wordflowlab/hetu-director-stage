@@ -1,19 +1,19 @@
-import { mkdtemp, mkdir, writeFile, cp } from "node:fs/promises";
-import { spawnSync } from "node:child_process";
-import { createRequire } from "node:module";
-import { pathToFileURL } from "node:url";
-import path from "node:path";
-import os from "node:os";
 import assert from "node:assert/strict";
+import {createHash} from "node:crypto";
+import {canonical} from "../../vendor/project-store.ts";
+import toolRoutes from "./tool-routes.json" with {type:"json"};
+import { spawnSync } from "node:child_process";
+import { cp, mkdir, mkdtemp, writeFile } from "node:fs/promises";
+import { createRequire } from "node:module";
+import os from "node:os";
+import path from "node:path";
+import { pathToFileURL } from "node:url";
 import manifest from "../../contracts/plugin-manifest.json" with { type: "json" };
-import { VIDEO, WORK_KIND } from "../../src/domain/model.ts";
 export const host = path.resolve(
   process.env.HETU_SOURCE ?? "../../limecloud/hetu",
 );
-export async function start() {
-  const directory = await mkdtemp(
-    path.join(os.tmpdir(), VIDEO ? "hetu-director-stage-" : "hetu-screenplay-"),
-  );
+export async function start(workKind="video") {
+  const directory = await mkdtemp(path.join(os.tmpdir(), "hetu-director-stage-"));
   await mkdir(path.join(directory, "requests"));
   const packageDirectory = path.join(directory, "package");
   await cp(
@@ -27,6 +27,12 @@ export async function start() {
     "安装验收必须明确随包机器入口目录",
   );
   const bin = process.env.HETU_TEST_BIN ?? path.join(host, "target/debug");
+  const version = spawnSync(path.join(bin, "hetu"), ["--version"], {
+    encoding: "utf8",
+    timeout: 10000,
+  });
+  assert.equal(version.status, 0, version.stderr);
+  const coreVersion = version.stdout.trim();
   const env = {
     ...process.env,
     HETU_DESKTOP_PROFILE: path.join(directory, "profile"),
@@ -36,16 +42,20 @@ export async function start() {
     HETU_PLUGIN_NODE: process.execPath,
     HETU_PLUGIN_CLI: path.join(bin, "hetu-plugin"),
     HETU_APP_SERVER: path.join(bin, "hetu-app-server"),
-    HETU_PLUGIN_MANAGER: path.join(
-      host,
-      "apps/desktop/dist/plugin-manager.mjs",
-    ),
+    HETU_PLUGIN_MANAGER:
+      process.env.HETU_PLUGIN_MANAGER ??
+      path.join(host, "apps/desktop/dist/plugin-manager.mjs"),
   };
   if (packaged) {
     for (const key of [
-      "HETU_PLUGIN_NODE", "HETU_PLUGIN_CLI", "HETU_APP_SERVER",
-      "HETU_PLUGIN_MANAGER", "HETU_CLI", "ELECTRON_RUN_AS_NODE",
-    ]) delete (env as Record<string, string | undefined>)[key];
+      "HETU_PLUGIN_NODE",
+      "HETU_PLUGIN_CLI",
+      "HETU_APP_SERVER",
+      "HETU_PLUGIN_MANAGER",
+      "HETU_CLI",
+      "ELECTRON_RUN_AS_NODE",
+    ])
+      delete (env as Record<string, string | undefined>)[key];
   }
   const resolve = createRequire(path.join(host, "apps/desktop/package.json"));
   const { Client } = await import(
@@ -71,6 +81,36 @@ export async function start() {
       stderr: "pipe",
     }),
   );
+  const catalog = (await client.listTools()).tools;
+  const available = new Set(catalog.map((t:any)=>t.name));
+  const actionByTool:Record<string,string>=toolRoutes;
+  async function readView(action:string,input:any,expected:string,result_path="",offset=0):Promise<any>{
+    const response:any=(await client.callTool({name:"hetu_call_action",arguments:{action,input,view:{result_path,expected_result_sha256:expected,offset,limit:20,max_bytes:8192}}})).structuredContent;
+    assert.equal(response.status,"succeeded",JSON.stringify(response));
+    const v=response.data.view;assert.equal(v.source_result_sha256,expected);
+    if("value" in v)return v.value;
+    if(v.fields){const fields:any={};for(const f of v.fields)fields[f.name]=await readView(action,input,expected,f.result_path);return fields;}
+    if(v.page){let text=v.page.content;if(v.next_offset!==null)text+=await readView(action,input,expected,result_path,v.next_offset);return text;}
+    if(v.items){const rows=[...v.items];if(v.next_offset!==null)rows.push(...await readView(action,input,expected,result_path,v.next_offset));return rows;}
+    if(v.next_path){const one=await readView(action,input,expected,v.next_path);const tail=await readView(action,input,expected,result_path,offset+1);return [one,...tail];}
+    throw Error("未识别的固定结果投影");
+  }
+  async function readOperation(input:any):Promise<any>{
+    const fixedInput={...input};delete fixedInput.detail;let expected:string|undefined;
+    async function page(result_path:string,offset=0):Promise<any>{
+      const response:any=(await client.callTool({name:"hetu_call_action",arguments:{action:"hetu.operations.get",input:{...fixedInput,result_path,offset,limit:20,max_bytes:8192}}})).structuredContent;
+      assert.equal(response.status,"succeeded",JSON.stringify(response));
+      const v=response.data;expected??=v.result_sha256;assert.equal(v.result_sha256,expected);
+      if("value" in v)return v.value;
+      if(v.fields){const value:any={};for(const field of v.fields)value[field.name]=await page(field.result_path);return value;}
+      if(v.page){let text=v.page.content;if(v.next_offset!==null)text+=await page(result_path,v.next_offset);return text;}
+      if(v.items){const rows=[...v.items];if(v.next_offset!==null)rows.push(...await page(result_path,v.next_offset));return rows;}
+      if(v.next_path)return [await page(v.next_path),...await page(result_path,offset+1)];
+      throw Error("未识别的原操作结果分页");
+    }
+    const result=await page("");assert.equal(createHash("sha256").update(canonical(result)).digest("hex"),expected,"原操作完整结果摘要");return result;
+  }
+  const checkedActions=new Set<string>();
   let serial = 0;
   const call = async (name: string, args: any = {}) => {
     const record = path.join(
@@ -83,8 +123,35 @@ export async function start() {
       JSON.stringify({ name, arguments: args }),
       { mode: 0o600 },
     );
-    const result = (await client.callTool({ name, arguments: args }))
-      .structuredContent as any;
+    const chosen = available.has(name) ? {name,arguments:args} : {name:"hetu_call_action",arguments:{action:actionByTool[name],input:args}};
+    assert.ok(available.has(name)||actionByTool[name],"缺少公开动作映射："+name);
+    if(!available.has(name)&&!checkedActions.has(actionByTool[name])){
+      const discovered:any=(await client.callTool({name:"hetu_inspect_collaboration",arguments:{action:actionByTool[name],include_schema:true,limit:1}})).structuredContent;
+      await writeFile(record+".discovery.json",JSON.stringify(discovered),{mode:0o600});
+      assert.equal(discovered.status,"succeeded",JSON.stringify(discovered));
+      assert.equal(discovered.data.actions[0]?.name,actionByTool[name]);
+      checkedActions.add(actionByTool[name]);
+    }
+    let result = (await client.callTool(chosen)).structuredContent as any;
+    if(result.data?.recovery?.action==="hetu.operations.get"&&result.data.response?.retained===true){
+      await writeFile(record+".wire-result.json",JSON.stringify(result),{mode:0o600});
+      result=await readOperation(result.data.recovery.input);
+    }
+    if(result.data?.response?.read&&result.data.response.complete===false){
+      const wire=result,expected=wire.data.response.source_result_sha256;
+      await writeFile(record+".wire-result.json",JSON.stringify(wire),{mode:0o600});
+      const read=wire.data.response.read.input;
+      if(name==="hetu_plugins_capabilities"){
+        // 宿主动作按调用前精确发现；此处只读取本专业包合同，避免回读全部Core Schema。
+        const actions=await readView(read.action,read.input,expected,"/actions");
+        const types=await readView(read.action,read.input,expected,"/types");
+        result={...wire,data:{...wire.data,actions,types,core_actions_omitted:true}};
+      }else{
+        const data=await readView(read.action,read.input,expected);
+        result={...wire,data};
+        assert.equal(createHash("sha256").update(canonical(result)).digest("hex"),expected,"完整结果摘要保持");
+      }
+    }
     await writeFile(record + ".result.json", JSON.stringify(result), {
       mode: 0o600,
     });
@@ -102,51 +169,12 @@ export async function start() {
       locale: "zh-CN",
       operation_key: "begin",
     });
-    const profile = await ok("hetu_save_creation_project", {
-      management_ref: begin.management_ref,
-      project_id: begin.project.project_id,
-      expected: { revision: begin.revision, sha256: begin.sha256 },
-      brief: "验证完整创作工程。",
-      selected_fields: {},
-      work_profile: {
-        work_type: WORK_KIND,
-        language_tag: "zh-CN",
-        drama_mode: VIDEO ? null : "original",
-      },
-      operation_key: "profile",
+    const profile=workKind==="video"?await ok("hetu_save_creation_project",{management_ref:begin.management_ref,project_id:begin.project.project_id,expected:{revision:begin.revision,sha256:begin.sha256},brief:"独立视频的制片筹备",selected_fields:{},work_profile:{work_type:"video",language_tag:"zh-CN",drama_mode:null},operation_key:"video-profile"}):begin;
+    const created = await ok(workKind==="video"?"hetu_create_video_from_project":workKind==="drama"?"hetu_create_drama_from_project":"hetu_create_novel_from_project", {
+      management_ref:begin.management_ref,project_id:begin.project.project_id,expected:{revision:profile.revision,sha256:profile.sha256},target_path:begin.target_path,
+      ...(workKind==="video"?{profile:{title:"布景台视频验收",brief:"独立视频筹备验收",language_tag:"zh-CN"}}:workKind==="drama"?{profile:{title:"布景台视频验收",description:"独立剧本筹备验收",mode:"original",language_tag:"zh-CN"}}:{metadata:{title:"布景台视频验收",author_name:"隔离验收作者",synopsis:"旧邮局来信",genre:"悬疑",language_tag:"zh-CN",status:"writing"}}),operation_key:"create",
     });
-    const created = await ok(
-      VIDEO
-        ? "hetu_create_video_from_project"
-        : "hetu_create_drama_from_project",
-      {
-        management_ref: begin.management_ref,
-        project_id: begin.project.project_id,
-        expected: { revision: profile.revision, sha256: profile.sha256 },
-        target_path: begin.target_path,
-        profile: VIDEO
-          ? {
-              title: "布景台视频验收",
-              brief: "末班车之前",
-              language_tag: "zh-CN",
-            }
-          : {
-              title: "旧站剧本验收",
-              description: "末班车之前",
-              mode: "original",
-              language_tag: "zh-CN",
-            },
-        operation_key: "create",
-      },
-    );
-    const management = created.workspace_management_ref,
-      work = VIDEO
-        ? created.video_project.work_ref
-        : {
-            workspace_id: management.scope_ref.id,
-            kind: "drama",
-            object_id: created.created_workspace_ref.drama_project_id,
-          };
+    const management=created.workspace_management_ref,work=workKind==="video"?created.video_project.work_ref:{workspace_id:management.scope_ref.id,kind:workKind,object_id:workKind==="drama"?created.created_workspace_ref.drama_project_id:created.novel.novel_id};
     const pkg = await ok("hetu_plugins_inspect_package", {
       package_directory: packageDirectory,
     });
@@ -225,6 +253,7 @@ export async function start() {
       { mode: 0o600 },
     );
     return {
+      coreVersion,
       directory,
       workspace: begin.target_path,
       created,

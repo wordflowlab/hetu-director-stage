@@ -40,3 +40,7 @@ Schema错误、空选择、孤儿引用、重复ID、非法机位、重叠镜头
 `put_shot`创建／修改完整镜头；`set_blocking`替换某镜头局部调度，空数组恢复全局；`set_direction`设置显式人物轴线与估算语速；`shot_report`固定修订并按可选shot_id、frame、aspect生成站位、画面位置、朝向、几何提醒和台词估时。写动作沿用CAS、原操作及来源追加规则，不依赖GUI选择。
 
 `set_shots`仍可原子提交整张镜头表，旧参数保持。Agent修改时需保留已有label／dialogue／blocking，不能用只含机位和区间的重建列表静默丢掉调度。`get_scene`summary返回完整镜头，`check_scene`包含结构检查及逐镜派生提醒。正式剧本修改或视频生成仍调用各自能力。
+
+## 资料参考接续
+
+独立视频的脚本资料通过`resource`来源接续到白模、对象及镜头台词。写入参数固定`resource_id/revision/sha256/work_ref`，缺字段由Schema拒绝；不存在、摘要错误和其他作品来源由Core拒绝。保存后通过`get_scene`、`shot_report`和`render_plan`回读同一固定来源，旧引用保持原义。
